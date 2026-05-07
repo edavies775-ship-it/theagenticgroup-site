@@ -446,55 +446,64 @@ nav.scrolled{padding:1.1rem 3rem;}
   width:600px;height:600px;border-radius:50%;
   background:radial-gradient(circle, rgba(58,145,131,.06) 0%, transparent 70%);
 }
-.phil-header{margin-bottom:5rem;}
+.phil-header{margin-bottom:4rem;}
 .phil-header h2{
   font-family:'Cormorant Garamond',serif;
   font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;
-  color:var(--ink);line-height:1.1;
+  color:var(--cream);line-height:1.1;
   max-width:800px;
 }
-.phil-header h2 em{font-style:italic;color:var(--teal);}
-.phil-header .eyebrow{color:var(--teal);}
-.phil-header .eyebrow::before{background:var(--teal);}
-.phil-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;background:var(--cream-mid);}
+.phil-header h2 em{font-style:italic;color:var(--teal-bright);}
+.phil-header .eyebrow{color:var(--teal-bright);}
+.phil-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;}
 .phil-card{
-  background:var(--cream);
-  padding:3rem 2.5rem;
-  position:relative;
+  background:var(--ink-mid);padding:2.8rem 2.5rem;
+  position:relative;overflow:hidden;
+  transition:all .4s cubic-bezier(.25,.46,.45,.94);
+  border:1px solid rgba(247,242,234,.07);
+  border-top:2px solid var(--teal);
 }
 .phil-card::before{
-  content:'';position:absolute;top:0;left:0;width:3px;height:0;
-  background:var(--teal);transition:height .4s ease;
+  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,rgba(58,145,131,.1) 0%,transparent 70%);
+  pointer-events:none;
 }
-.phil-card:hover::before{height:100%;}
+.phil-card:hover{
+  background:var(--ink-light);
+  transform:translateY(-6px);
+  box-shadow:0 24px 64px rgba(0,0,0,.45),0 0 0 1px rgba(93,214,196,.18);
+  border-top-color:var(--teal-bright);
+}
 .phil-num{
   font-family:'Cormorant Garamond',serif;
-  font-size:4rem;font-weight:300;color:rgba(13,26,28,.06);
-  line-height:1;margin-bottom:1.5rem;
+  font-size:7rem;font-weight:300;color:rgba(247,242,234,.04);
+  position:absolute;top:-1.2rem;right:1rem;
+  line-height:1;pointer-events:none;letter-spacing:-.02em;
+}
+.phil-icon{
+  width:46px;height:46px;
+  background:rgba(58,145,131,.1);
+  border:1px solid rgba(58,145,131,.22);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.8rem;color:var(--teal-bright);
+  transition:background .4s,border-color .4s,transform .4s;
+}
+.phil-card:hover .phil-icon{
+  background:rgba(93,214,196,.15);
+  border-color:rgba(93,214,196,.4);
+  transform:scale(1.08);
 }
 .phil-card h3{
   font-family:'Cormorant Garamond',serif;
-  font-size:1.4rem;font-weight:600;color:var(--ink);
-  margin-bottom:1rem;line-height:1.3;
+  font-size:1.7rem;font-weight:400;color:var(--cream);
+  margin-bottom:.9rem;line-height:1.2;
 }
-.phil-card p{font-size:.88rem;color:var(--muted);line-height:1.8;font-weight:300;}
-/* Pull quote */
-.phil-quote{
-  margin-top:2px;background:var(--ink);
-  padding:4rem 3rem;
-  display:flex;align-items:center;justify-content:center;
-}
-.phil-quote-inner{text-align:center;max-width:700px;}
-.phil-quote-text{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.4rem,2.5vw,2rem);
-  font-style:italic;font-weight:300;
-  color:var(--cream);line-height:1.5;margin-bottom:1.5rem;
-}
-.phil-quote-text em{font-style:normal;color:var(--teal-bright);}
-.phil-quote-rule{display:flex;align-items:center;justify-content:center;gap:1rem;}
-.phil-quote-line{height:1px;width:40px;background:rgba(58,145,131,.3);}
-.phil-quote-attr{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,234,.3);}
+.phil-card p{font-size:.85rem;color:rgba(247,242,234,.48);line-height:1.8;font-weight:300;margin-bottom:1.4rem;}
+.phil-bullets{display:flex;flex-direction:column;gap:.65rem;padding-top:1.4rem;border-top:1px solid rgba(247,242,234,.07);}
+.phil-bullet{display:flex;align-items:center;gap:.7rem;font-size:.8rem;color:var(--teal-bright);font-weight:500;}
+.phil-bullet::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;}
+.phil-quote{display:none;}
 
 /* ── SERVICES ── */
 .services-section{background:var(--ink-mid);position:relative;overflow:hidden;}
@@ -2000,63 +2009,77 @@ select:focus-visible,textarea:focus-visible{
 </section>
 
 <!-- WHO WE WORK WITH -->
-<section class="philosophy section" id="philosophy">
+<section class="philosophy section" id="philosophy" style="background:var(--ink);">
   <div class="container">
     <div class="phil-header reveal">
       <div class="eyebrow">Who We Work With</div>
       <h2>Built for real businesses, <em>not tech companies.</em></h2>
     </div>
-    <!-- Visual accent panel -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:3px;overflow:hidden;height:220px;">
-      <div style="background:linear-gradient(160deg,#1c2b30 0%,#243a3f 60%,#2c4a50 100%);position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 70%,rgba(58,145,131,.25) 0%,transparent 65%);"></div>
-        <div style="position:absolute;bottom:1.5rem;left:1.5rem;">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:rgba(247,242,234,.08);line-height:1;">WALES</div>
-        </div>
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-          <div style="font-size:2.5rem;opacity:.15;">🏴󠁧󠁢󠁷󠁬󠁳󠁿</div>
+
+    <!-- Geographic reach accent strip -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:3rem;overflow:hidden;" class="reveal">
+      <div style="background:linear-gradient(135deg,#0d1a1c 0%,#1c2b30 100%);padding:2.8rem 2.4rem;border-top:2px solid var(--teal);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-1rem;right:-0.5rem;font-family:'Cormorant Garamond',serif;font-size:7rem;font-weight:700;color:rgba(247,242,234,.03);line-height:1;pointer-events:none;user-select:none;">WALES</div>
+        <div style="position:absolute;top:-20px;left:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(58,145,131,.1) 0%,transparent 70%);"></div>
+        <div style="font-size:2.4rem;line-height:1;margin-bottom:1rem;">🏴󠁧󠁢󠁷󠁬󠁳󠁿</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:var(--cream);line-height:1.2;margin-bottom:.6rem;">Based in<br><em style="font-style:italic;color:var(--teal-bright);">West Wales</em></div>
+        <div style="font-size:.72rem;color:rgba(247,242,234,.38);letter-spacing:.1em;text-transform:uppercase;line-height:1.6;">Local knowledge<br>Real relationships</div>
+      </div>
+      <div style="background:linear-gradient(160deg,var(--teal) 0%,#1a3d3a 100%);padding:2.8rem 2.4rem;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;">
+        <div style="position:absolute;top:-20px;right:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.04);"></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-style:italic;font-weight:300;color:#fff;line-height:1.55;margin-bottom:1.2rem;">"No jargon. No overcomplicated systems. Just stuff that works."</div>
+        <div style="display:flex;align-items:center;gap:.6rem;">
+          <div style="width:24px;height:1px;background:rgba(255,255,255,.4);"></div>
+          <div style="font-size:.7rem;color:rgba(255,255,255,.55);letter-spacing:.1em;text-transform:uppercase;">Our promise</div>
         </div>
       </div>
-      <div style="background:var(--teal);position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.05) 0%,transparent 60%);"></div>
-        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;font-weight:300;color:rgba(255,255,255,.9);line-height:1.4;">"No jargon. No overcomplicated systems. Just stuff that works."</div>
-        </div>
-      </div>
-      <div style="background:linear-gradient(160deg,#243a3f 0%,#1c2b30 60%,#0d1a1c 100%);position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(58,145,131,.2) 0%,transparent 65%);"></div>
-        <div style="position:absolute;bottom:1.5rem;right:1.5rem;">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:rgba(247,242,234,.08);line-height:1;">UK</div>
-        </div>
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-          <div style="font-size:2.5rem;opacity:.15;">🇬🇧</div>
-        </div>
+      <div style="background:linear-gradient(135deg,#0d1a1c 0%,#1c2b30 100%);padding:2.8rem 2.4rem;border-top:2px solid rgba(58,145,131,.35);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-1rem;right:-.5rem;font-family:'Cormorant Garamond',serif;font-size:7rem;font-weight:700;color:rgba(247,242,234,.03);line-height:1;pointer-events:none;user-select:none;">UK</div>
+        <div style="position:absolute;top:-20px;left:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(58,145,131,.06) 0%,transparent 70%);"></div>
+        <div style="font-size:2.4rem;line-height:1;margin-bottom:1rem;">🇬🇧</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:var(--cream);line-height:1.2;margin-bottom:.6rem;">Delivered<br><em style="font-style:italic;color:rgba(247,242,234,.7);">UK-wide</em></div>
+        <div style="font-size:.72rem;color:rgba(247,242,234,.38);letter-spacing:.1em;text-transform:uppercase;line-height:1.6;">From Cornwall<br>to Edinburgh</div>
       </div>
     </div>
+
     <div class="phil-grid">
       <div class="phil-card reveal">
         <div class="phil-num">01</div>
+        <div class="phil-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
         <h3>Service businesses across the UK</h3>
-        <p>Based in Wales, we work with service businesses of all sizes helping owners save time, reduce admin, and keep everything running smoothly behind the scenes. If your business relies on enquiries, bookings, or repeat clients - we can help.</p>
+        <p>Enquiries, bookings, repeat clients — if that's how your business runs, we can help it run better.</p>
+        <div class="phil-bullets">
+          <div class="phil-bullet">Trades &amp; service businesses</div>
+          <div class="phil-bullet">Professional services</div>
+          <div class="phil-bullet">Hospitality &amp; holiday lets</div>
+        </div>
       </div>
       <div class="phil-card reveal">
         <div class="phil-num">02</div>
+        <div class="phil-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
         <h3>No jargon. No fluff.</h3>
-        <p>We do not talk about AI for the sake of it. We look at what is actually slowing your business down, find the simplest fix, and put it in place. No overcomplicated systems. No lengthy onboarding. Just stuff that works from day one.</p>
+        <p>We find what's slowing you down and fix it. No lengthy onboarding, no overcomplicated systems.</p>
+        <div class="phil-bullets">
+          <div class="phil-bullet">Plain English, always</div>
+          <div class="phil-bullet">Live within 2–6 weeks</div>
+          <div class="phil-bullet">Results from day one</div>
+        </div>
       </div>
       <div class="phil-card reveal">
         <div class="phil-num">03</div>
+        <div class="phil-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
         <h3>Built around how you work</h3>
-        <p>Every business is different. We do not drop in a generic template and leave. We take the time to understand how you operate and build something that fits your business properly - so it actually gets used and keeps running.</p>
-      </div>
-    </div>
-    <div class="phil-quote reveal">
-      <div class="phil-quote-inner">
-        <div class="phil-quote-text">"Based in Wales, working with real businesses.<br>No jargon. Just <em>results.</em>"</div>
-        <div class="phil-quote-rule">
-          <div class="phil-quote-line"></div>
-          <div class="phil-quote-attr">The Agentic Group · West Wales</div>
-          <div class="phil-quote-line"></div>
+        <p>No generic templates. We learn how your business operates and build something that actually fits.</p>
+        <div class="phil-bullets">
+          <div class="phil-bullet">Bespoke to your workflow</div>
+          <div class="phil-bullet">No ripping things up</div>
+          <div class="phil-bullet">Ongoing support included</div>
         </div>
       </div>
     </div>
