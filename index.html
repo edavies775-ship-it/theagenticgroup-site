@@ -574,12 +574,12 @@ nav.scrolled{padding:1.1rem 3rem;}
 }
 .svc:hover .svc-arrow{color:var(--teal-bright);gap:.9rem;}
 /* Special last card */
-.svc-cta-card{background:var(--teal)!important;border:none!important;transform:none!important;box-shadow:none!important;}
-.svc-cta-card::before{display:none;}
-.svc-cta-card h3{color:var(--white);}
-.svc-cta-card p{color:rgba(255,255,255,.7);}
-.svc-cta-card .svc-num{color:rgba(255,255,255,.08);}
-.svc-cta-card .svc-arrow{color:var(--white);opacity:1;transform:translateX(0);}
+.svc-cta-card{display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-direction:row;padding:2.8rem 3.5rem;}
+.svc-cta-card .svc-icon{margin-bottom:0;flex-shrink:0;}
+.svc-cta-card .cta-card-body{flex:1;}
+.svc-cta-card .cta-card-body p{margin-bottom:0;}
+.svc-cta-card .cta-card-action{flex-shrink:0;}
+.svc-cta-card:hover .svc-arrow{color:var(--teal-bright);gap:.9rem;}
 
 /* ── HOW ── */
 .how-section{background:var(--ink);position:relative;}
@@ -1636,9 +1636,15 @@ select:focus-visible,textarea:focus-visible{
       </div>
 
       <div class="svc svc-cta-card reveal" style="grid-column:1/-1;">
-        <p style="font-size:.92rem;color:rgba(255,255,255,.8);line-height:1.7;font-weight:300;max-width:700px;margin:0 auto;text-align:center;">Powered by smart automation and AI tools behind the scenes - without adding complexity to your business.</p>
-        <div style="text-align:center;margin-top:1.5rem;">
-          <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" class="svc-arrow" style="opacity:1;transform:none;display:inline-flex;">Book a Discovery Call to see how it works →</a>
+        <div class="svc-icon" style="width:52px;height:52px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="cta-card-body">
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;color:var(--cream);margin-bottom:.6rem;line-height:1.2;">Ready to see what's possible?</h3>
+          <p style="font-size:.85rem;color:rgba(247,242,234,.48);line-height:1.8;font-weight:300;">Powered by smart automation and AI behind the scenes — without adding complexity to your business.</p>
+        </div>
+        <div class="cta-card-action">
+          <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.6rem;background:var(--teal);color:var(--white);padding:.9rem 2rem;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s;white-space:nowrap;" onmouseover="this.style.background='var(--teal-bright)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--teal)';this.style.transform='translateY(0)'">Book a Discovery Call →</a>
         </div>
       </div>
 
