@@ -515,39 +515,70 @@ nav.scrolled{padding:1.1rem 3rem;}
 .services-intro p{font-size:.95rem;color:rgba(247,242,234,.5);line-height:1.8;font-weight:300;}
 .services-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;background:rgba(247,242,234,.04);
+  gap:1.5rem;margin-top:0;
 }
 .svc{
-  background:var(--ink-mid);padding:2.5rem;
+  background:var(--ink);padding:2.8rem 2.5rem;
   position:relative;overflow:hidden;
-  transition:background .3s;
-  cursor:default;
+  transition:all .4s cubic-bezier(.25,.46,.45,.94);
+  border:1px solid rgba(247,242,234,.07);
+  border-top:2px solid var(--teal);
 }
-.svc:hover{background:rgba(58,145,131,.06);}
+.svc::before{
+  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,rgba(58,145,131,.12) 0%,transparent 70%);
+  pointer-events:none;transition:opacity .4s;opacity:1;
+}
+.svc:hover{
+  background:var(--ink-light);
+  transform:translateY(-6px);
+  box-shadow:0 24px 64px rgba(0,0,0,.45),0 0 0 1px rgba(93,214,196,.18);
+  border-top-color:var(--teal-bright);
+}
+.svc:hover::before{opacity:2;}
 .svc-num{
   font-family:'Cormorant Garamond',serif;
-  font-size:.8rem;color:rgba(247,242,234,.15);
-  letter-spacing:.1em;margin-bottom:1.5rem;
+  font-size:7rem;font-weight:300;
+  color:rgba(247,242,234,.04);
+  position:absolute;top:-1.2rem;right:1rem;
+  line-height:1;pointer-events:none;letter-spacing:-.02em;
+}
+.svc-icon{
+  width:46px;height:46px;
+  background:rgba(58,145,131,.1);
+  border:1px solid rgba(58,145,131,.22);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.8rem;color:var(--teal-bright);
+  transition:background .4s,border-color .4s,transform .4s;
+}
+.svc:hover .svc-icon{
+  background:rgba(93,214,196,.15);
+  border-color:rgba(93,214,196,.4);
+  transform:scale(1.08);
 }
 .svc h3{
   font-family:'Cormorant Garamond',serif;
-  font-size:1.3rem;font-weight:600;color:var(--cream);
-  margin-bottom:.8rem;line-height:1.3;
+  font-size:1.7rem;font-weight:400;color:var(--cream);
+  margin-bottom:.9rem;line-height:1.2;
 }
-.svc p{font-size:.83rem;color:rgba(247,242,234,.45);line-height:1.75;font-weight:300;}
+.svc p{font-size:.85rem;color:rgba(247,242,234,.48);line-height:1.8;font-weight:300;margin-bottom:1.5rem;}
+.svc-stats{display:flex;flex-direction:column;gap:.65rem;padding-top:1.4rem;border-top:1px solid rgba(247,242,234,.07);}
+.svc-stat{display:flex;align-items:center;gap:.7rem;font-size:.8rem;color:var(--teal-bright);font-weight:500;letter-spacing:.01em;}
+.svc-stat::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;}
 .svc-arrow{
-  display:inline-flex;align-items:center;gap:.4rem;
-  margin-top:1.5rem;font-size:.72rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--teal-bright);
-  text-decoration:none;opacity:0;transform:translateX(-6px);
-  transition:opacity .2s,transform .2s;
+  display:inline-flex;align-items:center;gap:.5rem;
+  margin-top:1.8rem;font-size:.72rem;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(247,242,234,.25);
+  text-decoration:none;transition:color .2s,gap .2s;
 }
-.svc:hover .svc-arrow{opacity:1;transform:translateX(0);}
+.svc:hover .svc-arrow{color:var(--teal-bright);gap:.9rem;}
 /* Special last card */
-.svc-cta-card{background:var(--teal)!important;}
+.svc-cta-card{background:var(--teal)!important;border:none!important;transform:none!important;box-shadow:none!important;}
+.svc-cta-card::before{display:none;}
 .svc-cta-card h3{color:var(--white);}
 .svc-cta-card p{color:rgba(255,255,255,.7);}
-.svc-cta-card .svc-num{color:rgba(255,255,255,.2);}
+.svc-cta-card .svc-num{color:rgba(255,255,255,.08);}
 .svc-cta-card .svc-arrow{color:var(--white);opacity:1;transform:translateX(0);}
 
 /* ── HOW ── */
@@ -1566,35 +1597,44 @@ select:focus-visible,textarea:focus-visible{
 
       <div class="svc reveal">
         <div class="svc-num">01</div>
-        <h3>Never miss a lead again</h3>
-        <p>Every call, message, or enquiry gets answered, qualified, and booked in instantly.</p>
-        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(247,242,234,.06);">
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:var(--teal-bright);"><span style="width:4px;height:4px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>100% enquiry capture rate</div>
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:var(--teal-bright);"><span style="width:4px;height:4px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>60-80% faster response times</div>
+        <div class="svc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.43a16 16 0 006.72 6.72l1.75-1.75a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         </div>
-        <a href="#contact" class="svc-arrow">Learn more →</a>
+        <h3>Never miss a lead again</h3>
+        <p>Every call, message, or enquiry gets answered, qualified, and booked in instantly — day or night.</p>
+        <div class="svc-stats">
+          <div class="svc-stat">100% enquiry capture rate</div>
+          <div class="svc-stat">60–80% faster response times</div>
+        </div>
+        <a href="#contact" class="svc-arrow">Get started →</a>
       </div>
 
       <div class="svc reveal">
         <div class="svc-num">02</div>
-        <h3>Take back your time</h3>
-        <p>We remove repetitive admin and put processes in place that run automatically.</p>
-        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(247,242,234,.06);">
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:var(--teal-bright);"><span style="width:4px;height:4px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>Up to 70% less admin</div>
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:var(--teal-bright);"><span style="width:4px;height:4px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>10-20 hours saved per week</div>
+        <div class="svc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
-        <a href="#contact" class="svc-arrow">Learn more →</a>
+        <h3>Take back your time</h3>
+        <p>We remove repetitive admin and put processes in place that run automatically in the background.</p>
+        <div class="svc-stats">
+          <div class="svc-stat">Up to 70% less admin</div>
+          <div class="svc-stat">10–20 hours saved per week</div>
+        </div>
+        <a href="#contact" class="svc-arrow">Get started →</a>
       </div>
 
       <div class="svc reveal">
         <div class="svc-num">03</div>
-        <h3>Run your business without the chaos</h3>
-        <p>From scheduling to job tracking, everything stays organised without manual effort.</p>
-        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(247,242,234,.06);">
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:var(--teal-bright);"><span style="width:4px;height:4px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>Fully systemised operations</div>
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.75rem;color:var(--teal-bright);"><span style="width:4px;height:4px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>Zero manual scheduling</div>
+        <div class="svc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         </div>
-        <a href="#contact" class="svc-arrow">Learn more →</a>
+        <h3>Run without the chaos</h3>
+        <p>From scheduling to job tracking, everything stays organised without you touching it manually.</p>
+        <div class="svc-stats">
+          <div class="svc-stat">Fully systemised operations</div>
+          <div class="svc-stat">Zero manual scheduling</div>
+        </div>
+        <a href="#contact" class="svc-arrow">Get started →</a>
       </div>
 
       <div class="svc svc-cta-card reveal" style="grid-column:1/-1;">
