@@ -1905,7 +1905,7 @@ select:focus-visible,textarea:focus-visible{
                 .then(function(r){return r.json();})
                 .then(function(d){
                   if(d.reply){setOutput(d.reply,'rgba(247,242,234,.85)');setStatus('Yn ateb...','var(--teal-bright)');speakWelsh(d.reply);}
-                  else{setStatus('Gwall — rhowch gynnig arall arni / Error — please try again','#e07070');processing=false;setBtn('Siarad / Speak');}
+                  else{setStatus('Error: '+(d.error||d.detail||'no reply'),'#e07070');processing=false;setBtn('Siarad / Speak');}
                 })
                 .catch(function(err){setStatus('Error: '+(err&&err.message?err.message:'network failure'),'#e07070');processing=false;setBtn('Siarad / Speak');});
               }
