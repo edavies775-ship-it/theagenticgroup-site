@@ -33,7 +33,8 @@ Os gofynnir cwestiwn am brisiau, anfonwch nhw i theagenticgroup.co.uk i gael ase
 
   if (!response.ok) {
     const err = await response.text();
-    return res.status(500).json({ error: 'Claude API error', detail: err });
+    console.log('Claude error status:', response.status, err);
+    return res.status(500).json({ error: 'Claude API error', detail: err, status: response.status });
   }
 
   const data = await response.json();
