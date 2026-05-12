@@ -6,7 +6,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { message } = req.body;
+  const { message } = req.body || {};
   if (!message) return res.status(400).json({ error: 'No message provided' });
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
