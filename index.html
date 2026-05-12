@@ -2,6 +2,7 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.leadconnectorhq.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.leadconnectorhq.com; font-src https://fonts.gstatic.com https://*.leadconnectorhq.com; connect-src 'self' https://theagenticgroup-site.vercel.app https://*.leadconnectorhq.com; img-src 'self' data: https:; frame-src https://*.leadconnectorhq.com; object-src 'none'; base-uri 'self';">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <!-- ── PRIMARY SEO ── -->
@@ -2486,7 +2487,10 @@ async function sendChat(){
 
   const userBubble=document.createElement('div');
   userBubble.style.cssText='display:flex;justify-content:flex-end;';
-  userBubble.innerHTML=`<div style="background:var(--teal);padding:.7rem .9rem;max-width:85%;font-size:.83rem;color:white;line-height:1.55;">${text}</div>`;
+  const userText=document.createElement('div');
+  userText.style.cssText='background:var(--teal);padding:.7rem .9rem;max-width:85%;font-size:.83rem;color:white;line-height:1.55;';
+  userText.textContent=text;
+  userBubble.appendChild(userText);
   messages.appendChild(userBubble);
   messages.scrollTop=messages.scrollHeight;
 
@@ -2508,7 +2512,17 @@ async function sendChat(){
     messages.removeChild(typing);
     const ariaMsg=document.createElement('div');
     ariaMsg.style.cssText='display:flex;align-items:flex-start;gap:.6rem;';
-    ariaMsg.innerHTML=`<div style="width:26px;height:26px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:white;font-weight:600;flex-shrink:0;">A</div><div style="background:rgba(247,242,234,.05);border:1px solid rgba(247,242,234,.07);padding:.7rem .9rem;max-width:85%;font-size:.83rem;color:rgba(247,242,234,.65);line-height:1.6;">${reply.replace(/\n/g,'<br>')}</div>`;
+    const ariaAvatar=document.createElement('div');
+    ariaAvatar.style.cssText='width:26px;height:26px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:white;font-weight:600;flex-shrink:0;';
+    ariaAvatar.textContent='A';
+    const ariaBubble=document.createElement('div');
+    ariaBubble.style.cssText='background:rgba(247,242,234,.05);border:1px solid rgba(247,242,234,.07);padding:.7rem .9rem;max-width:85%;font-size:.83rem;color:rgba(247,242,234,.65);line-height:1.6;';
+    reply.split('\n').forEach((line,i)=>{
+      if(i>0)ariaBubble.appendChild(document.createElement('br'));
+      ariaBubble.appendChild(document.createTextNode(line));
+    });
+    ariaMsg.appendChild(ariaAvatar);
+    ariaMsg.appendChild(ariaBubble);
     messages.appendChild(ariaMsg);
     messages.scrollTop=messages.scrollHeight;
   }catch(e){
