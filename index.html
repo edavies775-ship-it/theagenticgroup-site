@@ -1901,7 +1901,7 @@ select:focus-visible,textarea:focus-visible{
               if(final){
                 processing=true;
                 setStatus('Yn prosesu...','rgba(247,242,234,.5)');
-                fetch('/api/welsh-chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:final})})
+                fetch('https://theagenticgroup-site.vercel.app/api/welsh-chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:final})})
                 .then(function(r){return r.json();})
                 .then(function(d){
                   if(d.reply){setOutput(d.reply,'rgba(247,242,234,.85)');setStatus('Yn ateb...','var(--teal-bright)');speakWelsh(d.reply);}
