@@ -2497,20 +2497,13 @@ async function sendChat(){
   messages.scrollTop=messages.scrollHeight;
 
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
+    const res=await fetch('https://theagenticgroup-site.vercel.app/api/aria-chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:`You are Aria, a warm and intelligent AI assistant built by The Agentic Group - a UK AI consultancy based in West Wales. You help business owners understand how AI can genuinely improve their operations.
-
-Keep responses concise, conversational and human. No bullet points unless essential. Be honest and genuinely helpful. Occasionally note that the chat they're having with you is exactly what their customers could experience. If asked about pricing or specifics, suggest they book a discovery call with the team. Never be salesy. You can mention the team are based in West Wales if relevant.`,
-        messages:chatHistory
-      })
+      body:JSON.stringify({messages:chatHistory})
     });
     const data=await res.json();
-    const reply=data.content?.[0]?.text||"Sorry, I couldn't get a response right now - try again or give the team a call!";
+    const reply=data.reply||"Sorry, I couldn't get a response right now - try again or give the team a call!";
     chatHistory.push({role:'assistant',content:reply});
     messages.removeChild(typing);
     const ariaMsg=document.createElement('div');
