@@ -1852,16 +1852,18 @@ select:focus-visible,textarea:focus-visible{
           <div style="font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:rgba(247,242,234,.35);text-align:center;">"Good afternoon, thanks for calling. How can I help you today?"</div>
         </div>
         <div id="welsh-voice-widget" style="background:rgba(58,145,131,.06);border:1px solid rgba(58,145,131,.25);padding:1.2rem;margin-bottom:1.2rem;">
-          <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem;">
+          <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem;">
             <span style="font-size:1.2rem;line-height:1;">🏴󠁧󠁢󠁷󠁬󠁳󠁿</span>
             <div>
-              <div style="font-size:.78rem;font-weight:500;color:var(--cream);">AI Sgwrsio Cymraeg</div>
-              <div style="font-size:.68rem;color:rgba(247,242,234,.4);">Welsh Conversational AI — siaradwch Gymraeg, cewch ateb yn Gymraeg</div>
+              <div style="display:flex;align-items:center;gap:.5rem;">
+                <div style="font-size:.78rem;font-weight:500;color:var(--cream);">AI Sgwrsio Cymraeg</div>
+                <span style="font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:rgba(58,145,131,.2);border:1px solid rgba(58,145,131,.35);color:var(--teal-bright);padding:.15rem .45rem;">In Development</span>
+              </div>
+              <div style="font-size:.68rem;color:rgba(247,242,234,.4);">Welsh Conversational AI — upgrading the voice before full launch</div>
             </div>
           </div>
-          <div id="wai-output" style="min-height:2.5rem;max-height:6rem;overflow-y:auto;font-size:.75rem;color:rgba(247,242,234,.6);line-height:1.6;margin-bottom:.6rem;font-style:italic;"></div>
-          <div id="wai-status" style="font-size:.68rem;color:var(--teal-bright);margin-bottom:.6rem;min-height:1em;">Pwyswch y botwm i siarad...</div>
-          <button id="wai-mic-btn" onclick="waiToggle()" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--teal-bright);border:none;color:#0c1a1a;padding:.55rem .95rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.8'" onmouseout="this.style.opacity='1'">&#127908; Siarad / Speak</button>
+          <div style="font-size:.73rem;color:rgba(247,242,234,.5);line-height:1.6;margin-bottom:.8rem;">We're building a fully conversational Welsh-language AI with a natural Welsh voice. It understands Welsh, thinks in Welsh, and responds in Welsh — built for businesses serving Welsh-speaking communities. <a href="#contact" style="color:var(--teal-bright);text-decoration:none;">Get notified at launch →</a></div>
+          <button disabled style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(58,145,131,.15);border:1px solid rgba(58,145,131,.2);color:rgba(247,242,234,.25);padding:.55rem .95rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:not-allowed;">&#127908; Launching Soon</button>
         </div>
         <script>
         (function(){
