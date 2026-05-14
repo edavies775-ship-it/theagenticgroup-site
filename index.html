@@ -1057,6 +1057,7 @@ footer{
   .hero-bottom{flex-direction:column;gap:2rem;}
   .hero-actions{flex-direction:column;width:100%;}
   .btn-hero-primary,.btn-hero-ghost{justify-content:center;width:100%;}
+  .hero-stats{gap:1.5rem;flex-wrap:wrap;}
   .about-grid{grid-template-columns:1fr;}
   .about-img{min-height:300px;}
   .about-text-col{padding:3rem 1.5rem;}
@@ -1068,21 +1069,29 @@ footer{
   .auto-header{grid-template-columns:1fr!important;gap:2rem!important;}
   .services-intro{grid-template-columns:1fr;gap:2rem;}
   .services-grid{grid-template-columns:1fr 1fr;}
+  .svc-cta-card{flex-direction:column;gap:1.5rem;}
   .how-grid{grid-template-columns:1fr;gap:3rem;}
   .how-step{grid-template-columns:60px 1fr;}
   .ai-cards{grid-template-columns:1fr;}
   .prod-row{grid-template-columns:1fr!important;}
   .ai-stats{grid-template-columns:1fr 1fr 1fr;}
+  /* Products section inline-grid overrides */
   #products [style*="grid-template-columns:1fr 1fr"]{display:flex!important;flex-direction:column!important;}
   #products [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr 1fr!important;}
-  #products [style*="gap:4rem"]{grid-template-columns:1fr!important;gap:2rem!important;}
+  #products [style*="gap:4rem"]{grid-template-columns:1fr!important;gap:2rem!important;padding:2rem 1.5rem!important;}
+  /* Philosophy section: geographic strip (3-col) */
+  #philosophy [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;}
+  /* Process section: 4-col timeline strip */
+  #process [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important;}
+  /* Stats bar: inner container padding */
+  #stats-bar{padding:0 1.5rem!important;}
   .sg-card{grid-template-columns:1fr;}
   .sg-l,.sg-r{padding:2.5rem 1.5rem!important;}
   .agentic-build-grid{grid-template-columns:1fr!important;gap:3rem!important;}
   .agentic-build-inner{padding:3rem 1.5rem!important;}
   .assessment-grid{grid-template-columns:1fr;gap:3rem;}
   .proof-grid{grid-template-columns:1fr;}
-  .contact-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;min-height:unset;}
   .contact-left,.contact-right{padding:3rem 1.5rem!important;}
   .footer-grid{grid-template-columns:1fr 1fr;}
   .container{padding:0 1.5rem;}
@@ -1096,8 +1105,15 @@ footer{
   .footer-grid{grid-template-columns:1fr;}
   .fr{grid-template-columns:1fr;}
   .hero-proof{gap:1.5rem;flex-wrap:wrap;}
+  .hero-stats{gap:1.5rem;}
   .section{padding:5rem 0;}
   .sg-stats-g{grid-template-columns:1fr 1fr;}
+  /* Philosophy geographic strip: single column */
+  #philosophy [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;}
+  /* Process 4-col strip: keep 2-col */
+  #process [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important;}
+  #stats-bar{grid-template-columns:1fr 1fr!important;padding:0 1.5rem!important;}
+  #stats-bar > div{border-right:none!important;border-bottom:1px solid rgba(247,242,234,.06);}
   input,select,textarea{font-size:16px!important;}
 }
 
@@ -1105,6 +1121,7 @@ footer{
 @media(max-width:480px){
   .hero h1{font-size:clamp(2rem,9vw,2.8rem)!important;}
   .hero-stat-num{font-size:1.8rem!important;}
+  .hero-stats{gap:1rem;flex-direction:column;padding-top:1.5rem;margin-top:2rem;}
   .hero-location{font-size:.62rem;}
   .hero-proof{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
   .section{padding:4rem 0!important;}
@@ -1115,12 +1132,19 @@ footer{
   .phil-card{padding:2rem 1.2rem!important;}
   .phil-num{font-size:2.5rem!important;}
   .svc{padding:1.6rem 1.2rem!important;}
+  .svc-cta-card{padding:1.6rem 1.2rem!important;}
   .how-step{grid-template-columns:50px 1fr;gap:1rem;}
   .how-step-circle{width:36px;height:36px;font-size:.85rem;}
   #calc-outer > div{padding:2rem 1.2rem!important;}
   #hours-display{font-size:3.5rem!important;}
   .ai-stats{grid-template-columns:1fr!important;}
+  /* Products: all inline grids collapse to single column */
   #products [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important;}
+  #products [style*="gap:4rem"]{grid-template-columns:1fr!important;gap:1.5rem!important;padding:1.8rem 1.1rem!important;}
+  /* Philosophy geographic strip: single column */
+  #philosophy [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;}
+  /* Process 4-col strip: single column on small mobile */
+  #process [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important;}
   .sg-l{padding:2rem 1.2rem!important;}
   .sg-l h2{font-size:2rem!important;}
   .sg-r{padding:2rem 1.2rem!important;}
@@ -1134,6 +1158,7 @@ footer{
   .cookie-banner{padding:1rem 1.1rem;}
   .cookie-actions{width:100%;justify-content:flex-end;}
   .proof-card{padding:1.8rem 1.2rem;}
+  #stats-bar{grid-template-columns:1fr 1fr!important;padding:0 1.1rem!important;}
   input,select,textarea{font-size:16px!important;}
 }
 
@@ -1143,14 +1168,9 @@ footer{
   .container{padding:0 .9rem!important;}
   .hero-content{padding:5rem .9rem 3rem!important;}
   .hero-proof{grid-template-columns:1fr;}
-}
-
-@media(max-width:768px){
-  #stats-bar{grid-template-columns:1fr 1fr!important;}
-  #stats-bar > div{border-right:none!important;border-bottom:1px solid rgba(247,242,234,.06);}
-}
-@media(max-width:480px){
-  #stats-bar{grid-template-columns:1fr 1fr!important;}
+  #stats-bar{padding:0 .9rem!important;}
+  /* Process 4-col strip: single column on tiny screens */
+  #process [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important;}
 }
 /* ── MOBILE NAV ── */
 .nav-hamburger{
