@@ -1074,6 +1074,8 @@ footer{
   .prod-row{grid-template-columns:1fr!important;}
   .ai-stats{grid-template-columns:1fr 1fr 1fr;}
   #products [style*="grid-template-columns:1fr 1fr"]{display:flex!important;flex-direction:column!important;}
+  #products [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr 1fr!important;}
+  #products [style*="gap:4rem"]{grid-template-columns:1fr!important;gap:2rem!important;}
   .sg-card{grid-template-columns:1fr;}
   .sg-l,.sg-r{padding:2.5rem 1.5rem!important;}
   .agentic-build-grid{grid-template-columns:1fr!important;gap:3rem!important;}
@@ -1118,6 +1120,7 @@ footer{
   #calc-outer > div{padding:2rem 1.2rem!important;}
   #hours-display{font-size:3.5rem!important;}
   .ai-stats{grid-template-columns:1fr!important;}
+  #products [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important;}
   .sg-l{padding:2rem 1.2rem!important;}
   .sg-l h2{font-size:2rem!important;}
   .sg-r{padding:2rem 1.2rem!important;}
@@ -1756,289 +1759,173 @@ select:focus-visible,textarea:focus-visible{
 <section class="section" id="products" style="background:var(--ink-mid);">
   <div class="container">
 
-    <!-- Header -->
-    <div class="reveal" style="margin-bottom:5rem;">
+    <!-- HEADER -->
+    <div class="reveal" style="margin-bottom:3.5rem;">
       <div class="eyebrow">Our Products</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:300;color:var(--cream);line-height:1.1;max-width:750px;">
-        A growing suite of AI products,<br><em style="font-style:italic;color:var(--teal-bright);">built from real problems.</em>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:300;color:var(--cream);line-height:1.1;max-width:700px;margin-bottom:1rem;">
+        Named fixes. <em style="font-style:italic;color:var(--teal-bright);">Built for real problems.</em>
       </h2>
-      <p style="font-size:.95rem;color:rgba(247,242,234,.4);max-width:560px;margin-top:1.2rem;font-weight:300;line-height:1.8;">Every product we've built started as something we needed ourselves - or something a client couldn't find anywhere else. Each one is purpose-built, not patched together.</p>
+      <p style="font-size:.9rem;color:rgba(247,242,234,.38);max-width:580px;font-weight:300;line-height:1.8;">Pick a ready-made product, go deep with a sector solution, or tell us what you need and we'll build it around you.</p>
     </div>
 
-    <!-- ① AGENTICREACH - hero card full width -->
-    <div class="reveal prod-row" style="background:linear-gradient(135deg,#1a1200 0%,#2a1e00 50%,#1a1200 100%);border:1px solid rgba(200,168,75,.15);margin-bottom:2px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;">
-      <div style="padding:3.5rem;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-100px;right:-100px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(200,168,75,.08),transparent 70%);pointer-events:none;"></div>
-        <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.2);color:#e2c06a;padding:.3rem .8rem;font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.5rem;">✦ A Product of The Agentic Group</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:#e2c06a;line-height:1.1;margin-bottom:.4rem;">AgenticReach</h2>
-        <p style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:rgba(255,255,255,.4);margin-bottom:1.5rem;">Automated marketing. Your brand voice. Every platform.</p>
-        <p style="font-size:.88rem;color:rgba(255,255,255,.55);line-height:1.85;font-weight:300;margin-bottom:2rem;">Most businesses know they should be posting consistently on social media - they just never have the time. AgenticReach changes that completely. We learn your brand voice, your tone, your colours and your message, then build a fully automated content engine that publishes across all the major platforms on your behalf. Week after week, without you lifting a finger.</p>
-        <div style="display:flex;flex-direction:column;gap:.7rem;margin-bottom:2.5rem;">
-          <div style="display:flex;align-items:center;gap:.7rem;font-size:.83rem;color:rgba(255,255,255,.65);"><span style="width:5px;height:5px;border-radius:50%;background:#c8a84b;flex-shrink:0;"></span>Content scheduled and published across LinkedIn, Instagram, Facebook & more</div>
-          <div style="display:flex;align-items:center;gap:.7rem;font-size:.83rem;color:rgba(255,255,255,.65);"><span style="width:5px;height:5px;border-radius:50%;background:#c8a84b;flex-shrink:0;"></span>Written in your brand voice - not generic AI filler</div>
-          <div style="display:flex;align-items:center;gap:.7rem;font-size:.83rem;color:rgba(255,255,255,.65);"><span style="width:5px;height:5px;border-radius:50%;background:#c8a84b;flex-shrink:0;"></span>Uses your brand colours, tone and messaging consistently</div>
-          <div style="display:flex;align-items:center;gap:.7rem;font-size:.83rem;color:rgba(255,255,255,.65);"><span style="width:5px;height:5px;border-radius:50%;background:#c8a84b;flex-shrink:0;"></span>Builds reach, leads and brand awareness on autopilot</div>
-          <div style="display:flex;align-items:center;gap:.7rem;font-size:.83rem;color:rgba(255,255,255,.65);"><span style="width:5px;height:5px;border-radius:50%;background:#c8a84b;flex-shrink:0;"></span>Saves 8-12 hours of marketing time every single week</div>
-        </div>
-        <a href="#contact" style="display:inline-flex;align-items:center;gap:.5rem;background:#c8a84b;color:#1a1200;padding:.9rem 2rem;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s;">Get AgenticReach →</a>
-      </div>
-      <!-- Right: visual stats panel -->
-      <div style="background:rgba(0,0,0,.25);padding:3.5rem;display:flex;flex-direction:column;justify-content:center;gap:2rem;border-left:1px solid rgba(200,168,75,.08);">
+    <!-- 6-CARD PRODUCT GRID -->
+    <div class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px;">
+
+      <!-- 1. AgenticCapture -->
+      <div style="background:var(--ink);border:1px solid rgba(58,145,131,.1);padding:2rem;display:flex;flex-direction:column;gap:.9rem;">
         <div>
-          <div style="font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(200,168,75,.4);margin-bottom:1.2rem;">What you get every week</div>
-          <div style="display:flex;flex-direction:column;gap:.6rem;">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.1);">
-              <span style="font-size:.82rem;color:rgba(255,255,255,.5);">Social posts scheduled</span>
-              <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e2c06a;">5-14</span>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.1);">
-              <span style="font-size:.82rem;color:rgba(255,255,255,.5);">Hours saved on marketing</span>
-              <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e2c06a;">8-12</span>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.1);">
-              <span style="font-size:.82rem;color:rgba(255,255,255,.5);">Platforms covered</span>
-              <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e2c06a;">All major</span>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;background:rgba(200,168,75,.05);border:1px solid rgba(200,168,75,.1);">
-              <span style="font-size:.82rem;color:rgba(255,255,255,.5);">Brand consistency</span>
-              <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#e2c06a;">100%</span>
-            </div>
-          </div>
+          <div style="font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-bright);margin-bottom:.6rem;">Business Fix 01</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:.4rem;">Agentic<em style="font-style:italic;color:var(--teal-bright);">Capture</em></div>
+          <div style="font-size:.78rem;color:rgba(247,242,234,.4);line-height:1.65;font-weight:300;">Every call answered. Every enquiry qualified. Every booking made — automatically, 24/7. No lead left behind.</div>
         </div>
-        <div style="padding:1.5rem;background:rgba(200,168,75,.04);border:1px solid rgba(200,168,75,.1);">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:rgba(255,255,255,.4);line-height:1.6;">"Your competitors are posting consistently. Your customers are scrolling past them. AgenticReach makes sure they scroll past <em style="color:#e2c06a;font-style:normal;">you</em> instead."</div>
+        <div style="display:flex;flex-direction:column;gap:.35rem;padding-top:.6rem;border-top:1px solid rgba(247,242,234,.05);">
+          <div style="font-size:.7rem;color:rgba(247,242,234,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>AI Voice + Chat + GHL follow-up</div>
+          <div style="font-size:.7rem;color:rgba(247,242,234,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>100% enquiry capture rate</div>
+          <div style="font-size:.7rem;color:rgba(247,242,234,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>&lt;60s average response time</div>
         </div>
+        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" style="margin-top:auto;display:flex;align-items:center;justify-content:center;background:var(--teal);color:white;padding:.75rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='var(--teal-bright)';this.style.color='var(--ink)'" onmouseout="this.style.background='var(--teal)';this.style.color='white'">Book a Demo →</a>
       </div>
-    </div>
 
-    <!-- ② CHAT + VOICE row -->
-    <div class="prod-row" style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;">
-
-      <!-- Chat AI -->
-      <div style="background:var(--ink);">
-        <div style="padding:2.5rem 2.5rem 0;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--cream);">Agentic Chat</div>
-            <div style="display:flex;align-items:center;gap:.4rem;background:rgba(58,145,131,.1);border:1px solid rgba(58,145,131,.25);padding:.25rem .7rem;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-bright);"><div style="width:5px;height:5px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;"></div>Live Demo</div>
-          </div>
-          <p style="font-size:.83rem;color:rgba(247,242,234,.4);line-height:1.75;font-weight:300;margin-bottom:1.5rem;">Your website is open 24/7. Is anyone there to answer? An AI chat agent engages every visitor instantly - answering questions, qualifying leads, and booking straight into your calendar. At 2am on a Sunday if needed. Try Aria below.</p>
+      <!-- 2. AgenticReach -->
+      <div style="background:linear-gradient(160deg,#1a1200 0%,#201700 100%);border:1px solid rgba(200,168,75,.1);padding:2rem;display:flex;flex-direction:column;gap:.9rem;">
+        <div>
+          <div style="font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.6rem;">Business Fix 02</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--gold-light);line-height:1.1;margin-bottom:.4rem;">Agentic<em style="font-style:italic;">Reach</em></div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.65;font-weight:300;">Your brand voice. Every platform. Consistent social presence on autopilot — without lifting a finger.</div>
         </div>
-        <!-- Live chat -->
-        <div style="padding:0 2.5rem 2.5rem;">
-          <div style="font-size:.65rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,234,.25);margin-bottom:.8rem;">Talk to Aria - try it yourself</div>
-          <div id="chat-messages" style="height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:.8rem;margin-bottom:1rem;scroll-behavior:smooth;">
-            <div style="display:flex;align-items:flex-start;gap:.6rem;">
-              <div style="width:26px;height:26px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:white;font-weight:600;flex-shrink:0;">A</div>
-              <div style="background:rgba(247,242,234,.05);border:1px solid rgba(247,242,234,.07);padding:.7rem .9rem;max-width:85%;font-size:.83rem;color:rgba(247,242,234,.7);line-height:1.55;">Hi 👋 I'm Aria - an AI assistant by The Agentic Group. Ask me anything about AI for your business, or just see what a chat agent can do.</div>
+        <div style="display:flex;flex-direction:column;gap:.35rem;padding-top:.6rem;border-top:1px solid rgba(200,168,75,.08);">
+          <div style="font-size:.7rem;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--gold-light);flex-shrink:0;"></span>5-14 posts scheduled weekly</div>
+          <div style="font-size:.7rem;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--gold-light);flex-shrink:0;"></span>8-12 hours saved every week</div>
+          <div style="font-size:.7rem;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--gold-light);flex-shrink:0;"></span>LinkedIn, Instagram, Facebook &amp; more</div>
+        </div>
+        <a href="#contact" style="margin-top:auto;display:flex;align-items:center;justify-content:center;background:#c8a84b;color:#1a1200;padding:.75rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='#e2c06a'" onmouseout="this.style.background='#c8a84b'">Get AgenticReach →</a>
+      </div>
+
+      <!-- 3. AgenticFlow -->
+      <div style="background:var(--ink);border:1px solid rgba(58,145,131,.08);padding:2rem;display:flex;flex-direction:column;gap:.9rem;">
+        <div>
+          <div style="font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-bright);margin-bottom:.6rem;">Business Fix 03</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:.4rem;">Agentic<em style="font-style:italic;color:var(--teal-bright);">Flow</em></div>
+          <div style="font-size:.78rem;color:rgba(247,242,234,.4);line-height:1.65;font-weight:300;">Do more without hiring more. We automate the admin that eats your team's time — and your margin.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.35rem;padding-top:.6rem;border-top:1px solid rgba(247,242,234,.05);">
+          <div style="font-size:.7rem;color:rgba(247,242,234,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>Invoice chasing, reports, CRM sync</div>
+          <div style="font-size:.7rem;color:rgba(247,242,234,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>70% less manual admin on average</div>
+          <div style="font-size:.7rem;color:rgba(247,242,234,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--teal-bright);flex-shrink:0;"></span>Most fixes live within a week</div>
+        </div>
+        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" style="margin-top:auto;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(58,145,131,.3);color:var(--teal-bright);padding:.75rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='rgba(58,145,131,.08)'" onmouseout="this.style.background='transparent'">See What We Can Automate →</a>
+      </div>
+
+      <!-- 4. Agentic Chat — LIVE DEMO -->
+      <div style="background:var(--ink-mid);border:1px solid rgba(58,145,131,.1);padding:2rem;display:flex;flex-direction:column;gap:.9rem;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,234,.3);margin-bottom:.6rem;">AI Agent</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--cream);line-height:1.1;">Agentic <em style="font-style:italic;color:var(--teal-bright);">Chat</em></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.4rem;background:rgba(58,145,131,.08);border:1px solid rgba(58,145,131,.2);padding:.25rem .7rem;font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-bright);flex-shrink:0;">
+            <div style="width:5px;height:5px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;"></div>Live
+          </div>
+        </div>
+        <div style="font-size:.75rem;color:rgba(247,242,234,.35);line-height:1.6;font-weight:300;">Your website is open 24/7. Is anyone there? Try Aria — this is exactly what your customers would experience.</div>
+        <div style="flex:1;display:flex;flex-direction:column;">
+          <div id="chat-messages" style="height:160px;overflow-y:auto;display:flex;flex-direction:column;gap:.7rem;margin-bottom:.8rem;scroll-behavior:smooth;">
+            <div style="display:flex;align-items:flex-start;gap:.5rem;">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:white;font-weight:600;flex-shrink:0;">A</div>
+              <div style="background:rgba(247,242,234,.05);border:1px solid rgba(247,242,234,.06);padding:.6rem .8rem;max-width:90%;font-size:.78rem;color:rgba(247,242,234,.65);line-height:1.5;">Hi 👋 I'm Aria. Ask me anything about AI for your business.</div>
             </div>
           </div>
-          <div style="display:flex;gap:.6rem;">
-            <input id="chat-input" type="text" placeholder="Ask me anything..." style="flex:1;padding:.75rem 1rem;background:rgba(247,242,234,.04);border:1px solid rgba(247,242,234,.08);color:var(--cream);font-family:'Inter',sans-serif;font-size:.85rem;outline:none;" onkeydown="if(event.key==='Enter')sendChat()">
-            <button onclick="sendChat()" style="width:40px;height:40px;background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;" onmouseover="this.style.background='var(--teal-bright)'" onmouseout="this.style.background='var(--teal)'">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <div style="display:flex;gap:.5rem;">
+            <input id="chat-input" type="text" placeholder="Ask me anything..." style="flex:1;padding:.65rem .9rem;background:rgba(247,242,234,.04);border:1px solid rgba(247,242,234,.08);color:var(--cream);font-family:'Inter',sans-serif;font-size:.8rem;outline:none;" onkeydown="if(event.key==='Enter')sendChat()">
+            <button onclick="sendChat()" style="width:36px;height:36px;background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;" onmouseover="this.style.background='var(--teal-bright)'" onmouseout="this.style.background='var(--teal)'">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </button>
           </div>
-          <div style="font-size:.65rem;color:rgba(247,242,234,.2);margin-top:.6rem;">Powered by Claude AI · Built & deployed by The Agentic Group</div>
+          <div style="font-size:.6rem;color:rgba(247,242,234,.15);margin-top:.5rem;">Powered by Claude AI · Built by The Agentic Group</div>
         </div>
       </div>
 
-      <!-- Voice AI -->
-      <div style="background:var(--ink);padding:2.5rem;display:flex;flex-direction:column;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--cream);margin-bottom:1rem;">Agentic Voice</div>
-        <p style="font-size:.83rem;color:rgba(247,242,234,.4);line-height:1.75;font-weight:300;margin-bottom:1.5rem;">Every missed call is a missed customer. Your AI voice agent answers every call instantly, 24 hours a day - handling enquiries, qualifying leads, booking appointments. In a natural conversation your callers won't believe isn't human.</p>
-        <div style="flex:1;background:var(--ink-mid);border:1px solid rgba(247,242,234,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;gap:1.2rem;margin-bottom:1.2rem;">
-          <div style="display:flex;align-items:center;gap:4px;height:48px;">
+      <!-- 5. Agentic Voice -->
+      <div style="background:var(--ink-mid);border:1px solid rgba(58,145,131,.08);padding:2rem;display:flex;flex-direction:column;gap:.9rem;">
+        <div>
+          <div style="font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,234,.3);margin-bottom:.6rem;">AI Agent</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:.4rem;">Agentic <em style="font-style:italic;color:var(--teal-bright);">Voice</em></div>
+          <div style="font-size:.78rem;color:rgba(247,242,234,.4);line-height:1.65;font-weight:300;">Every missed call is a missed customer. Your AI voice agent answers instantly, 24/7 — in a conversation callers won't believe isn't human.</div>
+        </div>
+        <div style="background:var(--ink);border:1px solid rgba(247,242,234,.05);padding:1.2rem;display:flex;flex-direction:column;align-items:center;gap:.8rem;">
+          <div style="display:flex;align-items:center;gap:4px;height:36px;">
             <div class="wbar" style="animation-delay:0s"></div><div class="wbar" style="animation-delay:.1s"></div><div class="wbar" style="animation-delay:.2s"></div><div class="wbar" style="animation-delay:.3s"></div><div class="wbar" style="animation-delay:.4s"></div><div class="wbar" style="animation-delay:.5s;background:var(--teal-bright)"></div><div class="wbar" style="animation-delay:.6s;background:var(--teal-bright)"></div><div class="wbar" style="animation-delay:.5s;background:var(--teal-bright)"></div><div class="wbar" style="animation-delay:.4s"></div><div class="wbar" style="animation-delay:.3s"></div><div class="wbar" style="animation-delay:.2s"></div><div class="wbar" style="animation-delay:.1s"></div>
           </div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:rgba(247,242,234,.35);text-align:center;">"Good afternoon, thanks for calling. How can I help you today?"</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:.85rem;font-style:italic;color:rgba(247,242,234,.3);text-align:center;">"Good afternoon, how can I help you today?"</div>
         </div>
-        <div id="welsh-voice-widget" style="background:rgba(58,145,131,.06);border:1px solid rgba(58,145,131,.25);padding:1.2rem;margin-bottom:1.2rem;">
-          <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem;">
-            <span style="font-size:1.2rem;line-height:1;">🏴󠁧󠁢󠁷󠁬󠁳󠁿</span>
-            <div>
-              <div style="display:flex;align-items:center;gap:.5rem;">
-                <div style="font-size:.78rem;font-weight:500;color:var(--cream);">AI Sgwrsio Cymraeg</div>
-                <span style="font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:rgba(58,145,131,.2);border:1px solid rgba(58,145,131,.35);color:var(--teal-bright);padding:.15rem .45rem;">In Development</span>
-              </div>
-              <div style="font-size:.68rem;color:rgba(247,242,234,.4);">Welsh Conversational AI — upgrading the voice before full launch</div>
-            </div>
+        <div style="background:rgba(58,145,131,.05);border:1px solid rgba(58,145,131,.15);padding:.85rem 1rem;display:flex;align-items:flex-start;gap:.7rem;">
+          <span style="font-size:1rem;flex-shrink:0;line-height:1.4;">🏴󠁧󠁢󠁷󠁬󠁳󠁿</span>
+          <div>
+            <div style="font-size:.72rem;font-weight:500;color:var(--cream);margin-bottom:.15rem;">Welsh Language Voice AI</div>
+            <div style="font-size:.7rem;color:rgba(247,242,234,.35);line-height:1.5;font-weight:300;">In trials — AI voice for Welsh-speaking communities. <a href="#contact" style="color:var(--teal-bright);text-decoration:none;">Talk to us.</a></div>
           </div>
-          <div style="font-size:.73rem;color:rgba(247,242,234,.5);line-height:1.6;margin-bottom:.8rem;">We're building a fully conversational Welsh-language AI with a natural Welsh voice. It understands Welsh, thinks in Welsh, and responds in Welsh — built for businesses serving Welsh-speaking communities. <a href="#contact" style="color:var(--teal-bright);text-decoration:none;">Get notified at launch →</a></div>
-          <button disabled style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(58,145,131,.15);border:1px solid rgba(58,145,131,.2);color:rgba(247,242,234,.25);padding:.55rem .95rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:not-allowed;">&#127908; Launching Soon</button>
         </div>
-        <script>
-        (function(){
-          var recognition, speaking=false, processing=false;
-          function setStatus(txt,col){var e=document.getElementById('wai-status');if(e){e.textContent=txt;if(col)e.style.color=col;}}
-          function setOutput(txt,col){var e=document.getElementById('wai-output');if(e){e.textContent=txt;if(col)e.style.color=col;}}
-          function setBtn(label){var b=document.getElementById('wai-mic-btn');if(b)b.innerHTML='&#127908; '+label;}
-          function speakWelsh(text){
-            if(!('speechSynthesis' in window))return;
-            window.speechSynthesis.cancel();
-            var utt=new SpeechSynthesisUtterance(text);
-            utt.lang='cy';
-            var voices=window.speechSynthesis.getVoices();
-            var wv=voices.find(function(v){return v.lang&&v.lang.startsWith('cy');});
-            if(wv)utt.voice=wv;
-            utt.rate=0.92;
-            utt.onend=function(){setStatus('Pwyswch y botwm i siarad eto...');processing=false;setBtn('Siarad / Speak');};
-            window.speechSynthesis.speak(utt);
-          }
-          window.waiToggle=function(){
-            if(processing)return;
-            var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-            if(!SR){setStatus('Defnyddiwch Chrome i ddefnyddio\'r nodwedd hon / Use Chrome for this feature','#e07070');return;}
-            if(speaking){if(recognition)recognition.stop();return;}
-            recognition=new SR();
-            recognition.lang='cy';
-            recognition.continuous=false;
-            recognition.interimResults=true;
-            recognition.onstart=function(){speaking=true;setStatus('Yn gwrando... / Listening...','#7ecfc0');setBtn('Stopio / Stop');};
-            recognition.onresult=function(e){
-              var interim='',final='';
-              for(var i=e.resultIndex;i<e.results.length;i++){
-                if(e.results[i].isFinal)final+=e.results[i][0].transcript;
-                else interim+=e.results[i][0].transcript;
-              }
-              setOutput(final||interim);
-              if(final){
-                processing=true;
-                setStatus('Yn prosesu...','rgba(247,242,234,.5)');
-                fetch('https://theagenticgroup-site.vercel.app/api/welsh-chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:final})})
-                .then(function(r){return r.json();})
-                .then(function(d){
-                  if(d.reply){setOutput(d.reply,'rgba(247,242,234,.85)');setStatus('Yn ateb...','var(--teal-bright)');speakWelsh(d.reply);}
-                  else{setStatus((d.status?'HTTP '+d.status+': ':'')+( d.detail||d.error||'no reply'),'#e07070');processing=false;setBtn('Siarad / Speak');}
-                })
-                .catch(function(err){setStatus('Error: '+(err&&err.message?err.message:'network failure'),'#e07070');processing=false;setBtn('Siarad / Speak');});
-              }
-            };
-            recognition.onerror=function(e){setStatus('Gwall: '+e.error,'#e07070');speaking=false;processing=false;setBtn('Siarad / Speak');};
-            recognition.onend=function(){speaking=false;if(!processing){setBtn('Siarad / Speak');}};
-            recognition.start();
-          };
-          if('speechSynthesis' in window){window.speechSynthesis.getVoices();}
-        })();
-        </script>
-        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:.5rem;background:transparent;border:1px solid rgba(58,145,131,.35);color:var(--teal-bright);padding:.85rem;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='rgba(58,145,131,.1)'" onmouseout="this.style.background='transparent'">Book a Discovery Call →</a>
-      </div>
-    </div>
-
-    <!-- ③ STAYGENTIC + STAYGENTIC CLEAN row -->
-    <div class="prod-row" style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
-
-      <!-- StayGentic -->
-      <div style="background:var(--sg-green);padding:3rem;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;background:rgba(201,168,76,.06);pointer-events:none;"></div>
-        <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--sg-gold-light);padding:.3rem .8rem;font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;">✦ Hospitality</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--sg-gold-light);line-height:1.1;margin-bottom:.3rem;">StayGentic</h2>
-        <p style="font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:rgba(255,255,255,.4);margin-bottom:1.2rem;">AI Guest Technology for UK Holiday Lets & Hotels</p>
-        <p style="font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">24/7 AI guest concierge and smart property finder - built from our founder's own holiday let in Carmarthenshire. Every enquiry answered. Every booking captured. Live in 48 hours.</p>
-        <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem;">
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.6);"><span style="width:4px;height:4px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>24/7 AI voice & chat for guests</div>
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.6);"><span style="width:4px;height:4px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Smart property finder - direct bookings only</div>
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.6);"><span style="width:4px;height:4px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Automated check-in, reviews & messaging</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:2rem;">
-          <div style="background:rgba(0,0,0,.2);padding:1rem;"><div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--sg-gold-light);">90%</div><div style="font-size:.7rem;color:rgba(255,255,255,.35);margin-top:.2rem;">Fewer interruptions</div></div>
-          <div style="background:rgba(0,0,0,.2);padding:1rem;"><div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--sg-gold-light);">40hrs</div><div style="font-size:.7rem;color:rgba(255,255,255,.35);margin-top:.2rem;">Saved monthly</div></div>
-        </div>
-        <a href="https://staygentic.co.uk" target="_blank" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--sg-gold);color:var(--sg-green);padding:.85rem 1.8rem;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s;">Explore StayGentic →</a>
-        <div style="margin-top:1rem;font-size:.67rem;color:rgba(255,255,255,.2);letter-spacing:.05em;">staygentic.co.uk · A product of The Agentic Group</div>
+        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" style="margin-top:auto;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(58,145,131,.3);color:var(--teal-bright);padding:.75rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='rgba(58,145,131,.08)'" onmouseout="this.style.background='transparent'">Book a Voice Demo →</a>
       </div>
 
-      <!-- StayGentic Clean -->
-      <div style="background:#0f1f2a;padding:3rem;position:relative;overflow:hidden;border:1px solid rgba(100,180,200,.08);">
-        <div style="position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(100,180,200,.06),transparent 70%);pointer-events:none;"></div>
-        <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(100,180,200,.08);border:1px solid rgba(100,180,200,.15);color:#7ecfdf;padding:.3rem .8rem;font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem;">✦ Property Operations</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:#a8dde8;line-height:1.1;margin-bottom:.3rem;">StayGentic Clean</h2>
-        <p style="font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:rgba(255,255,255,.3);margin-bottom:1.2rem;">Property operations & automated invoicing</p>
-        <p style="font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Running a cleaning operation across multiple properties is a management headache. StayGentic Clean tracks cleaner hours, materials used and spend per property - then automatically generates owner invoices. Your entire operation, visible on one dashboard.</p>
-        <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem;">
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.5);"><span style="width:4px;height:4px;border-radius:50%;background:#7ecfdf;flex-shrink:0;"></span>Cleaner hours tracked per property automatically</div>
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.5);"><span style="width:4px;height:4px;border-radius:50%;background:#7ecfdf;flex-shrink:0;"></span>Materials & spend logged in real time</div>
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.5);"><span style="width:4px;height:4px;border-radius:50%;background:#7ecfdf;flex-shrink:0;"></span>Owner dashboard - full spend visibility</div>
-          <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:rgba(255,255,255,.5);"><span style="width:4px;height:4px;border-radius:50%;background:#7ecfdf;flex-shrink:0;"></span>Invoices generated automatically - zero manual admin</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:2rem;">
-          <div style="background:rgba(100,180,200,.05);border:1px solid rgba(100,180,200,.1);padding:1rem;"><div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:#a8dde8;">Zero</div><div style="font-size:.7rem;color:rgba(255,255,255,.3);margin-top:.2rem;">Manual invoicing</div></div>
-          <div style="background:rgba(100,180,200,.05);border:1px solid rgba(100,180,200,.1);padding:1rem;"><div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:#a8dde8;">100%</div><div style="font-size:.7rem;color:rgba(255,255,255,.3);margin-top:.2rem;">Spend visibility</div></div>
-        </div>
-        <a href="#contact" style="display:inline-flex;align-items:center;gap:.5rem;background:transparent;border:1px solid rgba(100,180,200,.3);color:#7ecfdf;padding:.85rem 1.8rem;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='rgba(100,180,200,.08)'" onmouseout="this.style.background='transparent'">Find Out More →</a>
-        <div style="margin-top:1rem;font-size:.67rem;color:rgba(255,255,255,.15);letter-spacing:.05em;">A product of The Agentic Group · Built for property agencies</div>
-      </div>
-    </div>
-
-    <!-- Bottom stats strip -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;background:rgba(247,242,234,.03);">
-      <div class="reveal" style="background:var(--ink-mid);padding:2rem 2.5rem;text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:var(--cream);line-height:1;">73<span style="color:var(--teal-bright);">%</span></div><div style="font-size:.75rem;color:rgba(247,242,234,.35);margin-top:.5rem;font-weight:300;line-height:1.5;">of customers expect an instant response when contacting a business</div></div>
-      <div class="reveal" style="background:var(--ink-mid);padding:2rem 2.5rem;text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:var(--cream);line-height:1;">8<span style="color:var(--teal-bright);">-12</span></div><div style="font-size:.75rem;color:rgba(247,242,234,.35);margin-top:.5rem;font-weight:300;line-height:1.5;">hours saved weekly per business using AgenticReach for content</div></div>
-      <div class="reveal" style="background:var(--ink-mid);padding:2rem 2.5rem;text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:var(--cream);line-height:1;">24<span style="color:var(--teal-bright);">/7</span></div><div style="font-size:.75rem;color:rgba(247,242,234,.35);margin-top:.5rem;font-weight:300;line-height:1.5;">AI coverage without a single additional hire across all products</div></div>
-    </div>
-
-    <!-- AgenticBuild - full width finale card -->
-    <div class="reveal" style="margin-top:2px;position:relative;overflow:hidden;background:var(--ink);border:1px solid rgba(247,242,234,.06);">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(58,145,131,.04) 0%,transparent 70%);opacity:1;pointer-events:none;"></div>
-      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(58,145,131,.07) 0%,transparent 70%);pointer-events:none;"></div>
-
-      <div class="agentic-build-inner agentic-build-grid" style="position:relative;z-index:1;padding:5rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;">
-
-        <!-- Left: positioning -->
+      <!-- 6. StayGentic -->
+      <div style="background:var(--sg-green);border:1px solid rgba(201,168,76,.08);padding:2rem;display:flex;flex-direction:column;gap:.9rem;">
         <div>
-          <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,3.8rem);font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:1rem;">Agentic<em style="font-style:italic;color:var(--teal-bright);">Build</em></h2>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:rgba(247,242,234,.45);margin-bottom:1.8rem;line-height:1.5;">A bespoke AI system, built entirely around your business.</p>
-          <p style="font-size:.92rem;color:rgba(247,242,234,.55);line-height:1.9;font-weight:300;max-width:480px;">AgenticBuild is for businesses that need something built specifically around them. We take on a limited number of bespoke builds at any one time - because doing this properly takes focus, expertise and care. With over a decade of operational and systems experience, our lead consultant works directly with each client to understand how their business runs, where it is losing value, and exactly what needs to be built to fix it.</p>
-          <p style="font-size:.92rem;color:rgba(247,242,234,.55);line-height:1.9;font-weight:300;max-width:480px;margin-top:1rem;">No templates. No guesswork. No off-the-shelf thinking. If you believe your business deserves a system built specifically around it - tell us about it.</p>
-
-          <!-- Founder credibility strip -->
-          <div style="display:flex;align-items:center;gap:1rem;margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(247,242,234,.06);">
-            <div style="width:42px;height:42px;border-radius:50%;background:var(--teal-glow);border:1px solid rgba(58,145,131,.3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--teal-bright);font-weight:600;flex-shrink:0;">K</div>
-            <div>
-              <div style="font-size:.8rem;font-weight:500;color:var(--cream);">Led by our founder</div>
-              <div style="font-size:.73rem;color:rgba(247,242,234,.3);font-weight:300;line-height:1.5;">10+ years in operational improvement and systems-led transformation. Every AgenticBuild is a direct founder-led collaboration.</div>
-            </div>
-          </div>
+          <div style="font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-gold-light);margin-bottom:.6rem;">Hospitality &amp; Holiday Lets</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--sg-gold-light);line-height:1.1;margin-bottom:.4rem;">StayGentic</div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.65;font-weight:300;">AI guest technology for UK holiday lets and hotels. Built from our own Carmarthenshire let — because nothing else existed.</div>
         </div>
-
-        <!-- Right: process + CTA -->
-        <div style="display:flex;flex-direction:column;gap:1.2rem;">
-
-          <div style="font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,234,.25);margin-bottom:.3rem;">How it works</div>
-
-          <div style="display:flex;flex-direction:column;gap:.6rem;">
-            <div style="display:flex;align-items:flex-start;gap:1rem;padding:1.2rem 1.4rem;background:rgba(247,242,234,.03);border:1px solid rgba(247,242,234,.05);">
-              <div style="width:26px;height:26px;border:1px solid rgba(58,145,131,.25);display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--teal-bright);flex-shrink:0;margin-top:1px;">01</div>
-              <div>
-                <div style="font-size:.82rem;font-weight:500;color:var(--cream);margin-bottom:.2rem;">Tell us about your business</div>
-                <div style="font-size:.76rem;color:rgba(247,242,234,.32);font-weight:300;line-height:1.55;">A quick conversation to understand what you need. We'll come back to you honestly about how we can help and what that looks like.</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:flex-start;gap:1rem;padding:1.2rem 1.4rem;background:rgba(247,242,234,.03);border:1px solid rgba(247,242,234,.05);">
-              <div style="width:26px;height:26px;border:1px solid rgba(58,145,131,.25);display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--teal-bright);flex-shrink:0;margin-top:1px;">02</div>
-              <div>
-                <div style="font-size:.82rem;font-weight:500;color:var(--cream);margin-bottom:.2rem;">Deep-dive discovery</div>
-                <div style="font-size:.76rem;color:rgba(247,242,234,.32);font-weight:300;line-height:1.55;">Our lead consultant works directly with you to map your operation, identify the highest-value opportunities and design the right solution.</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:flex-start;gap:1rem;padding:1.2rem 1.4rem;background:rgba(247,242,234,.03);border:1px solid rgba(247,242,234,.05);">
-              <div style="width:26px;height:26px;border:1px solid rgba(58,145,131,.25);display:flex;align-items:center;justify-content:center;font-size:.62rem;color:var(--teal-bright);flex-shrink:0;margin-top:1px;">03</div>
-              <div>
-                <div style="font-size:.82rem;font-weight:500;color:var(--cream);margin-bottom:.2rem;">We build, deploy and stay</div>
-                <div style="font-size:.76rem;color:rgba(247,242,234,.32);font-weight:300;line-height:1.55;">Your system is built, launched and supported. We stay involved until the results are real and measurable.</div>
-              </div>
-            </div>
-          </div>
-
-          <a href="#contact" style="display:flex;align-items:center;justify-content:center;gap:.6rem;background:var(--teal);color:var(--white);padding:1.1rem 2rem;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;margin-top:.3rem;" onmouseover="this.style.background='var(--teal-bright)'" onmouseout="this.style.background='var(--teal)'">
-            Tell Us About Your Business
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-
-          <div style="text-align:center;padding:.8rem;background:rgba(58,145,131,.04);border:1px solid rgba(58,145,131,.1);">
-            <p style="font-size:.73rem;color:rgba(247,242,234,.25);line-height:1.6;letter-spacing:.02em;">No commitment. Just a conversation. We'll tell you honestly what's possible and what it would look like for your business.</p>
-          </div>
-
+        <div style="display:flex;flex-direction:column;gap:.35rem;padding-top:.6rem;border-top:1px solid rgba(201,168,76,.1);">
+          <div style="font-size:.7rem;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>24/7 AI concierge — voice &amp; chat</div>
+          <div style="font-size:.7rem;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Smart property finder — direct bookings only</div>
+          <div style="font-size:.7rem;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:.5rem;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Live in 48 hours · From £25/property/month</div>
         </div>
+        <a href="https://staygentic.co.uk" target="_blank" rel="noopener" style="margin-top:auto;display:flex;align-items:center;justify-content:center;background:var(--sg-gold);color:var(--sg-green);padding:.75rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='var(--sg-gold-light)'" onmouseout="this.style.background='var(--sg-gold)'">Explore StayGentic →</a>
+      </div>
+
+    </div>
+
+    <!-- AGENTICBUILD — FULL WIDTH -->
+    <div class="reveal" style="background:var(--ink);border:1px solid rgba(247,242,234,.05);padding:2.5rem 3rem;margin-bottom:2px;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+      <div>
+        <div style="font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,234,.3);margin-bottom:.6rem;">Any Business · Any Sector</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--cream);line-height:1.1;margin-bottom:.5rem;">Agentic<em style="font-style:italic;color:var(--teal-bright);">Build</em></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:.95rem;font-style:italic;color:rgba(247,242,234,.3);margin-bottom:1rem;">If none of our products fit exactly — we build the thing that does.</div>
+        <p style="font-size:.82rem;color:rgba(247,242,234,.4);line-height:1.8;font-weight:300;">Every business runs differently. AgenticBuild is for businesses that need something built around how they actually work — not a template dropped on top of them. Start with a Business Assessment and we'll tell you exactly what's worth building.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.6rem;">
+        <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.8rem 1rem;background:rgba(247,242,234,.02);border:1px solid rgba(247,242,234,.04);">
+          <div style="width:20px;height:20px;border:1px solid rgba(58,145,131,.25);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--teal-bright);flex-shrink:0;margin-top:1px;">01</div>
+          <div style="font-size:.75rem;color:rgba(247,242,234,.35);font-weight:300;line-height:1.5;"><strong style="color:var(--cream);font-weight:500;">Business Assessment</strong> — we look at your operation properly before anything is built</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.8rem 1rem;background:rgba(247,242,234,.02);border:1px solid rgba(247,242,234,.04);">
+          <div style="width:20px;height:20px;border:1px solid rgba(58,145,131,.25);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--teal-bright);flex-shrink:0;margin-top:1px;">02</div>
+          <div style="font-size:.75rem;color:rgba(247,242,234,.35);font-weight:300;line-height:1.5;"><strong style="color:var(--cream);font-weight:500;">Designed around you</strong> — built to reflect how your business actually runs</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.8rem 1rem;background:rgba(247,242,234,.02);border:1px solid rgba(247,242,234,.04);">
+          <div style="width:20px;height:20px;border:1px solid rgba(58,145,131,.25);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--teal-bright);flex-shrink:0;margin-top:1px;">03</div>
+          <div style="font-size:.75rem;color:rgba(247,242,234,.35);font-weight:300;line-height:1.5;"><strong style="color:var(--cream);font-weight:500;">Built, deployed, supported</strong> — we stay until the results are real</div>
+        </div>
+        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:.5rem;background:transparent;border:1px solid rgba(58,145,131,.3);color:var(--teal-bright);padding:.8rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='rgba(58,145,131,.08)'" onmouseout="this.style.background='transparent'">Tell Us About Your Business →</a>
+      </div>
+    </div>
+
+    <!-- OUTCOME CALLOUTS -->
+    <div class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px;">
+      <div style="background:var(--ink-mid);padding:2rem 2.2rem;border-left:2px solid var(--teal);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--cream);line-height:1;">100<span style="color:var(--teal-bright);font-size:1.6rem;">%</span></div>
+        <div style="font-size:.75rem;font-weight:500;color:var(--cream);margin:.4rem 0 .3rem;">No lead left behind</div>
+        <div style="font-size:.72rem;color:rgba(247,242,234,.35);line-height:1.6;font-weight:300;">AgenticCapture answers every call, qualifies every enquiry and books every appointment — automatically.</div>
+      </div>
+      <div style="background:var(--ink-mid);padding:2rem 2.2rem;border-left:2px solid var(--gold);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--cream);line-height:1;">8<span style="color:var(--gold-light);font-size:1.6rem;">-12hrs</span></div>
+        <div style="font-size:.75rem;font-weight:500;color:var(--cream);margin:.4rem 0 .3rem;">Show up without the effort</div>
+        <div style="font-size:.72rem;color:rgba(247,242,234,.35);line-height:1.6;font-weight:300;">AgenticReach keeps your brand visible every week across every platform — while you focus on running the business.</div>
+      </div>
+      <div style="background:var(--ink-mid);padding:2rem 2.2rem;border-left:2px solid var(--teal);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--cream);line-height:1;">70<span style="color:var(--teal-bright);font-size:1.6rem;">%</span></div>
+        <div style="font-size:.75rem;font-weight:500;color:var(--cream);margin:.4rem 0 .3rem;">The capacity of extra staff</div>
+        <div style="font-size:.72rem;color:rgba(247,242,234,.35);line-height:1.6;font-weight:300;">AgenticFlow automates the admin — with NI at 15%, it's the smarter alternative to your next hire.</div>
       </div>
     </div>
 
