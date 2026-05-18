@@ -1258,16 +1258,14 @@ async function submitForm(){
   btn.disabled = true;
   btn.innerHTML = '<div class="submit-arrow" style="animation:spin .7s linear infinite;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;width:18px;height:18px;"></div> Sending...';
 
-  // POST to GHL webhook
+  // POST to API route → GHL Contacts API
   try {
-    await fetch('https://services.leadconnectorhq.com/hooks/Qpoz379HAyQuaCJRwhKk/webhook-trigger/76faeaac-2b7a-403b-b153-3a699548f921', {
+    await fetch('/api/register-interest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      mode: 'no-cors',
       body: JSON.stringify({
         firstName:   name.split(' ')[0] || name,
         lastName:    name.split(' ').slice(1).join(' ') || '',
-        fullName:    name,
         email:       email,
         phone:       phone,
         companyName: company,
@@ -1279,8 +1277,7 @@ async function submitForm(){
       })
     });
   } catch(e) {
-    // no-cors will throw but data still reaches GHL — proceed to success
-    console.log('Webhook sent');
+    console.error('Submission error:', e);
   }
 
   // Show success state
