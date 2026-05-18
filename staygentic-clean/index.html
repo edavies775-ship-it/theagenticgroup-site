@@ -1173,13 +1173,13 @@ footer{
         <div class="form-field full">
           <label class="form-label">Which booking platforms do you use? (select all that apply)</label>
           <div class="form-platforms" id="platformPills">
-            <label class="platform-check" onclick="togglePlat(this)"><input type="checkbox"><div class="plat-tick">✓</div>Airbnb</label>
-            <label class="platform-check" onclick="togglePlat(this)"><input type="checkbox"><div class="plat-tick">✓</div>Booking.com</label>
+            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Airbnb</label>
+            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Booking.com</label>
             
-            <label class="platform-check" onclick="togglePlat(this)"><input type="checkbox"><div class="plat-tick">✓</div>Awaze</label>
-            <label class="platform-check" onclick="togglePlat(this)"><input type="checkbox"><div class="plat-tick">✓</div>Classic Cottages</label>
-            <label class="platform-check" onclick="togglePlat(this)"><input type="checkbox"><div class="plat-tick">✓</div>Own Website</label>
-            <label class="platform-check" onclick="togglePlat(this)"><input type="checkbox"><div class="plat-tick">✓</div>Other</label>
+            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Awaze</label>
+            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Classic Cottages</label>
+            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Own Website</label>
+            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Other</label>
           </div>
         </div>
       </div>
@@ -1227,7 +1227,8 @@ const observer = new IntersectionObserver(entries => {
 document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => observer.observe(el));
 
 // Platform toggle
-function togglePlat(label){
+function togglePlat(label, e){
+  if(e) e.preventDefault();
   label.classList.toggle('checked');
 }
 
