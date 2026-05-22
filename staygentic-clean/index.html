@@ -924,15 +924,22 @@ function scSubmit(e) {
       tags: tags
     })
   })
-  .then(function(res) { return res.json(); })
-  .then(function() {
+  .then(function(res) {
+    if (!res.ok) return res.json().then(function(d) { throw new Error(d.error || 'API error'); });
+    return res.json();
+  })
+  .then(function(data) {
+    if (data.error) throw new Error(data.error);
     document.getElementById('sc-form').style.display = 'none';
     document.getElementById('sc-success').style.display = 'block';
   })
-  .catch(function() {
+  .catch(function(err) {
     btn.textContent = 'Register My Interest →';
     btn.disabled = false;
-    alert('Something went wrong — please try again or book a call directly.');
+    var msg = (err && err.message && err.message.indexOf('duplicated') !== -1)
+      ? 'It looks like you\'ve already registered — we\'ll be in touch soon.'
+      : 'Something went wrong — please try again or book a call directly.';
+    alert(msg);
   });
 }
 </script>
