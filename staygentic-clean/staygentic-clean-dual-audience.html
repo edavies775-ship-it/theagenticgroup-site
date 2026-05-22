@@ -805,21 +805,21 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
             <div class="sc-field-row">
               <div class="sc-field">
                 <label>Your name</label>
-                <input type="text" placeholder="Jane Davies" required>
+                <input id="sc-name" type="text" placeholder="Jane Davies" required>
               </div>
               <div class="sc-field">
                 <label>Business name</label>
-                <input type="text" placeholder="Your company">
+                <input id="sc-company" type="text" placeholder="Your company">
               </div>
             </div>
             <div class="sc-field">
               <label>Email address</label>
-              <input type="email" placeholder="jane@yourbusiness.co.uk" required>
+              <input id="sc-email" type="email" placeholder="jane@yourbusiness.co.uk" required>
             </div>
             <div class="sc-field">
               <label data-hl>Number of properties</label>
               <label data-cm style="display:none">Number of sites / clients</label>
-              <select>
+              <select id="sc-properties">
                 <option value="" disabled selected>Select range</option>
                 <option>1–5</option>
                 <option>6–15</option>
@@ -896,10 +896,44 @@ function scSubmit(e) {
   var btn = e.target.querySelector('.sc-submit');
   btn.textContent = 'Sending…';
   btn.disabled = true;
-  setTimeout(function() {
+
+  var fullName = (document.getElementById('sc-name').value || '').trim();
+  var nameParts = fullName.split(' ');
+  var firstName = nameParts[0] || '';
+  var lastName = nameParts.slice(1).join(' ') || '';
+  var email = document.getElementById('sc-email').value.trim();
+  var companyName = document.getElementById('sc-company').value.trim();
+  var properties = document.getElementById('sc-properties').value;
+  var manageType = document.getElementById('sc-type-select').value;
+
+  var tags = ['staygentic-clean-interest'];
+  if (manageType === 'holidaylet') tags.push('holiday-let');
+  else if (manageType === 'commercial') tags.push('commercial-cleaning');
+  else if (manageType === 'both') tags.push('holiday-let', 'commercial-cleaning');
+
+  fetch('/api/register-interest', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      companyName: companyName,
+      properties: properties,
+      source: 'staygentic-clean-dual-audience',
+      tags: tags
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function() {
     document.getElementById('sc-form').style.display = 'none';
     document.getElementById('sc-success').style.display = 'block';
-  }, 700);
+  })
+  .catch(function() {
+    btn.textContent = 'Register My Interest →';
+    btn.disabled = false;
+    alert('Something went wrong — please try again or book a call directly.');
+  });
 }
 </script>
 </body>
