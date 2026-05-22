@@ -1,1293 +1,939 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StayGentic Clean — Holiday Let Management, Automated</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>StayGentic Clean — Cleaning Operations, Automated</title>
+<meta name="description" content="StayGentic Clean coordinates your cleaners, captures every job, and invoices your clients automatically. Built for holiday let managers and commercial cleaning contractors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ── RESET & ROOT ── */
-*{box-sizing:border-box;margin:0;padding:0;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:#FAF7F0;color:#2C2C2C;font-weight:300;line-height:1.75;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:400;line-height:1.2}
+a{text-decoration:none}
+
+/* ── VARIABLES ────────────────────────────────────────── */
+/* Holiday let palette — warm forest green */
 :root{
-  --forest:#1E3D2F;
-  --deep:#0A1A0F;
-  --mid:#2A5540;
-  --light:#EAF2EC;
-  --xlight:#F2F8F4;
-  --gold:#B89A5A;
-  --gold-light:#D6C49A;
-  --gold-pale:#F5EDD8;
-  --gold-dark:#8B6F3A;
-  --cream:#FAFAF5;
-  --ink:#0F1A0D;
-  --muted:#6A7A6E;
-  --border:#D0DED2;
-  --white:#ffffff;
-  --red:#C0392B;
+  --brand:#1C3A2B;
+  --brand-mid:#2A5240;
+  --gold:#B8963E;
+  --gold-light:#D4AF6A;
+  --cream:#FAF7F0;
+  --cream-mid:#F0EBE0;
+  --border:#E0D9CE;
+  --text:#2C2C2C;
+  --muted:#5A5A5A;
 }
-html{scroll-behavior:smooth;cursor:none;}
-body{
-  font-family:'Jost',sans-serif;
-  background:var(--deep);
-  color:var(--white);
-  overflow-x:hidden;
-  cursor:none;
+/* Commercial palette — deep slate navy, switched in by JS */
+body.mode-commercial{
+  --brand:#1A2A40;
+  --brand-mid:#243550;
+  --gold:#2E7DD1;
+  --gold-light:#5BA0E8;
+  --cream:#F5F7FA;
+  --cream-mid:#EBF0F7;
+  --border:#D4DCE8;
+  --text:#1A2A40;
+  --muted:#556070;
 }
 
-/* ── CUSTOM CURSOR ── */
-.cursor{
-  position:fixed;width:12px;height:12px;
-  background:var(--gold);border-radius:50%;
-  pointer-events:none;z-index:9999;
-  transform:translate(-50%,-50%);
-  transition:width .2s,height .2s,background .2s;
-  mix-blend-mode:difference;
-}
-.cursor-ring{
-  position:fixed;width:36px;height:36px;
-  border:1.5px solid rgba(184,154,90,.5);
-  border-radius:50%;pointer-events:none;z-index:9998;
-  transform:translate(-50%,-50%);
-  transition:all .12s ease-out;
-}
-body:has(a:hover) .cursor,
-body:has(button:hover) .cursor,
-body:has(input:hover) .cursor{width:24px;height:24px;background:var(--gold-light);}
+/* ── GLOBAL HELPERS ───────────────────────────────────── */
+.sg-container{max-width:1160px;margin:0 auto;padding:0 32px}
+.sg-label{font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px}
+.sg-btn{display:inline-flex;align-items:center;justify-content:center;font-family:'Jost',sans-serif;font-weight:500;font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;padding:16px 36px;border-radius:2px;transition:all 0.25s;cursor:pointer;border:none;line-height:1;white-space:nowrap}
+.sg-btn-gold{background:var(--gold);color:#fff}
+.sg-btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
+.sg-btn-outline-light{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.4)}
+.sg-btn-outline-light:hover{border-color:var(--gold);color:var(--gold-light);transform:translateY(-2px)}
+.sg-btn-outline-dark{background:transparent;color:var(--brand);border:1.5px solid rgba(28,58,43,0.35)}
+.sg-btn-outline-dark:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0 48px;height:72px;
+/* ── AUDIENCE TOGGLE ──────────────────────────────────── */
+.sc-toggle-bar{
+  position:sticky;top:0;z-index:9999;
+  background:var(--brand);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  padding:0 32px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(10,26,15,.8);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(184,154,90,.1);
+  height:56px;
+  transition:background 0.4s;
 }
-.nav-brand{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;color:var(--white);letter-spacing:.02em;
-  display:flex;align-items:baseline;gap:0;
+.sc-toggle-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;font-weight:500}
+.sc-toggle-logo span{color:var(--gold);transition:color 0.3s}
+.sc-toggle-pill{
+  display:flex;align-items:center;gap:0;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:2px;
+  overflow:hidden;
 }
-.nav-brand em{color:var(--gold);font-style:italic;}
-.nav-brand .nav-by{
-  font-size:9px;font-family:'Jost',sans-serif;
-  font-weight:600;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(255,255,255,.25);margin-left:10px;
+.sc-toggle-btn{
+  font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:9px 20px;cursor:pointer;border:none;
+  background:transparent;color:rgba(255,255,255,0.45);
+  transition:all 0.2s;line-height:1;
 }
-.nav-cta{
-  background:transparent;
-  border:1.5px solid rgba(184,154,90,.5);
-  color:var(--gold-light);
-  padding:9px 24px;border-radius:4px;
-  font-family:'Jost',sans-serif;font-size:11px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;
-  cursor:none;transition:all .3s;
-}
-.nav-cta:hover{background:var(--gold);border-color:var(--gold);color:#fff;}
+.sc-toggle-btn.active{background:var(--gold);color:#fff}
+.sc-toggle-nav{display:flex;gap:28px;list-style:none}
+.sc-toggle-nav a{font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.45);transition:color 0.2s}
+.sc-toggle-nav a:hover{color:rgba(255,255,255,0.85)}
 
-/* ── HERO ── */
-.hero{
-  min-height:100vh;
+/* ── HERO ─────────────────────────────────────────────── */
+.sc-hero{
+  position:relative;min-height:100vh;
   display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;
-  padding:120px 40px 80px;
-  position:relative;overflow:hidden;
+  background:var(--brand);overflow:hidden;
+  transition:background 0.5s;
 }
-
-/* Animated background grid */
-.hero-bg{
+.sc-hero-bg{
   position:absolute;inset:0;
-  background:
-    linear-gradient(180deg, var(--deep) 0%, #0F2318 40%, #1A3828 70%, var(--deep) 100%);
+  background-size:cover;background-position:center;
+  opacity:0.14;transition:opacity 0.4s, background-image 0.4s;
 }
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(184,154,90,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(184,154,90,.04) 1px, transparent 1px);
-  background-size:60px 60px;
-  animation:gridShift 20s linear infinite;
+.mode-holidaylet .sc-hero-bg{
+  background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format&fit=crop');
 }
-@keyframes gridShift{from{transform:translateY(0);}to{transform:translateY(60px);}}
-.hero-glow-1{
-  position:absolute;top:-200px;left:50%;transform:translateX(-50%);
-  width:800px;height:800px;border-radius:50%;
-  background:radial-gradient(circle,rgba(30,61,47,.6) 0%,transparent 65%);
-  animation:pulse 8s ease-in-out infinite;
+.mode-commercial .sc-hero-bg{
+  background-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1800&q=85&auto=format&fit=crop');
 }
-.hero-glow-2{
-  position:absolute;bottom:-100px;left:20%;
-  width:400px;height:400px;border-radius:50%;
-  background:radial-gradient(circle,rgba(184,154,90,.08) 0%,transparent 65%);
-  animation:pulse 6s ease-in-out infinite reverse;
-}
-@keyframes pulse{0%,100%{transform:scale(1) translateX(-50%);}50%{transform:scale(1.1) translateX(-50%);}}
-.hero-glow-2{animation:pulse2 6s ease-in-out infinite reverse;}
-@keyframes pulse2{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
-
-/* Gold top rule with animation */
-.hero-rule{
-  position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,transparent 0%,var(--gold) 30%,var(--gold-light) 50%,var(--gold) 70%,transparent 100%);
-  animation:ruleShimmer 4s ease-in-out infinite;
-}
-@keyframes ruleShimmer{0%,100%{opacity:.7;}50%{opacity:1;}}
-
-.hero-content{position:relative;z-index:2;max-width:960px;}
-
-/* Animated badge */
-.hero-badge{
-  display:inline-flex;align-items:center;gap:10px;
-  background:rgba(184,154,90,.08);
-  border:1px solid rgba(184,154,90,.25);
-  border-radius:40px;padding:8px 22px;
-  margin-bottom:48px;
-  opacity:0;animation:fadeUp .8s .2s forwards;
-}
-.badge-pulse{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--gold);
-  box-shadow:0 0 12px var(--gold);
-  animation:badgePulse 2s ease-in-out infinite;
-}
-@keyframes badgePulse{0%,100%{box-shadow:0 0 6px var(--gold);}50%{box-shadow:0 0 18px var(--gold), 0 0 30px rgba(184,154,90,.3);}}
-.badge-text{font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light);}
-
-/* Main headline — staggered reveal */
-.hero-headline{
-  font-family:'Cormorant Garamond',serif;
-  font-weight:200;color:var(--white);
-  line-height:.9;letter-spacing:-.02em;
-  margin-bottom:28px;
-}
-.hero-headline .line{
-  display:block;font-size:clamp(64px,10vw,110px);
-  opacity:0;transform:translateY(30px);
-}
-.hero-headline .line:nth-child(1){animation:fadeUp .9s .4s forwards;}
-.hero-headline .line:nth-child(2){animation:fadeUp .9s .55s forwards;}
-.hero-headline .line:nth-child(3){animation:fadeUp .9s .7s forwards;}
-.hero-headline .gold-italic{
-  font-style:italic;font-weight:300;
-  color:var(--gold);
-  position:relative;display:inline-block;
-}
-/* Underline drawn on */
-.hero-headline .gold-italic::after{
-  content:'';position:absolute;bottom:-4px;left:0;right:0;
-  height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  transform:scaleX(0);transform-origin:left;
-  animation:drawLine 1s 1.4s forwards;
-}
-@keyframes drawLine{to{transform:scaleX(1);}}
-
-.hero-sub{
-  font-size:clamp(16px,2vw,20px);
-  color:rgba(255,255,255,.55);
-  font-weight:300;line-height:1.75;
-  max-width:680px;margin:0 auto 56px;
-  opacity:0;animation:fadeUp .9s .85s forwards;
-}
-.hero-sub strong{color:rgba(255,255,255,.9);font-weight:600;}
-
-/* Platform badges */
-.platform-strip{
-  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
-  margin-bottom:60px;
-  opacity:0;animation:fadeUp .9s 1s forwards;
-}
-.plat{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:6px;padding:7px 16px;
-  font-size:11px;font-weight:600;
-  color:rgba(255,255,255,.5);letter-spacing:.06em;
-  transition:all .3s;
-}
-.plat:hover{background:rgba(184,154,90,.1);border-color:rgba(184,154,90,.3);color:var(--gold-light);}
-.plat.hl{
-  background:rgba(184,154,90,.1);
-  border-color:rgba(184,154,90,.3);
-  color:var(--gold-light);
-}
-
-/* Hero CTA buttons */
-.hero-actions{
-  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
-  opacity:0;animation:fadeUp .9s 1.1s forwards;
-}
-.btn-primary{
-  background:var(--gold);color:var(--white);
-  padding:18px 44px;border-radius:6px;
-  font-family:'Jost',sans-serif;font-size:13px;font-weight:700;
-  letter-spacing:.12em;text-transform:uppercase;
-  border:none;cursor:none;
-  transition:all .3s;
-  position:relative;overflow:hidden;
-}
-.btn-primary::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.btn-primary:hover{background:var(--gold-dark);transform:translateY(-2px);box-shadow:0 16px 40px rgba(184,154,90,.35);}
-.btn-primary:hover::before{opacity:1;}
-.btn-ghost{
-  background:transparent;
-  border:1.5px solid rgba(255,255,255,.2);
-  color:rgba(255,255,255,.7);
-  padding:18px 44px;border-radius:6px;
-  font-family:'Jost',sans-serif;font-size:13px;font-weight:600;
-  letter-spacing:.1em;text-transform:uppercase;
-  cursor:none;transition:all .3s;text-decoration:none;
-  display:inline-block;
-}
-.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
-
-/* Scroll indicator */
-.scroll-hint{
-  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  opacity:0;animation:fadeUp .9s 1.4s forwards;z-index:2;
-}
-.scroll-hint span{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.25);}
-.scroll-mouse{
-  width:22px;height:34px;border:1.5px solid rgba(255,255,255,.15);
-  border-radius:11px;display:flex;justify-content:center;padding-top:6px;
-}
-.scroll-dot{
-  width:3px;height:8px;background:var(--gold);border-radius:2px;
-  animation:scrollDot 2s ease-in-out infinite;
-}
-@keyframes scrollDot{0%,100%{transform:translateY(0);opacity:1;}50%{transform:translateY(8px);opacity:.3;}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-
-/* ── STATS STRIP ── */
-.stats-strip{
-  background:var(--forest);
-  border-top:1px solid rgba(184,154,90,.15);
-  border-bottom:1px solid rgba(184,154,90,.15);
-  padding:0;display:grid;grid-template-columns:repeat(4,1fr);
-}
-.stat-item{
-  padding:36px 24px;text-align:center;
-  border-right:1px solid rgba(184,154,90,.1);
-  position:relative;overflow:hidden;
-  transition:background .3s;
-}
-.stat-item:last-child{border-right:none;}
-.stat-item:hover{background:rgba(184,154,90,.05);}
-.stat-num{
-  font-family:'Cormorant Garamond',serif;
-  font-size:52px;font-weight:300;
-  color:var(--gold);line-height:1;margin-bottom:6px;
-}
-.stat-label{
-  font-size:10px;font-weight:700;letter-spacing:.18em;
-  text-transform:uppercase;color:rgba(255,255,255,.35);
-}
-
-/* ── SECTION WRAPPER ── */
-.section{padding:120px 40px;}
-.section-inner{max-width:1160px;margin:0 auto;}
-
-/* Reveal animation class */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease, transform .8s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .8s ease, transform .8s ease;}
-.reveal-left.visible{opacity:1;transform:translateX(0);}
-.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .8s ease, transform .8s ease;}
-.reveal-right.visible{opacity:1;transform:translateX(0);}
-
-/* Section labels */
-.section-eyebrow{
-  font-size:10px;font-weight:700;letter-spacing:.32em;
-  text-transform:uppercase;color:var(--gold);margin-bottom:20px;
-  display:flex;align-items:center;gap:12px;
-}
-.section-eyebrow::before{content:'';width:32px;height:1px;background:var(--gold);flex-shrink:0;}
-
-/* ── HOW IT WORKS ── */
-.how-section{background:var(--cream);color:var(--ink);}
-.how-section .section-eyebrow{color:var(--gold-dark);}
-.how-section .section-eyebrow::before{background:var(--gold-dark);}
-.how-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(44px,6vw,72px);font-weight:200;
-  color:var(--forest);line-height:.95;
-  margin-bottom:72px;letter-spacing:-.02em;
-}
-.how-title em{color:var(--gold-dark);font-style:italic;}
-
-/* Horizontal step timeline */
-.steps-timeline{
-  display:grid;grid-template-columns:repeat(5,1fr);
-  gap:0;position:relative;margin-bottom:0;
-}
-.steps-timeline::before{
-  content:'';position:absolute;
-  top:36px;left:10%;right:10%;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold-dark),var(--gold),var(--gold-dark),transparent);
-  z-index:0;
-}
-@media(max-width:800px){.steps-timeline{grid-template-columns:1fr;}.steps-timeline::before{display:none;}}
-.timeline-step{
-  display:flex;flex-direction:column;align-items:center;
-  text-align:center;padding:0 16px;position:relative;z-index:1;
-}
-.timeline-num{
-  width:72px;height:72px;border-radius:50%;
-  background:var(--white);
-  border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:20px;flex-shrink:0;
-  transition:all .4s;
-  position:relative;
-}
-.timeline-num::after{
-  content:'';position:absolute;inset:-4px;
-  border-radius:50%;border:1px solid transparent;
-  transition:border-color .4s;
-}
-.timeline-step:hover .timeline-num{
-  background:var(--forest);border-color:var(--forest);
-}
-.timeline-step:hover .timeline-num::after{border-color:rgba(30,61,47,.15);}
-.timeline-step:hover .timeline-num svg{stroke:#fff;}
-.tn-label{
-  font-family:'Cormorant Garamond',serif;
-  font-size:13px;font-weight:600;color:var(--gold-dark);
-  position:absolute;top:-24px;left:50%;transform:translateX(-50%);
-  white-space:nowrap;letter-spacing:.06em;
-}
-.timeline-content{}
-.timeline-title{
-  font-size:14px;font-weight:700;color:var(--forest);
-  margin-bottom:8px;line-height:1.3;
-}
-.timeline-desc{font-size:12px;color:var(--muted);line-height:1.65;}
-.timeline-tag{
-  display:inline-block;
-  background:var(--light);border-radius:20px;
-  padding:3px 10px;font-size:9px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  color:var(--forest);margin-top:8px;
-}
-.timeline-tag.gold{background:var(--gold-pale);color:var(--gold-dark);}
-
-/* ── DASHBOARD PREVIEW ── */
-.preview-section{
-  background:linear-gradient(180deg,var(--deep) 0%,#0F2318 100%);
-  overflow:hidden;position:relative;
-}
-.preview-section::before{
-  content:'';position:absolute;inset:0;
-  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23B89A5A' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4z'/%3E%3C/g%3E%3C/svg%3E");
-}
-.preview-inner{position:relative;z-index:1;}
-.preview-header{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-bottom:64px;}
-@media(max-width:800px){.preview-header{grid-template-columns:1fr;}}
-.preview-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(40px,5vw,64px);font-weight:200;
-  color:var(--white);line-height:1;letter-spacing:-.02em;
-}
-.preview-title em{color:var(--gold);font-style:italic;}
-.preview-body{font-size:16px;color:rgba(255,255,255,.5);line-height:1.75;font-weight:300;}
-.preview-body strong{color:var(--white);}
-
-/* Dashboard mockup */
-.dash-mockup{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:16px;overflow:hidden;
-  box-shadow:0 40px 120px rgba(0,0,0,.4);
-}
-.dash-bar{
-  background:rgba(30,61,47,.8);
-  border-bottom:1px solid rgba(255,255,255,.06);
-  padding:12px 20px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.dash-bar-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:#fff;}
-.dash-bar-title em{color:var(--gold);font-style:italic;}
-.dash-live{
-  display:flex;align-items:center;gap:6px;
-  font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.35);
-}
-.dash-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#4CAF50;box-shadow:0 0 8px #4CAF50;animation:livePulse 2s infinite;}
-@keyframes livePulse{0%,100%{box-shadow:0 0 4px #4CAF50;}50%{box-shadow:0 0 12px #4CAF50,0 0 20px rgba(76,175,80,.3);}}
-.dash-body{padding:20px;}
-.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
-.d-stat{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
-  border-radius:8px;padding:12px 14px;
-  position:relative;overflow:hidden;
-}
-.d-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);opacity:.6;}
-.d-stat-lbl{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:5px;}
-.d-stat-val{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);font-weight:600;line-height:1;}
-.dash-table{width:100%;border-collapse:collapse;font-size:12px;}
-.dash-table th{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.25);padding:7px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06);}
-.dash-table td{padding:10px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.8);}
-.dash-table tr:last-child td{border-bottom:none;}
-.prop-n{display:flex;align-items:center;gap:8px;font-weight:600;}
-.prop-dot{width:7px;height:7px;border-radius:50%;}
-.status-done{
-  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  padding:3px 9px;border-radius:10px;
-  background:rgba(76,175,80,.12);color:#81C784;
-}
-.status-due{background:rgba(184,154,90,.15);color:var(--gold-light);}
-.d-amt{font-weight:700;color:var(--gold);}
-.d-hrs{color:rgba(255,255,255,.4);font-size:11px;}
-
-/* ── BEFORE AFTER ── */
-.ba-section{background:var(--white);}
-.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:64px;}
-@media(max-width:700px){.ba-grid{grid-template-columns:1fr;}}
-.ba-col{padding:52px 48px;}
-.ba-col.before{background:#FBF0EE;}
-.ba-col.after{background:var(--light);}
-.ba-col-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:28px;font-weight:600;margin-bottom:32px;
-}
-.ba-col.before .ba-col-title{color:#8B2020;}
-.ba-col.after .ba-col-title{color:var(--forest);}
-.ba-item{
-  display:flex;align-items:flex-start;gap:14px;
-  margin-bottom:20px;font-size:15px;line-height:1.5;
-}
-.ba-item:last-child{margin-bottom:0;}
-.ba-icon-wrap{
-  width:26px;height:26px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;
-}
-.before .ba-icon-wrap{background:rgba(192,57,43,.1);color:#C0392B;}
-.after .ba-icon-wrap{background:rgba(30,61,47,.1);color:var(--forest);}
-.before .ba-text{color:#8B2020;text-decoration:line-through;text-decoration-color:rgba(139,32,32,.25);opacity:.75;}
-.after .ba-text{color:var(--forest);font-weight:500;}
-
-/* ── CTA SECTION ── */
-.cta-section{
-  background:var(--deep);
-  position:relative;overflow:hidden;
-  padding:140px 40px;
-}
-.cta-bg-glow{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:900px;height:600px;border-radius:50%;
-  background:radial-gradient(ellipse,rgba(30,61,47,.8) 0%,transparent 65%);
-  z-index:0;
-}
-.cta-grid-bg{
-  position:absolute;inset:0;
-  background-image:linear-gradient(rgba(184,154,90,.03) 1px, transparent 1px),linear-gradient(90deg, rgba(184,154,90,.03) 1px, transparent 1px);
-  background-size:60px 60px;
-}
-.cta-inner{
+.sc-hero-content{
   position:relative;z-index:2;
-  max-width:900px;margin:0 auto;text-align:center;
+  max-width:840px;padding:80px 48px 60px;
+  flex:1;display:flex;flex-direction:column;justify-content:center;
 }
-.cta-tag{
-  display:inline-flex;align-items:center;gap:10px;
-  background:rgba(184,154,90,.08);border:1px solid rgba(184,154,90,.2);
-  border-radius:40px;padding:8px 22px;margin-bottom:48px;
+.sc-hero-eyebrow{
+  display:flex;align-items:center;gap:14px;
+  font-family:'Jost',sans-serif;font-size:0.72rem;
+  font-weight:500;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:22px;transition:color 0.3s;
 }
-.cta-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);}
-.cta-tag-text{font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-light);}
-.cta-headline{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(52px,8vw,90px);font-weight:200;
-  color:var(--white);line-height:.9;
-  letter-spacing:-.02em;margin-bottom:24px;
-}
-.cta-headline em{color:var(--gold);font-style:italic;}
-.cta-sub{
-  font-size:18px;color:rgba(255,255,255,.5);
-  font-weight:300;line-height:1.7;
-  max-width:620px;margin:0 auto 64px;
-}
-.cta-sub strong{color:rgba(255,255,255,.9);}
+.sc-hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold);transition:background 0.3s}
+.sc-hero h1{font-size:clamp(3rem,5.5vw,5rem);color:#fff;font-weight:300;line-height:1.1}
+.sc-hero h1 em{font-style:italic;color:var(--gold-light);transition:color 0.3s}
+.sc-hero-sub{font-size:1.02rem;color:rgba(255,255,255,0.72);margin:28px 0 36px;max-width:580px;line-height:1.8;font-weight:300}
+.sc-hero-proof{display:flex;align-items:center;gap:24px;margin-bottom:38px;flex-wrap:wrap}
+.sc-hero-proof-item{display:flex;align-items:center;gap:8px;font-family:'Jost',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.55);font-weight:300}
+.sc-proof-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;transition:background 0.3s}
+.sc-hero-cta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.sc-hero-note{font-family:'Jost',sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.3);margin-top:20px;letter-spacing:0.04em}
 
-/* The form */
-.interest-form{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(184,154,90,.2);
-  border-radius:16px;
-  padding:48px 52px;
-  text-align:left;
-  position:relative;overflow:hidden;
+/* Stats bar */
+.sc-stats-bar{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(0,0,0,0.2);
+  border-top:1px solid rgba(255,255,255,0.06);
 }
-.interest-form::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);
-}
-.form-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:30px;font-weight:300;color:var(--white);
-  margin-bottom:6px;
-}
-.form-title em{color:var(--gold);font-style:italic;}
-.form-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:32px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-@media(max-width:600px){.form-grid{grid-template-columns:1fr;}}
-.form-field{display:flex;flex-direction:column;gap:6px;}
-.form-field.full{grid-column:1/-1;}
-.form-label{
-  font-size:9px;font-weight:700;letter-spacing:.18em;
-  text-transform:uppercase;color:rgba(255,255,255,.35);
-}
-.form-input,.form-select{
-  background:rgba(255,255,255,.05);
-  border:1.5px solid rgba(255,255,255,.1);
-  border-radius:8px;
-  padding:13px 16px;
-  font-family:'Jost',sans-serif;font-size:14px;
-  color:var(--white);outline:none;
-  transition:border-color .3s,background .3s;
-  cursor:none;
-}
-.form-input::placeholder{color:rgba(255,255,255,.2);}
-.form-input:focus,.form-select:focus{
-  border-color:var(--gold);
-  background:rgba(184,154,90,.06);
-}
-.form-select option{background:#1E3D2F;color:#fff;}
-.form-platforms{
-  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;
-}
-.platform-check{
-  display:flex;align-items:center;gap:7px;
-  background:rgba(255,255,255,.04);
-  border:1.5px solid rgba(255,255,255,.08);
-  border-radius:8px;padding:9px 14px;
-  font-size:12px;font-weight:600;color:rgba(255,255,255,.5);
-  cursor:none;transition:all .25s;
-  user-select:none;
-}
-.platform-check input{display:none;}
-.platform-check.checked{
-  background:rgba(184,154,90,.12);
-  border-color:rgba(184,154,90,.4);
-  color:var(--gold-light);
-}
-.platform-check .plat-tick{
-  width:14px;height:14px;border-radius:50%;
-  background:rgba(255,255,255,.1);
-  display:flex;align-items:center;justify-content:center;
-  font-size:8px;flex-shrink:0;
-  transition:all .2s;
-}
-.platform-check.checked .plat-tick{background:var(--gold);color:#fff;}
+.sc-stat{padding:24px 20px;text-align:center;border-right:1px solid rgba(255,255,255,0.06)}
+.sc-stat:last-child{border-right:none}
+.sc-stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold-light);display:block;line-height:1;margin-bottom:5px;transition:color 0.3s}
+.sc-stat-lbl{font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);font-weight:400}
 
-.submit-btn{
-  width:100%;
-  background:var(--gold);color:#fff;
-  border:none;border-radius:8px;
-  padding:18px;margin-top:16px;
-  font-family:'Jost',sans-serif;font-size:14px;font-weight:800;
-  letter-spacing:.14em;text-transform:uppercase;
-  cursor:none;transition:all .3s;
-  position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;gap:12px;
-}
-.submit-btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.submit-btn:hover{background:var(--gold-dark);transform:translateY(-2px);box-shadow:0 16px 40px rgba(184,154,90,.35);}
-.submit-btn:hover::before{opacity:1;}
-.submit-arrow{
-  width:20px;height:20px;border-radius:50%;
-  background:rgba(255,255,255,.2);
-  display:flex;align-items:center;justify-content:center;
-  transition:transform .3s;
-}
-.submit-btn:hover .submit-arrow{transform:translateX(3px);}
+/* ── AUDIENCE SWITCHER (content swap) ─────────────────── */
+/* All [data-hl] visible in holidaylet mode, hidden in commercial */
+/* All [data-cm] hidden in holidaylet mode, visible in commercial */
+body.mode-holidaylet [data-cm]{display:none!important}
+body.mode-commercial [data-hl]{display:none!important}
+body.mode-commercial [data-cm]{display:block}
 
-/* Form success */
-.form-success{
-  display:none;text-align:center;padding:40px 0;
-}
-.success-check-wrap{
-  width:72px;height:72px;border-radius:50%;
-  background:rgba(184,154,90,.1);border:2px solid var(--gold);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 20px;font-size:28px;
-}
-.form-success-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:32px;color:var(--white);margin-bottom:8px;
-}
-.form-success-sub{font-size:14px;color:rgba(255,255,255,.5);line-height:1.65;}
+/* ── PLATFORM STRIP ───────────────────────────────────── */
+.sc-platform-strip{background:var(--brand-mid);padding:18px 0;transition:background 0.5s}
+.sc-platform-inner{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.sc-platform-label{font-family:'Jost',sans-serif;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);white-space:nowrap}
+.sc-platform-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:2px;padding:6px 14px;font-family:'Jost',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.55);transition:border-color 0.2s}
+.sc-platform-pill:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.8)}
+.sc-pdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 
-/* ── FOOTER ── */
-footer{
-  background:var(--forest);
-  border-top:1px solid rgba(184,154,90,.15);
-  padding:40px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
-}
-.footer-brand{font-family:'Cormorant Garamond',serif;font-size:20px;color:rgba(255,255,255,.5);}
-.footer-brand em{color:rgba(184,154,90,.6);font-style:italic;}
-.footer-tag{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);}
-.footer-url{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(184,154,90,.45);}
+/* ── SECTION BASE ─────────────────────────────────────── */
+.sc-section{padding:90px 0;background:var(--cream);transition:background 0.4s}
+.sc-section-dark{padding:90px 0;background:var(--brand);transition:background 0.4s}
+.sc-section-mid{padding:72px 0;background:var(--cream-mid);transition:background 0.4s}
 
-/* ── PRICING COMPLEXITY SECTION ── */
-.pricing-complex-section{
-  background:linear-gradient(180deg,var(--deep) 0%,#0A1A0F 100%);
-  position:relative;
-}
-.pc-header{text-align:center;margin-bottom:64px;}
-.pc-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(44px,6vw,74px);font-weight:200;
-  color:var(--white);line-height:.95;
-  letter-spacing:-.02em;margin-bottom:20px;
-}
-.pc-title em{color:var(--gold);font-style:italic;}
-.pc-sub{
-  font-size:17px;color:rgba(255,255,255,.5);
-  font-weight:300;line-height:1.7;
-  max-width:640px;margin:0 auto;
-}
-.pc-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:20px;margin-bottom:32px;
-}
-@media(max-width:900px){.pc-grid{grid-template-columns:1fr;}}
-.pc-card{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;overflow:hidden;
-  transition:transform .3s,border-color .3s,box-shadow .3s;
-}
-.pc-card:hover{
-  transform:translateY(-4px);
-  border-color:rgba(184,154,90,.25);
-  box-shadow:0 20px 60px rgba(0,0,0,.3);
-}
-.pc-card-header{
-  background:rgba(255,255,255,.04);
-  border-bottom:1px solid rgba(255,255,255,.06);
-  padding:16px 20px;
-  display:flex;align-items:center;gap:12px;
-}
-.pc-prop-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.pc-prop-name{font-size:14px;font-weight:700;color:var(--white);line-height:1.2;}
-.pc-prop-type{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.06em;margin-top:2px;}
-.pc-complexity-badge{
-  margin-left:auto;flex-shrink:0;
-  background:rgba(184,154,90,.1);
-  border:1px solid rgba(184,154,90,.2);
-  border-radius:20px;padding:3px 10px;
-  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--gold-light);
-}
-.pc-rates{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.05);}
-.pc-rate-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:5px 0;font-size:12px;
-}
-.pc-rate-label{color:rgba(255,255,255,.5);}
-.pc-rate-val{font-weight:700;color:var(--white);}
-.pc-rate-row.extra .pc-rate-label{color:rgba(255,255,255,.35);font-size:11px;}
-.pc-rate-row.extra .pc-rate-val{color:var(--gold-light);font-size:11px;}
-.pc-rate-row.mgmt .pc-rate-label{color:rgba(184,154,90,.6);font-size:11px;font-style:italic;}
-.pc-rate-row.mgmt .pc-rate-val{color:var(--gold);font-size:11px;}
-.pc-rate-divider{height:1px;background:rgba(255,255,255,.05);margin:6px 0;}
-.pc-invoice-preview{
-  padding:18px 20px;
-  background:rgba(184,154,90,.04);
-}
-.pc-inv-label{
-  font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(184,154,90,.5);margin-bottom:10px;
-}
-.pc-inv-lines{display:flex;flex-direction:column;gap:0;}
-.pc-inv-line{
-  display:flex;justify-content:space-between;
-  font-size:11px;color:rgba(255,255,255,.5);
-  padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);
-}
-.pc-inv-line:last-child{border-bottom:none;}
-.pc-inv-line.extra-line{color:rgba(184,154,90,.6);}
-.pc-inv-line.mgmt-line{color:rgba(184,154,90,.5);font-style:italic;}
-.pc-inv-total{
-  display:flex;justify-content:space-between;
-  align-items:center;
-  margin-top:10px;
-  padding-top:10px;
-  border-top:1px solid rgba(184,154,90,.2);
-  font-size:14px;font-weight:700;
-}
-.pc-inv-total span:first-child{color:rgba(255,255,255,.5);}
-.pc-inv-total span:last-child{
-  color:var(--gold);
-  font-family:'Cormorant Garamond',serif;
-  font-size:20px;font-weight:600;
-}
-.pc-reassurance{margin-top:12px;}
-.pc-reassurance-inner{
-  background:rgba(184,154,90,.06);
-  border:1px solid rgba(184,154,90,.15);
-  border-radius:12px;padding:24px 28px;
-  display:flex;align-items:flex-start;gap:16px;
-}
-.pc-r-icon{
-  width:44px;height:44px;flex-shrink:0;
-  border-radius:10px;background:rgba(184,154,90,.12);
-  display:flex;align-items:center;justify-content:center;
-}
-.pc-r-text{font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;}
-.pc-r-text strong{color:var(--white);font-weight:600;}
+/* ── HOW IT WORKS ─────────────────────────────────────── */
+.sc-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--border);border:1px solid var(--border);margin-top:48px}
+.sc-step-card{background:var(--cream);padding:32px 24px;transition:background 0.2s}
+.sc-step-card:hover{background:#fff}
+.sc-step-num{font-family:'Cormorant Garamond',serif;font-size:3rem;color:rgba(28,58,43,0.1);line-height:1;margin-bottom:12px}
+body.mode-commercial .sc-step-num{color:rgba(26,42,64,0.1)}
+.sc-step-title{font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--brand);margin-bottom:8px;transition:color 0.3s}
+.sc-step-sub{font-size:0.82rem;color:var(--muted);line-height:1.7;transition:color 0.3s}
+.sc-step-tag{display:inline-block;background:rgba(184,150,62,0.12);color:var(--gold);font-family:'Jost',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:2px;margin-top:12px;transition:background 0.3s,color 0.3s}
+body.mode-commercial .sc-step-tag{background:rgba(46,125,209,0.12)}
 
-@keyframes spin{to{transform:rotate(360deg);}}
+/* ── INVOICE DEMO ─────────────────────────────────────── */
+.sc-demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);margin-top:48px}
+.sc-demo-card{background:var(--cream);padding:32px 28px}
+.sc-demo-card-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--brand);margin-bottom:4px;transition:color 0.3s}
+.sc-demo-card-meta{font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);transition:color 0.3s,border-color 0.3s}
+.sc-demo-rate-row{display:flex;justify-content:space-between;font-size:0.82rem;color:var(--muted);padding:5px 0;border-bottom:1px dashed var(--border);transition:color 0.3s}
+.sc-demo-rate-row:last-of-type{border-bottom:none}
+.sc-demo-extra{font-size:0.75rem;color:rgba(184,150,62,0.8);font-style:italic}
+body.mode-commercial .sc-demo-extra{color:rgba(46,125,209,0.8)}
+.sc-demo-invoice{background:var(--brand);padding:20px;margin-top:20px}
+body.mode-commercial .sc-demo-invoice{background:var(--brand)}
+.sc-demo-invoice-label{font-family:'Jost',sans-serif;font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block;transition:color 0.3s}
+.sc-demo-invoice-row{display:flex;justify-content:space-between;font-size:0.78rem;color:rgba(255,255,255,0.55);padding:4px 0}
+.sc-demo-invoice-total{display:flex;justify-content:space-between;font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold-light);padding-top:10px;border-top:1px solid rgba(255,255,255,0.12);margin-top:8px;transition:color 0.3s}
+
+/* ── BEFORE / AFTER ───────────────────────────────────── */
+.sc-ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border)}
+.sc-ba-col{padding:44px 40px}
+.sc-ba-col.before{background:#fff}
+.sc-ba-col.after{background:var(--brand);position:relative;overflow:hidden;transition:background 0.4s}
+.sc-ba-col.after::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:background 0.3s}
+.sc-ba-header{display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid var(--border)}
+.sc-ba-col.after .sc-ba-header{border-bottom-color:rgba(255,255,255,0.08)}
+.sc-ba-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.sc-ba-row{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--border);font-family:'Jost',sans-serif;font-size:0.875rem;line-height:1.6}
+.sc-ba-col.after .sc-ba-row{border-bottom-color:rgba(255,255,255,0.07);color:rgba(255,255,255,0.75)}
+.sc-ba-col.before .sc-ba-row{color:var(--muted)}
+.sc-ba-row:last-child{border-bottom:none}
+.sc-ba-tick{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.65rem;margin-top:2px}
+
+/* ── INLINE CTA ───────────────────────────────────────── */
+.sc-inline-cta{background:var(--brand);padding:56px 0;position:relative;overflow:hidden;transition:background 0.4s}
+.sc-inline-cta::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:background 0.3s}
+.sc-inline-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.sc-inline-cta h3{font-size:clamp(1.6rem,3vw,2.4rem);color:#fff;margin-bottom:8px}
+.sc-inline-cta h3 em{font-style:italic;color:var(--gold-light);transition:color 0.3s}
+.sc-inline-cta p{font-size:0.9rem;color:rgba(255,255,255,0.5);max-width:460px;line-height:1.7}
+.sc-inline-actions{display:flex;gap:14px;flex-wrap:wrap;flex-shrink:0}
+
+/* ── TRUST ────────────────────────────────────────────── */
+.sc-trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);margin-top:48px}
+.sc-trust-card{background:#fff;padding:40px 36px;transition:background 0.2s}
+.sc-trust-card:hover{background:var(--cream)}
+.sc-trust-card.featured{background:var(--brand);position:relative;overflow:hidden;transition:background 0.4s}
+.sc-trust-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:background 0.3s}
+.sc-stars{color:var(--gold);font-size:0.85rem;margin-bottom:14px;letter-spacing:2px;transition:color 0.3s}
+.sc-quote{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-style:italic;line-height:1.7;margin-bottom:18px;color:var(--text);transition:color 0.3s}
+.sc-trust-card.featured .sc-quote{color:#fff}
+.sc-attrib{font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);transition:color 0.3s}
+.sc-attrib span{display:block;font-weight:300;letter-spacing:0.06em;color:#8A8A8A;text-transform:none;margin-top:3px;font-size:0.7rem}
+.sc-trust-card.featured .sc-attrib span{color:rgba(255,255,255,0.35)}
+
+/* Founder bar */
+.sc-founder-bar{background:var(--cream-mid);border:1px solid rgba(184,150,62,0.2);padding:44px 48px;display:flex;align-items:flex-start;gap:36px;margin-top:2px;transition:background 0.4s,border-color 0.4s}
+body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
+.sc-founder-av{width:68px;height:68px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--gold-light);flex-shrink:0;transition:background 0.4s,color 0.3s}
+.sc-founder-quote{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;line-height:1.65;color:var(--brand);margin-bottom:12px;transition:color 0.3s}
+.sc-founder-name{font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);transition:color 0.3s}
+.sc-founder-name span{display:block;font-weight:300;color:#8A8A8A;letter-spacing:0.06em;text-transform:none;margin-top:3px}
+
+
+
+
+/* ── URGENCY BAR ──────────────────────────────────────── */
+
+/* ── FINAL CTA ────────────────────────────────────────── */
+.sc-final{background:var(--brand);padding:100px 0;transition:background 0.4s}
+.sc-final-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.sc-final h2{font-size:clamp(2.2rem,4vw,3.6rem);color:#fff;margin-bottom:20px}
+.sc-final h2 em{font-style:italic;color:var(--gold-light);transition:color 0.3s}
+.sc-final-sub{font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:10px}
+.sc-reassure{list-style:none;margin-top:28px}
+.sc-reassure li{display:flex;align-items:center;gap:10px;font-size:0.85rem;color:rgba(255,255,255,0.5);padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.sc-reassure li:last-child{border-bottom:none}
+.sc-rdot{width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;transition:background 0.3s}
+.sc-form-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);padding:44px 40px}
+.sc-form-head{margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sc-form-head h3{font-size:1.6rem;color:#fff;margin-bottom:6px}
+.sc-form-head p{font-size:0.8rem;color:rgba(255,255,255,0.4);font-weight:300}
+.sc-book-link{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:18px 20px;margin-bottom:24px;transition:background 0.2s;cursor:pointer}
+.sc-book-link:hover{background:rgba(255,255,255,0.1)}
+.sc-book-icon{width:38px;height:38px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;transition:background 0.3s}
+.sc-book-text strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;font-weight:400;margin-bottom:2px}
+.sc-book-text span{font-size:0.72rem;color:rgba(255,255,255,0.4);font-family:'Jost',sans-serif}
+.sc-book-arr{font-size:1.1rem;color:var(--gold);margin-left:auto;transition:color 0.3s}
+.sc-divider{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.sc-divider::before,.sc-divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.sc-divider span{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.22);font-family:'Jost',sans-serif;white-space:nowrap}
+.sc-field{margin-bottom:14px}
+.sc-field label{display:block;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:5px;font-family:'Jost',sans-serif}
+.sc-field input,.sc-field select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:11px 14px;font-family:'Jost',sans-serif;font-size:0.85rem;color:#fff;font-weight:300;border-radius:2px;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+.sc-field input::placeholder{color:rgba(255,255,255,0.18)}
+.sc-field input:focus,.sc-field select:focus{border-color:var(--gold)}
+.sc-field select{color:rgba(255,255,255,0.5)}
+.sc-field select option{background:#1C3A2B}
+.sc-field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sc-submit{width:100%;background:var(--gold);color:#fff;font-family:'Jost',sans-serif;font-weight:500;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;padding:17px;border:none;border-radius:2px;cursor:pointer;transition:all 0.25s;margin-top:6px}
+.sc-submit:hover{background:var(--gold-light)}
+.sc-form-small{font-size:0.68rem;color:rgba(255,255,255,0.18);text-align:center;margin-top:10px;font-family:'Jost',sans-serif;line-height:1.6}
+
+/* ── FOOTER ───────────────────────────────────────────── */
+.sc-footer{background:#1A1A1A;padding:36px 0}
+.sc-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.sc-footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff}
+.sc-footer-logo span{color:var(--gold);transition:color 0.3s}
+.sc-footer-copy{font-family:'Jost',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.2);letter-spacing:0.06em}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media(max-width:900px){
+  .sc-steps,.sc-demo-grid{grid-template-columns:1fr 1fr}
+  .sc-trust-grid,.sc-final-inner,.sc-ba-grid{grid-template-columns:1fr}
+  .sc-hero-content{padding:80px 24px 48px}
+  .sc-stats-bar{grid-template-columns:repeat(2,1fr)}
+  .sc-founder-bar{flex-direction:column;gap:20px}
+  .sc-toggle-nav{display:none}
+  .sc-inline-inner{flex-direction:column}
+}
+@media(max-width:600px){
+  .sc-steps{grid-template-columns:1fr}
+  .sc-field-row{grid-template-columns:1fr}
+  .sc-form-card{padding:28px 20px}
+  .sc-hero h1{font-size:2.6rem}
+}
 </style>
-
-  <!-- GHL Tracking -->
-  <script>
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://link.msgsndr.com/js/form_embed.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'ghl-embed-script'));
-  </script>
-  <script async>
-    window.__lc_location_id = 'Qpoz379HAyQuaCJRwhKk';
-  </script>
 </head>
-<body>
+<body class="mode-holidaylet">
 
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<!-- ══════════════════════════════════════════
+     STICKY NAV + AUDIENCE TOGGLE
+     ══════════════════════════════════════════ -->
+<nav class="sc-toggle-bar">
+  <div class="sc-toggle-logo">Stay<span>Gentic</span> Clean</div>
+  <ul class="sc-toggle-nav">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#invoicing">Invoicing</a></li>
 
-<!-- Nav -->
-<nav>
-  <div class="nav-brand">
-    StayGentic <em>Clean</em>
-    <span class="nav-by">by The Agentic Group</span>
-  </div>
-  <div style="display:flex;align-items:center;gap:16px;">
-    <a href="https://theagenticgroup.co.uk" style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(184,154,90,.8)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">← The Agentic Group</a>
-    <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Register Interest</button>
+    <li><a href="#register">Get started</a></li>
+  </ul>
+  <div class="sc-toggle-pill">
+    <button class="sc-toggle-btn active" id="btn-hl" onclick="setMode('holidaylet')">Holiday Lets</button>
+    <button class="sc-toggle-btn" id="btn-cm" onclick="setMode('commercial')">Commercial</button>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-glow-1"></div>
-  <div class="hero-glow-2"></div>
-  <div class="hero-rule"></div>
 
-  <div class="hero-content">
-    <div class="hero-badge">
-      <div class="badge-pulse"></div>
-      <div class="badge-text">Built for Holiday Let Managers</div>
-      <div class="badge-pulse"></div>
+<!-- ══════════════════════════════════════════
+     HERO — content swaps per mode
+     ══════════════════════════════════════════ -->
+<section class="sc-hero">
+  <div class="sc-hero-bg"></div>
+
+  <!-- HOLIDAY LET hero content -->
+  <div class="sc-hero-content" data-hl>
+    <div class="sc-hero-eyebrow">Holiday Let Management · Automated</div>
+    <h1>Stop chasing cleaners.<br><em>Start owning</em><br>your time.</h1>
+    <p class="sc-hero-sub">StayGentic Clean connects to your booking platforms, coordinates your cleaners automatically, and generates every owner invoice in under 10 minutes — without you lifting a finger.</p>
+    <div class="sc-hero-proof">
+      <div class="sc-hero-proof-item"><div class="sc-proof-dot"></div><span>Cleaners log jobs in 60 seconds</span></div>
+      <div class="sc-hero-proof-item"><div class="sc-proof-dot"></div><span>Full month-end invoicing in under 10 minutes</span></div>
+      <div class="sc-hero-proof-item"><div class="sc-proof-dot"></div><span>Every extra charged. Nothing missed.</span></div>
     </div>
-
-    <div class="hero-headline">
-      <span class="line">A guest just booked.</span>
-      <span class="line">Your cleaner is <span class="gold-italic">already sorted.</span></span>
-      <span class="line">Owner invoiced. <span class="gold-italic">Automatically.</span></span>
+    <div class="sc-hero-cta">
+      <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-gold" style="padding:18px 40px;font-size:0.85rem">Book a 15-Minute Call</a>
+      <a href="#register" class="sg-btn sg-btn-outline-light">Register Interest</a>
     </div>
-
-    <p class="hero-sub">
-      <strong>StayGentic Clean</strong> connects directly to your booking platforms, coordinates your cleaners, and invoices your property owners — automatically, every month, without you lifting a finger.
-    </p>
-
-    <div class="platform-strip">
-      <span class="plat hl">Airbnb</span>
-      <span class="plat hl">Booking.com</span>
-      
-      <span class="plat hl">Awaze</span>
-      <span class="plat hl">Classic Cottages</span>
-      <span class="plat">& more</span>
-    </div>
-
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-        Register Your Interest
-      </button>
-      <a href="#how" class="btn-ghost">See How It Works</a>
-    </div>
+    <p class="sc-hero-note">⚡ Limited setup slots available each month.</p>
   </div>
 
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+  <!-- COMMERCIAL hero content -->
+  <div class="sc-hero-content" data-cm style="display:none">
+    <div class="sc-hero-eyebrow">Commercial Cleaning · Operations Automated</div>
+    <h1>Run your cleaning<br>contracts without<br><em>the admin.</em></h1>
+    <p class="sc-hero-sub">StayGentic Clean tracks every job across every site, keeps your cleaners accountable, and invoices your clients automatically — so you can focus on winning new contracts, not chasing timesheets.</p>
+    <div class="sc-hero-proof">
+      <div class="sc-hero-proof-item"><div class="sc-proof-dot"></div><span>Cleaners check in from any site in seconds</span></div>
+      <div class="sc-hero-proof-item"><div class="sc-proof-dot"></div><span>Client invoices generated automatically</span></div>
+      <div class="sc-hero-proof-item"><div class="sc-proof-dot"></div><span>Full job history and audit trail per site</span></div>
+    </div>
+    <div class="sc-hero-cta">
+      <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-gold" style="padding:18px 40px;font-size:0.85rem">Book a 15-Minute Call</a>
+      <a href="#register" class="sg-btn sg-btn-outline-light">Register Interest</a>
+    </div>
+    <p class="sc-hero-note">⚡ Currently onboarding commercial contractors — limited slots.</p>
+  </div>
+
+  <!-- Stats bar — shared, labels swap -->
+  <div class="sc-stats-bar">
+    <div class="sc-stat">
+      <span class="sc-stat-val">60s</span>
+      <span class="sc-stat-lbl" data-hl>Job logged by cleaner</span>
+      <span class="sc-stat-lbl" data-cm style="display:none">Site check-in time</span>
+    </div>
+    <div class="sc-stat">
+      <span class="sc-stat-val">&lt;10m</span>
+      <span class="sc-stat-lbl" data-hl>Full month-end invoice run</span>
+      <span class="sc-stat-lbl" data-cm style="display:none">Client invoice generation</span>
+    </div>
+    <div class="sc-stat">
+      <span class="sc-stat-val">£0</span>
+      <span class="sc-stat-lbl" data-hl>Missed extras at billing</span>
+      <span class="sc-stat-lbl" data-cm style="display:none">Unbilled jobs or extras</span>
+    </div>
+    <div class="sc-stat">
+      <span class="sc-stat-val">100%</span>
+      <span class="sc-stat-lbl" data-hl>Custom per property</span>
+      <span class="sc-stat-lbl" data-cm style="display:none">Custom per client contract</span>
+    </div>
   </div>
 </section>
 
-<!-- Stats strip -->
-<div class="stats-strip">
-  <div class="stat-item reveal">
-    <div class="stat-num">60s</div>
-    <div class="stat-label">Job logged by cleaner</div>
-  </div>
-  <div class="stat-item reveal" style="transition-delay:.1s">
-    <div class="stat-num">&lt;10m</div>
-    <div class="stat-label">Full month-end invoice run</div>
-  </div>
-  <div class="stat-item reveal" style="transition-delay:.2s">
-    <div class="stat-num">£0</div>
-    <div class="stat-label">Missed extras at billing</div>
-  </div>
-  <div class="stat-item reveal" style="transition-delay:.3s">
-    <div class="stat-num">100%</div>
-    <div class="stat-label">Custom to your business</div>
+<!-- Platform strip -->
+<div class="sc-platform-strip">
+  <div class="sg-container">
+    <div class="sc-platform-inner">
+      <span class="sc-platform-label" data-hl>Booking platforms</span>
+      <span class="sc-platform-label" data-cm style="display:none">Any calendar or schedule</span>
+      <div class="sc-platform-pill" data-hl><div class="sc-pdot" style="background:#FF5A5F"></div>Airbnb</div>
+      <div class="sc-platform-pill" data-hl><div class="sc-pdot" style="background:#003580"></div>Booking.com</div>
+      <div class="sc-platform-pill" data-hl><div class="sc-pdot" style="background:#00843D"></div>Awaze</div>
+      <div class="sc-platform-pill" data-hl><div class="sc-pdot" style="background:#1B4F8A"></div>Classic Cottages</div>
+      <div class="sc-platform-pill" data-hl><div class="sc-pdot" style="background:var(--gold)"></div>iCal &amp; more</div>
+      <div class="sc-platform-pill" data-cm style="display:none"><div class="sc-pdot" style="background:#2E7DD1"></div>iCal sync</div>
+      <div class="sc-platform-pill" data-cm style="display:none"><div class="sc-pdot" style="background:#2E7DD1"></div>Google Calendar</div>
+      <div class="sc-platform-pill" data-cm style="display:none"><div class="sc-pdot" style="background:#2E7DD1"></div>Manual schedule</div>
+      <div class="sc-platform-pill" data-cm style="display:none"><div class="sc-pdot" style="background:#2E7DD1"></div>Any rota format</div>
+    </div>
   </div>
 </div>
 
 
-<!-- Pricing complexity showcase -->
-<section class="section pricing-complex-section">
-  <div class="section-inner">
-    <div class="pc-header reveal">
-      <div class="section-eyebrow" style="color:var(--gold-light);"><span style="background:var(--gold-light);width:32px;height:1px;display:inline-block;flex-shrink:0;"></span>No two properties are the same</div>
-      <div class="pc-title">Neither are<br>your <em>invoices.</em></div>
-      <p class="pc-sub">Every property you manage has its own rates, its own extras, its own fee structure. StayGentic Clean handles every variation — automatically, correctly, every time. Here's exactly what that looks like.</p>
+<!-- ══════════════════════════════════════════
+     HOW IT WORKS
+     ══════════════════════════════════════════ -->
+<section class="sc-section" id="how">
+  <div class="sg-container">
+    <span class="sg-label">The complete workflow</span>
+
+    <!-- Holiday let heading -->
+    <div data-hl>
+      <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand)">Five steps.<br><em style="font-style:italic">Zero manual work.</em></h2>
     </div>
-    <div class="pc-grid">
-      <div class="pc-card reveal" style="transition-delay:.05s">
-        <div class="pc-card-header">
-          <div class="pc-prop-dot" style="background:#B89A5A;"></div>
-          <div><div class="pc-prop-name">Harbour View Cottage</div><div class="pc-prop-type">3 bed · Holiday Let · Awaze</div></div>
-          <div class="pc-complexity-badge">Short &amp; Long Rates</div>
-        </div>
-        <div class="pc-rates">
-          <div class="pc-rate-row"><span class="pc-rate-label">Short stay (1–3 nights)</span><span class="pc-rate-val">£170</span></div>
-          <div class="pc-rate-row"><span class="pc-rate-label">Long stay (4+ nights)</span><span class="pc-rate-val">£220</span></div>
-          <div class="pc-rate-divider"></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Welcome pack</span><span class="pc-rate-val extra">£18.00</span></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Bins put out</span><span class="pc-rate-val extra">£5.00</span></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Linen change</span><span class="pc-rate-val extra">£25.00</span></div>
-          <div class="pc-rate-divider"></div>
-          <div class="pc-rate-row mgmt"><span class="pc-rate-label">Monthly management fee</span><span class="pc-rate-val mgmt">£99/mo</span></div>
-        </div>
-        <div class="pc-invoice-preview">
-          <div class="pc-inv-label">This month's invoice — auto-generated</div>
-          <div class="pc-inv-lines">
-            <div class="pc-inv-line"><span>Long stay · 12–19 May</span><span>£220</span></div>
-            <div class="pc-inv-line"><span>Short stay · 21–23 May</span><span>£170</span></div>
-            <div class="pc-inv-line extra-line"><span>Welcome pack × 2</span><span>£36</span></div>
-            <div class="pc-inv-line extra-line"><span>Linen change × 1</span><span>£25</span></div>
-            <div class="pc-inv-line mgmt-line"><span>Management fee</span><span>£99</span></div>
-          </div>
-          <div class="pc-inv-total"><span>Total due</span><span>£550.00</span></div>
-        </div>
-      </div>
-      <div class="pc-card reveal" style="transition-delay:.15s">
-        <div class="pc-card-header">
-          <div class="pc-prop-dot" style="background:#7AB8F5;"></div>
-          <div><div class="pc-prop-name">Ty Mawr</div><div class="pc-prop-type">5 bed · Holiday Let · Airbnb</div></div>
-          <div class="pc-complexity-badge">Flat Rate</div>
-        </div>
-        <div class="pc-rates">
-          <div class="pc-rate-row"><span class="pc-rate-label">Every clean (flat rate)</span><span class="pc-rate-val">£260</span></div>
-          <div class="pc-rate-divider"></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Deep clean</span><span class="pc-rate-val extra">£180.00</span></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Hot tub prep</span><span class="pc-rate-val extra">£45.00</span></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Key collection</span><span class="pc-rate-val extra">£10.00</span></div>
-          <div class="pc-rate-divider"></div>
-          <div class="pc-rate-row" style="opacity:.3;font-style:italic;"><span class="pc-rate-label">No management fee</span><span class="pc-rate-val">—</span></div>
-        </div>
-        <div class="pc-invoice-preview">
-          <div class="pc-inv-label">This month's invoice — auto-generated</div>
-          <div class="pc-inv-lines">
-            <div class="pc-inv-line"><span>Clean · 05 May</span><span>£260</span></div>
-            <div class="pc-inv-line"><span>Clean · 12 May</span><span>£260</span></div>
-            <div class="pc-inv-line"><span>Clean · 19 May</span><span>£260</span></div>
-            <div class="pc-inv-line extra-line"><span>Hot tub prep × 2</span><span>£90</span></div>
-            <div class="pc-inv-line extra-line"><span>Deep clean × 1</span><span>£180</span></div>
-          </div>
-          <div class="pc-inv-total"><span>Total due</span><span>£1,050.00</span></div>
-        </div>
-      </div>
-      <div class="pc-card reveal" style="transition-delay:.25s">
-        <div class="pc-card-header">
-          <div class="pc-prop-dot" style="background:#A8D8A8;"></div>
-          <div><div class="pc-prop-name">Cliff House</div><div class="pc-prop-type">4 bed · Holiday Let · Classic Cottages</div></div>
-          <div class="pc-complexity-badge">Mixed Extras</div>
-        </div>
-        <div class="pc-rates">
-          <div class="pc-rate-row"><span class="pc-rate-label">Short stay (1–3 nights)</span><span class="pc-rate-val">£150</span></div>
-          <div class="pc-rate-row"><span class="pc-rate-label">Long stay (4+ nights)</span><span class="pc-rate-val">£195</span></div>
-          <div class="pc-rate-divider"></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Welcome hamper</span><span class="pc-rate-val extra">£12.50</span></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Log basket restock</span><span class="pc-rate-val extra">£22.00</span></div>
-          <div class="pc-rate-row extra"><span class="pc-rate-label">+ Bin collection</span><span class="pc-rate-val extra">£5.00</span></div>
-          <div class="pc-rate-divider"></div>
-          <div class="pc-rate-row mgmt"><span class="pc-rate-label">Monthly management fee</span><span class="pc-rate-val mgmt">£79/mo</span></div>
-        </div>
-        <div class="pc-invoice-preview">
-          <div class="pc-inv-label">This month's invoice — auto-generated</div>
-          <div class="pc-inv-lines">
-            <div class="pc-inv-line"><span>Long stay · 03–10 May</span><span>£195</span></div>
-            <div class="pc-inv-line"><span>Short stay · 14–16 May</span><span>£150</span></div>
-            <div class="pc-inv-line extra-line"><span>Welcome hamper × 2</span><span>£25</span></div>
-            <div class="pc-inv-line extra-line"><span>Log basket × 1</span><span>£22</span></div>
-            <div class="pc-inv-line mgmt-line"><span>Management fee</span><span>£79</span></div>
-          </div>
-          <div class="pc-inv-total"><span>Total due</span><span>£471.00</span></div>
-        </div>
-      </div>
+    <!-- Commercial heading -->
+    <div data-cm style="display:none">
+      <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand)">One system.<br><em style="font-style:italic">Every site covered.</em></h2>
     </div>
-    <div class="pc-reassurance reveal">
-      <div class="pc-reassurance-inner">
-        <div class="pc-r-icon"><svg width="20" height="20" fill="none" stroke="#B89A5A" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div class="pc-r-text"><strong>Three properties. Three completely different rate structures. One system that handles all of it.</strong> Every rate, extra and management fee is configured specifically for each property during your custom setup — and every invoice reflects exactly what was agreed, automatically, every month.</div>
+
+    <div class="sc-steps">
+      <!-- Step 1 -->
+      <div class="sc-step-card">
+        <div class="sc-step-num">01</div>
+        <div class="sc-step-title" data-hl>Booking syncs automatically</div>
+        <div class="sc-step-title" data-cm style="display:none">Schedule syncs automatically</div>
+        <p class="sc-step-sub" data-hl>Every reservation from Airbnb, Booking.com, Awaze and Classic Cottages populates instantly. No data entry. Ever.</p>
+        <p class="sc-step-sub" data-cm style="display:none">Every job across every site populates from your calendar or rota. No data entry. No double-handling.</p>
+        <span class="sc-step-tag" data-hl>All major platforms</span>
+        <span class="sc-step-tag" data-cm style="display:none">iCal · Google · Manual</span>
+      </div>
+      <!-- Step 2 -->
+      <div class="sc-step-card">
+        <div class="sc-step-num">02</div>
+        <div class="sc-step-title" data-hl>Cleaners see live booking data</div>
+        <div class="sc-step-title" data-cm style="display:none">Cleaners see their schedule live</div>
+        <p class="sc-step-sub" data-hl>Your cleaners have live visibility of all upcoming checkouts. You stay in control of who goes where.</p>
+        <p class="sc-step-sub" data-cm style="display:none">Your team sees their assigned sites and shift times live. You stay in control of allocation. They stay accountable.</p>
+        <span class="sc-step-tag" data-hl>Live visibility · Manager control</span>
+        <span class="sc-step-tag" data-cm style="display:none">Live visibility · Full control</span>
+      </div>
+      <!-- Step 3 -->
+      <div class="sc-step-card">
+        <div class="sc-step-num">03</div>
+        <div class="sc-step-title" data-hl>Job logged in 60 seconds</div>
+        <div class="sc-step-title" data-cm style="display:none">Job signed off in 60 seconds</div>
+        <p class="sc-step-sub" data-hl>No app download. A link on their phone. Hours, extras, notes — submitted from the doorstep.</p>
+        <p class="sc-step-sub" data-cm style="display:none">No app download. A link on their phone. Hours worked, tasks completed, notes — submitted from the site.</p>
+        <span class="sc-step-tag" data-hl>Any phone · Instant sync</span>
+        <span class="sc-step-tag" data-cm style="display:none">Any phone · Audit trail created</span>
+      </div>
+      <!-- Step 4 -->
+      <div class="sc-step-card">
+        <div class="sc-step-num">04</div>
+        <div class="sc-step-title">Dashboard updates live</div>
+        <p class="sc-step-sub" data-hl>Total hours per cleaner, cleans per property, spend and extras — all visible in real time.</p>
+        <p class="sc-step-sub" data-cm style="display:none">Hours per operative, visits per site, spend and billable extras — all visible in real time across your whole operation.</p>
+        <span class="sc-step-tag">Real-time · All sites</span>
+      </div>
+      <!-- Step 5 -->
+      <div class="sc-step-card">
+        <div class="sc-step-num">05</div>
+        <div class="sc-step-title" data-hl>Invoices send themselves</div>
+        <div class="sc-step-title" data-cm style="display:none">Client invoices send themselves</div>
+        <p class="sc-step-sub" data-hl>Every changeover, extra and management fee pulls into a branded invoice per owner. Done in under 10 minutes.</p>
+        <p class="sc-step-sub" data-cm style="display:none">Every visit, extra and contract fee pulls into a branded invoice per client. Review, approve, send. Done.</p>
+        <span class="sc-step-tag" data-hl>Per property · One click</span>
+        <span class="sc-step-tag" data-cm style="display:none">Per client · One click</span>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- How it works -->
-<section class="section how-section" id="how">
-  <div class="section-inner">
-    <div class="section-eyebrow reveal">The complete workflow</div>
-    <div class="how-title reveal">Five steps.<br><em>Zero manual work.</em></div>
+<!-- ══════════════════════════════════════════
+     INVOICE DEMO
+     ══════════════════════════════════════════ -->
+<section class="sc-section-mid" id="invoicing">
+  <div class="sg-container">
+    <span class="sg-label">No two are the same</span>
 
-    <div class="steps-timeline">
-      <div class="timeline-step reveal" style="transition-delay:.05s">
-        <div class="timeline-num">
-          <span class="tn-label">Step 01</span>
-          <svg width="22" height="22" fill="none" stroke="#1E3D2F" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        </div>
-        <div class="timeline-content">
-          <div class="timeline-title">Booking syncs automatically</div>
-          <div class="timeline-desc">Every reservation from Airbnb, Booking.com, Awaze and Classic Cottages populates instantly via iCal. No data entry. Ever.</div>
-          <span class="timeline-tag gold">All major platforms</span>
+    <div data-hl>
+      <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand)">Neither are<br><em style="font-style:italic">your invoices.</em></h2>
+      <p style="font-size:0.92rem;color:var(--muted);max-width:520px;margin-top:12px;line-height:1.8">Every property has its own rates, its own extras, its own fee structure. StayGentic Clean handles every variation — automatically, correctly, every month.</p>
+    </div>
+    <div data-cm style="display:none">
+      <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand)">Every client.<br><em style="font-style:italic">Every contract.</em></h2>
+      <p style="font-size:0.92rem;color:var(--muted);max-width:520px;margin-top:12px;line-height:1.8">Every client has their own contract rates, visit frequency, and billable extras. StayGentic Clean handles every variation — automatically, correctly, every month.</p>
+    </div>
+
+    <!-- HOLIDAY LET demo cards -->
+    <div class="sc-demo-grid" data-hl>
+      <div class="sc-demo-card">
+        <div class="sc-demo-card-title">Harbour View Cottage</div>
+        <div class="sc-demo-card-meta">3 bed · Holiday Let · Awaze · Short &amp; Long rates</div>
+        <div class="sc-demo-rate-row"><span>Short stay (1–3 nights)</span><span>£170</span></div>
+        <div class="sc-demo-rate-row"><span>Long stay (4+ nights)</span><span>£220</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Welcome pack</span><span>£18</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Linen change</span><span>£25</span></div>
+        <div class="sc-demo-rate-row"><span>Monthly management fee</span><span>£99/mo</span></div>
+        <div class="sc-demo-invoice">
+          <span class="sc-demo-invoice-label">This month — auto-generated</span>
+          <div class="sc-demo-invoice-row"><span>Long stay · 12–19 May</span><span>£220</span></div>
+          <div class="sc-demo-invoice-row"><span>Short stay · 21–23 May</span><span>£170</span></div>
+          <div class="sc-demo-invoice-row"><span>Welcome pack × 2</span><span>£36</span></div>
+          <div class="sc-demo-invoice-row"><span>Linen change × 1</span><span>£25</span></div>
+          <div class="sc-demo-invoice-row"><span>Management fee</span><span>£99</span></div>
+          <div class="sc-demo-invoice-total"><span>Total due</span><span>£550</span></div>
         </div>
       </div>
-
-      <div class="timeline-step reveal" style="transition-delay:.15s">
-        <div class="timeline-num">
-          <span class="tn-label">Step 02</span>
-          <svg width="22" height="22" fill="none" stroke="#1E3D2F" stroke-width="1.8" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </div>
-        <div class="timeline-content">
-          <div class="timeline-title">Cleaners see live booking data</div>
-          <div class="timeline-desc">Your cleaners have live visibility of all upcoming checkouts. They select their property, confirm the job and log the clean — you stay in control of who goes where.</div>
-          <span class="timeline-tag">Live visibility · Manager control</span>
-        </div>
-      </div>
-
-      <div class="timeline-step reveal" style="transition-delay:.25s">
-        <div class="timeline-num">
-          <span class="tn-label">Step 03</span>
-          <svg width="22" height="22" fill="none" stroke="#1E3D2F" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="timeline-content">
-          <div class="timeline-title">Job logged in 60 seconds</div>
-          <div class="timeline-desc">No app download. No login. A link on their phone. Hours, extras, notes — submitted from the doorstep. Every extra captured. Nothing missed.</div>
-          <span class="timeline-tag">Any phone · Instant sync</span>
+      <div class="sc-demo-card">
+        <div class="sc-demo-card-title">Ty Mawr</div>
+        <div class="sc-demo-card-meta">5 bed · Holiday Let · Airbnb · Flat rate</div>
+        <div class="sc-demo-rate-row"><span>Every clean (flat rate)</span><span>£260</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Deep clean</span><span>£180</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Hot tub prep</span><span>£45</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Key collection</span><span>£10</span></div>
+        <div class="sc-demo-invoice">
+          <span class="sc-demo-invoice-label">This month — auto-generated</span>
+          <div class="sc-demo-invoice-row"><span>Clean × 3</span><span>£780</span></div>
+          <div class="sc-demo-invoice-row"><span>Hot tub prep × 2</span><span>£90</span></div>
+          <div class="sc-demo-invoice-row"><span>Deep clean × 1</span><span>£180</span></div>
+          <div class="sc-demo-invoice-total"><span>Total due</span><span>£1,050</span></div>
         </div>
       </div>
-
-      <div class="timeline-step reveal" style="transition-delay:.35s">
-        <div class="timeline-num">
-          <span class="tn-label">Step 04</span>
-          <svg width="22" height="22" fill="none" stroke="#1E3D2F" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        </div>
-        <div class="timeline-content">
-          <div class="timeline-title">Dashboard updates live</div>
-          <div class="timeline-desc">Total hours per cleaner, cleans per property, spend, extras and monthly revenue — all visible in real time. Full operational clarity, always.</div>
-          <span class="timeline-tag">Real-time · All properties</span>
+      <div class="sc-demo-card">
+        <div class="sc-demo-card-title">Cliff House</div>
+        <div class="sc-demo-card-meta">4 bed · Classic Cottages · Mixed extras</div>
+        <div class="sc-demo-rate-row"><span>Short stay</span><span>£150</span></div>
+        <div class="sc-demo-rate-row"><span>Long stay</span><span>£195</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Welcome hamper</span><span>£12.50</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Log basket restock</span><span>£22</span></div>
+        <div class="sc-demo-rate-row"><span>Management fee</span><span>£79/mo</span></div>
+        <div class="sc-demo-invoice">
+          <span class="sc-demo-invoice-label">This month — auto-generated</span>
+          <div class="sc-demo-invoice-row"><span>Long stay · 03–10 May</span><span>£195</span></div>
+          <div class="sc-demo-invoice-row"><span>Short stay · 14–16 May</span><span>£150</span></div>
+          <div class="sc-demo-invoice-row"><span>Welcome hamper × 2</span><span>£25</span></div>
+          <div class="sc-demo-invoice-row"><span>Log basket × 1</span><span>£22</span></div>
+          <div class="sc-demo-invoice-row"><span>Management fee</span><span>£79</span></div>
+          <div class="sc-demo-invoice-total"><span>Total due</span><span>£471</span></div>
         </div>
       </div>
+    </div>
 
-      <div class="timeline-step reveal" style="transition-delay:.45s">
-        <div class="timeline-num">
-          <span class="tn-label">Step 05</span>
-          <svg width="22" height="22" fill="none" stroke="#1E3D2F" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    <!-- COMMERCIAL demo cards -->
+    <div class="sc-demo-grid" data-cm style="display:none">
+      <div class="sc-demo-card">
+        <div class="sc-demo-card-title">Meridian House</div>
+        <div class="sc-demo-card-meta">Office block · 4 floors · Daily contract · Cardiff</div>
+        <div class="sc-demo-rate-row"><span>Daily clean (Mon–Fri)</span><span>£85/visit</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Deep clean</span><span>£320</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Window clean</span><span>£95</span></div>
+        <div class="sc-demo-rate-row"><span>Monthly contract fee</span><span>£1,700/mo</span></div>
+        <div class="sc-demo-invoice">
+          <span class="sc-demo-invoice-label">May invoice — auto-generated</span>
+          <div class="sc-demo-invoice-row"><span>Daily cleans × 21</span><span>£1,785</span></div>
+          <div class="sc-demo-invoice-row"><span>Deep clean × 1</span><span>£320</span></div>
+          <div class="sc-demo-invoice-row"><span>Contract fee</span><span>£1,700</span></div>
+          <div class="sc-demo-invoice-total"><span>Total due</span><span>£3,805</span></div>
         </div>
-        <div class="timeline-content">
-          <div class="timeline-title">Invoices send themselves</div>
-          <div class="timeline-desc">Every changeover, extra and management fee pulls into a branded invoice per property. Emails pre-written. Review, approve, send. Done in under 10 minutes.</div>
-          <span class="timeline-tag gold">Per property · One click</span>
+      </div>
+      <div class="sc-demo-card">
+        <div class="sc-demo-card-title">Parkside Retail Units</div>
+        <div class="sc-demo-card-meta">5 retail units · Weekly clean · Shared areas</div>
+        <div class="sc-demo-rate-row"><span>Per unit (weekly)</span><span>£45/visit</span></div>
+        <div class="sc-demo-rate-row"><span>Shared areas (weekly)</span><span>£35/visit</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Emergency call-out</span><span>£75</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Carpet clean</span><span>£55/unit</span></div>
+        <div class="sc-demo-invoice">
+          <span class="sc-demo-invoice-label">May invoice — auto-generated</span>
+          <div class="sc-demo-invoice-row"><span>Unit cleans × 20</span><span>£900</span></div>
+          <div class="sc-demo-invoice-row"><span>Shared areas × 4</span><span>£140</span></div>
+          <div class="sc-demo-invoice-row"><span>Emergency call-out × 1</span><span>£75</span></div>
+          <div class="sc-demo-invoice-row"><span>Carpet clean × 2</span><span>£110</span></div>
+          <div class="sc-demo-invoice-total"><span>Total due</span><span>£1,225</span></div>
         </div>
+      </div>
+      <div class="sc-demo-card">
+        <div class="sc-demo-card-title">Bryn Medical Centre</div>
+        <div class="sc-demo-card-meta">Healthcare facility · Daily + specialist cleans</div>
+        <div class="sc-demo-rate-row"><span>Daily clean</span><span>£120/visit</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Infection control clean</span><span>£195</span></div>
+        <div class="sc-demo-rate-row"><span class="sc-demo-extra">+ Out-of-hours call-out</span><span>£150</span></div>
+        <div class="sc-demo-rate-row"><span>Monthly contract fee</span><span>£2,400/mo</span></div>
+        <div class="sc-demo-invoice">
+          <span class="sc-demo-invoice-label">May invoice — auto-generated</span>
+          <div class="sc-demo-invoice-row"><span>Daily cleans × 22</span><span>£2,640</span></div>
+          <div class="sc-demo-invoice-row"><span>Infection control × 2</span><span>£390</span></div>
+          <div class="sc-demo-invoice-row"><span>Contract fee</span><span>£2,400</span></div>
+          <div class="sc-demo-invoice-total"><span>Total due</span><span>£5,430</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--brand);padding:28px 36px;margin-top:2px;transition:background 0.4s">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;text-align:center;line-height:1.6" data-hl>
+        Three properties. Three completely different rate structures. <em style="font-style:italic;color:var(--gold-light)">One system that handles all of it.</em>
+      </p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;text-align:center;line-height:1.6" data-cm style="display:none">
+        Three clients. Three completely different contracts. <em style="font-style:italic;color:var(--gold-light)">One system that handles all of it.</em>
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     INLINE CTA (after invoice demo)
+     ══════════════════════════════════════════ -->
+<section class="sc-inline-cta">
+  <div class="sg-container">
+    <div class="sc-inline-inner">
+      <div>
+        <h3 data-hl>Every owner invoiced automatically.<br><em>Every month. Without a spreadsheet.</em></h3>
+        <h3 data-cm style="display:none">Every client invoiced automatically.<br><em>Every month. Without a spreadsheet.</em></h3>
+        <p data-hl style="margin-top:12px">From 5 properties to 50, every rate, extra and management fee is handled and invoiced without you touching a single cell.</p>
+        <p data-cm style="display:none;margin-top:12px">From 3 clients to 300, every contract, extra and call-out is tracked and invoiced automatically at month end.</p>
+      </div>
+      <div class="sc-inline-actions">
+        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-gold">Book a Call</a>
+        <a href="#register" class="sg-btn sg-btn-outline-light">Register Interest</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Dashboard preview -->
-<section class="section preview-section">
-  <div class="section-inner preview-inner">
-    <div class="preview-header">
-      <div class="reveal-left">
-        <div class="section-eyebrow" style="color:var(--gold-light);">
-          <span style="background:var(--gold-light);width:32px;height:1px;display:inline-block;flex-shrink:0;"></span>
-          Your live dashboard
-        </div>
-        <div class="preview-title">
-          Every property.<br>Every cleaner.<br><em>Right now.</em>
-        </div>
-      </div>
-      <div class="reveal-right">
-        <p class="preview-body">
-          The moment a cleaner logs a job, your dashboard updates. <strong>Total hours worked, cleans completed, extras charged and monthly revenue per property</strong> — all visible in real time, without asking anyone for a single update.
-        </p>
-      </div>
-    </div>
 
-    <div class="dash-mockup reveal">
-      <div class="dash-bar">
-        <div class="dash-bar-title">Seascape Retreats <em>· May 2026</em></div>
-        <div class="dash-live">Live</div>
-      </div>
-      <div class="dash-body">
-        <div class="dash-stats">
-          <div class="d-stat"><div class="d-stat-lbl">Revenue</div><div class="d-stat-val">£5,340</div></div>
-          <div class="d-stat"><div class="d-stat-lbl">Jobs Logged</div><div class="d-stat-val">47</div></div>
-          <div class="d-stat"><div class="d-stat-lbl">Total Hours</div><div class="d-stat-val">118</div></div>
-          <div class="d-stat"><div class="d-stat-lbl">Extras</div><div class="d-stat-val">£284</div></div>
-        </div>
-        <table class="dash-table">
-          <thead><tr><th>Property</th><th>This Month</th><th>Cleans</th><th>Hours</th><th>Extras</th><th>Revenue</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td><span class="prop-n"><span class="prop-dot" style="background:#B89A5A;"></span>Harbour View Cottage</span></td><td class="d-hrs">May 2026</td><td>7</td><td class="d-hrs">19.5h</td><td class="d-hrs">£42</td><td class="d-amt">£1,750</td><td><span class="status-done">All Logged</span></td></tr>
-            <tr><td><span class="prop-n"><span class="prop-dot" style="background:#7AB8F5;"></span>Ty Gwyn</span></td><td class="d-hrs">May 2026</td><td>6</td><td class="d-hrs">16h</td><td class="d-hrs">£28</td><td class="d-amt">£1,100</td><td><span class="status-done">All Logged</span></td></tr>
-            <tr><td><span class="prop-n"><span class="prop-dot" style="background:#A8D8A8;"></span>Pebble Bay</span></td><td class="d-hrs">May 2026</td><td>4</td><td class="d-hrs">11h</td><td class="d-hrs">£15</td><td class="d-amt">£760</td><td><span class="status-due">1 Due Today</span></td></tr>
-            <tr><td><span class="prop-n"><span class="prop-dot" style="background:#D6C49A;"></span>Cliff House</span></td><td class="d-hrs">May 2026</td><td>5</td><td class="d-hrs">14h</td><td class="d-hrs">£31</td><td class="d-amt">£890</td><td><span class="status-done">All Logged</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- ══════════════════════════════════════════
+     BEFORE / AFTER
+     ══════════════════════════════════════════ -->
+<section class="sc-section">
+  <div class="sg-container">
+    <span class="sg-label">The difference it makes</span>
+    <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand);margin-bottom:48px" data-hl>Stop managing.<br><em style="font-style:italic">Start owning.</em></h2>
+    <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand);margin-bottom:48px" data-cm style="display:none">Stop firefighting.<br><em style="font-style:italic">Start scaling.</em></h2>
 
-<!-- Before / After -->
-<section class="ba-section">
-  <div class="section-inner" style="padding:100px 0 0;">
-    <div style="padding:0 40px 64px;" class="reveal">
-      <div class="section-eyebrow" style="color:var(--gold-dark);"><span style="background:var(--gold-dark);width:32px;height:1px;display:inline-block;"></span>The difference it makes</div>
-      <div class="how-title" style="margin-bottom:0;">Stop managing.<br><em>Start owning.</em></div>
-    </div>
-  </div>
-  <div class="ba-grid">
-    <div class="ba-col before reveal-left">
-      <div class="ba-col-title">❌ Before StayGentic Clean</div>
-      <div class="ba-item"><div class="ba-icon-wrap">✗</div><span class="ba-text">Manually texting cleaners after every single booking confirmation</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✗</div><span class="ba-text">Chasing cleaners on WhatsApp to confirm jobs are actually done</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✗</div><span class="ba-text">No real-time visibility over hours worked or extras used per property</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✗</div><span class="ba-text">Compiling invoices manually from spreadsheets, notes and memory</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✗</div><span class="ba-text">Losing billable extras that were logged nowhere and never charged</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✗</div><span class="ba-text">Risk of guests arriving to an unprepared, uncleaned property</span></div>
-    </div>
-    <div class="ba-col after reveal-right">
-      <div class="ba-col-title">✓ After StayGentic Clean</div>
-      <div class="ba-item"><div class="ba-icon-wrap">✓</div><span class="ba-text">Booking confirmed — cleaners see it live and log themselves against it</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✓</div><span class="ba-text">Job logged in 60 seconds from the doorstep, dashboard updates instantly</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✓</div><span class="ba-text">Real-time view of hours, cleans, spend and extras per property, always</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✓</div><span class="ba-text">Invoices built automatically at month end — every line item accounted for</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✓</div><span class="ba-text">Every extra captured at point of clean, flows straight to the invoice</span></div>
-      <div class="ba-item"><div class="ba-icon-wrap">✓</div><span class="ba-text">Full month-end invoice run completed in under 10 minutes</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA / Form -->
-<section class="cta-section" id="cta">
-  <div class="cta-bg-glow"></div>
-  <div class="cta-grid-bg"></div>
-  <div class="cta-inner">
-    <div class="cta-tag reveal">
-      <div class="cta-tag-dot"></div>
-      <div class="cta-tag-text">Fully custom setup · Built around your portfolio</div>
-      <div class="cta-tag-dot"></div>
-    </div>
-    <div class="cta-headline reveal">
-      Ready to stop doing<br>this <em>the hard way?</em>
-    </div>
-    <p class="cta-sub reveal">
-      <strong>Every account is built specifically for your business.</strong> Your properties, your rates, your cleaners, your booking platforms — configured and ready from day one. Register your interest below and we'll be in touch.
-    </p>
-
-    <div class="interest-form reveal" id="formWrap">
-      <!-- Primary CTA - Calendar -->
-      <div style="background:rgba(184,154,90,.08);border:1px solid rgba(184,154,90,.2);border-radius:12px;padding:20px 24px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-        <div>
-          <div style="font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(184,154,90,.6);margin-bottom:6px;">Fastest route</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#fff;font-weight:300;">Book a <em style="color:var(--gold);font-style:italic;">15-minute call</em> directly</div>
-          <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:3px;">Pick a time that suits you — straight into Evan's calendar</div>
-        </div>
-        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" style="background:var(--gold);color:#fff;padding:13px 28px;border-radius:8px;font-family:'Jost',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:all .3s;display:inline-block;">Book a Call →</a>
-      </div>
-
-      <!-- Divider -->
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
-        <div style="flex:1;height:1px;background:rgba(255,255,255,.07);"></div>
-        <div style="font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.2);">Or leave your details</div>
-        <div style="flex:1;height:1px;background:rgba(255,255,255,.07);"></div>
-      </div>
-
-      <div class="form-title">Register your <em>interest.</em></div>
-      <div class="form-sub">Tell us about your operation — we'll reach out within one working day.</div>
-
-      <div class="form-grid">
-        <div class="form-field">
-          <label class="form-label">Your Name</label>
-          <input type="text" class="form-input" placeholder="Jane Williams" id="f_name">
-        </div>
-        <div class="form-field">
-          <label class="form-label">Company / Business Name</label>
-          <input type="text" class="form-input" placeholder="Coastal Retreats Ltd" id="f_company">
-        </div>
-        <div class="form-field">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" placeholder="jane@yourcompany.co.uk" id="f_email">
-        </div>
-        <div class="form-field">
-          <label class="form-label">Phone Number</label>
-          <input type="tel" class="form-input" placeholder="07700 000 000" id="f_phone">
-        </div>
-        <div class="form-field">
-          <label class="form-label">Number of Properties</label>
-          <select class="form-select" id="f_props">
-            <option value="">Select range</option>
-            <option>1–5 properties</option>
-            <option>6–10 properties</option>
-            <option>11–25 properties</option>
-            <option>26–50 properties</option>
-            <option>50+ properties</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label class="form-label">Where are your properties?</label>
-          <input type="text" class="form-input" placeholder="e.g. West Wales, Cornwall, Devon" id="f_region">
-        </div>
-        <div class="form-field full">
-          <label class="form-label">Which booking platforms do you use? (select all that apply)</label>
-          <div class="form-platforms" id="platformPills">
-            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Airbnb</label>
-            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Booking.com</label>
-            
-            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Awaze</label>
-            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Classic Cottages</label>
-            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Own Website</label>
-            <label class="platform-check" onclick="togglePlat(this, event)"><input type="checkbox"><div class="plat-tick">✓</div>Other</label>
+    <div class="sc-ba-grid">
+      <div class="sc-ba-col before">
+        <div class="sc-ba-header" style="border-bottom-color:var(--border)">
+          <div class="sc-ba-icon" style="background:#FEE2E2">😤</div>
+          <div>
+            <div style="font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#8A8A8A;margin-bottom:2px">Without StayGentic Clean</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--text)">Reactive. Exhausting. Costly.</div>
           </div>
         </div>
+        <!-- HOLIDAY LET before -->
+        <div data-hl>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Manually texting cleaners after every single booking</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Chasing cleaners on WhatsApp to confirm jobs are done</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>No real-time visibility of hours or extras per property</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Compiling invoices from spreadsheets and memory</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Losing billable extras that were logged nowhere</div>
+          <div class="sc-ba-row" style="border-bottom:none"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Guests arriving to an unprepared property</div>
+        </div>
+        <!-- COMMERCIAL before -->
+        <div data-cm style="display:none">
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Manually notifying operatives about shift changes</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>No proof of attendance or job completion per site</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Chasing timesheets at month end, every month</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Invoicing clients manually from notes and spreadsheets</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Losing billable call-outs and extras that weren't logged</div>
+          <div class="sc-ba-row" style="border-bottom:none"><div class="sc-ba-tick" style="background:#FEE2E2;color:#DC2626">✗</div>Client complaints when a site was missed or late</div>
+        </div>
       </div>
 
-      <button class="submit-btn" onclick="submitForm()">
-        Register My Interest
-        <div class="submit-arrow">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <div class="sc-ba-col after">
+        <div class="sc-ba-header">
+          <div class="sc-ba-icon" style="background:rgba(184,150,62,0.2)">✨</div>
+          <div>
+            <div style="font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:2px">With StayGentic Clean</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff">Effortless. Reliable. Profitable.</div>
+          </div>
         </div>
-      </button>
-
-      <div class="form-success" id="formSuccess">
-        <div class="success-check-wrap">✓</div>
-        <div class="form-success-title">We'll be in touch.</div>
-        <div class="form-success-sub">Thank you for registering your interest. A member of our team will reach out within one working day to find out more about your operation and get you set up.<br><br><strong style="color:rgba(255,255,255,.7);">theagenticgroup.co.uk</strong></div>
+        <!-- HOLIDAY LET after -->
+        <div data-hl>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(184,150,62,0.2);color:var(--gold-light)">✓</div>Booking confirmed — cleaners see it live immediately</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(184,150,62,0.2);color:var(--gold-light)">✓</div>Job logged from the doorstep in 60 seconds</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(184,150,62,0.2);color:var(--gold-light)">✓</div>Real-time view of hours, cleans and extras per property</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(184,150,62,0.2);color:var(--gold-light)">✓</div>Invoices built automatically — every line item accounted for</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(184,150,62,0.2);color:var(--gold-light)">✓</div>Every extra captured at point of clean, flows to invoice</div>
+          <div class="sc-ba-row" style="border-bottom:none"><div class="sc-ba-tick" style="background:rgba(184,150,62,0.2);color:var(--gold-light)">✓</div>Full month-end run completed in under 10 minutes</div>
+        </div>
+        <!-- COMMERCIAL after -->
+        <div data-cm style="display:none">
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(46,125,209,0.2);color:#5BA0E8">✓</div>Schedule updated — operatives see it on their phone immediately</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(46,125,209,0.2);color:#5BA0E8">✓</div>Job signed off from site in 60 seconds — full audit trail created</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(46,125,209,0.2);color:#5BA0E8">✓</div>Real-time view of attendance, hours and extras per site</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(46,125,209,0.2);color:#5BA0E8">✓</div>Client invoices built automatically — every visit and extra included</div>
+          <div class="sc-ba-row"><div class="sc-ba-tick" style="background:rgba(46,125,209,0.2);color:#5BA0E8">✓</div>Every call-out and extra captured at the time, flows to invoice</div>
+          <div class="sc-ba-row" style="border-bottom:none"><div class="sc-ba-tick" style="background:rgba(46,125,209,0.2);color:#5BA0E8">✓</div>All clients invoiced in one session — under 10 minutes</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
-<footer>
-  <div class="footer-brand">StayGentic <em>Clean</em></div>
-  <a href="https://theagenticgroup.co.uk" class="footer-url" style="text-decoration:none;">theagenticgroup.co.uk</a>
-  <div class="footer-tag">Built by The Agentic Group · Part of the StayGentic Family</div>
+
+<!-- ══════════════════════════════════════════
+     TRUST / TESTIMONIALS
+     ══════════════════════════════════════════ -->
+<section class="sc-section-mid">
+  <div class="sg-container">
+    <span class="sg-label">What operators say</span>
+    <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand)" data-hl>The managers already<br><em style="font-style:italic">using StayGentic Clean.</em></h2>
+    <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand)" data-cm style="display:none">The contractors already<br><em style="font-style:italic">using StayGentic Clean.</em></h2>
+
+    <!-- HOLIDAY LET testimonials -->
+    <div class="sc-trust-grid" data-hl>
+      <div class="sc-trust-card featured">
+        <div class="sc-stars">★★★★★</div>
+        <p class="sc-quote">"The invoice alone is worth it. I used to spend an entire Sunday morning going through spreadsheets and WhatsApp messages. Now I do it in ten minutes on a Friday afternoon."</p>
+        <div class="sc-attrib">Sarah M. <span>Property Manager · 14 properties · Pembrokeshire</span></div>
+      </div>
+      <div class="sc-trust-card">
+        <div class="sc-stars">★★★★★</div>
+        <p class="sc-quote">"I stopped chasing cleaners on WhatsApp the week we went live. They log the job from the doorstep. I can see it on the dashboard. Sounds simple but it changes everything."</p>
+        <div class="sc-attrib">James T. <span>Holiday Let Agency · 23 properties · North Wales</span></div>
+      </div>
+      <div class="sc-trust-card">
+        <div class="sc-stars">★★★★★</div>
+        <p class="sc-quote">"We were losing billable extras constantly — hot tub preps, log baskets, welcome packs. Now every extra the cleaner logs goes straight onto the invoice. I've recovered £200–£300 a month I wasn't billing."</p>
+        <div class="sc-attrib">Rachel H. <span>Multi-property Owner · 8 properties · Snowdonia</span></div>
+      </div>
+      <div class="sc-trust-card">
+        <div class="sc-stars">★★★★★</div>
+        <p class="sc-quote">"Setup was completely painless — Evan had our three properties configured and our cleaners onboarded inside two days. That was the bit I was most worried about and it was genuinely the easiest part."</p>
+        <div class="sc-attrib">David &amp; Clare W. <span>Cottage Portfolio · 3 properties · Shropshire</span></div>
+      </div>
+    </div>
+
+    <!-- COMMERCIAL testimonials -->
+    <div class="sc-trust-grid" data-cm style="display:none">
+      <div class="sc-trust-card featured">
+        <div class="sc-stars">★★★★★</div>
+        <p class="sc-quote">"Client invoicing used to take me the best part of a day. Now I review, click send, and I'm done. The time I've saved is genuinely the equivalent of half a member of staff."</p>
+        <div class="sc-attrib">Mark D. <span>Commercial Cleaning Contractor · 18 clients · Bristol</span></div>
+      </div>
+      <div class="sc-trust-card">
+        <div class="sc-stars">★★★★★</div>
+        <p class="sc-quote">"No more chasing operatives to confirm they've actually been to a site. They sign off from their phone, I see it on the dashboard in real time. If a job hasn't been logged I know about it immediately."</p>
+        <div class="sc-attrib">Donna K. <span>Facilities Cleaning Manager · 11 sites · Manchester</span></div>
+      </div>
+      <div class="sc-trust-card">
+        <div class="sc-stars">★★★★★</div>
+        <p class="sc-quote">"We were losing call-outs and extras every single month because they weren't being logged. StayGentic captures them at the point of the job. I'd estimate we're invoicing an extra £400 a month we were simply missing."</p>
+        <div class="sc-attrib">Terry S. <span>Contract Cleaning Company · 27 commercial clients · Birmingham</span></div>
+      </div>
+      <div class="sc-trust-card">
+        <div class="sc-stars">★★★★★</div>
+        <p class="sc-quote">"I was sceptical about the setup being quick, but we were live across all our sites within three days. The operatives needed zero training — they just get a link, tap through, and done."</p>
+        <div class="sc-attrib">Nadia F. <span>Office Cleaning Contractor · 9 clients · Leeds</span></div>
+      </div>
+    </div>
+
+    <div class="sc-founder-bar">
+      <div class="sc-founder-av">E</div>
+      <div>
+        <p class="sc-founder-quote" data-hl>"Holiday let managers are running an operations business on top of a hospitality business — mostly on WhatsApp and spreadsheets at 11pm on a Sunday. That has to change."</p>
+        <p class="sc-founder-quote" data-cm style="display:none">"Commercial cleaning contractors run complex operations — multiple sites, multiple operatives, variable contracts — and most are still managing it on WhatsApp and spreadsheets. That has to change."</p>
+        <div class="sc-founder-name">Evan Davies <span>Co-Founder, StayGentic · The Agentic Group · Wales, UK</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ══════════════════════════════════════════
+     FINAL CTA + FORM
+     ══════════════════════════════════════════ -->
+<section class="sc-final" id="register">
+  <div class="sg-container">
+    <div class="sc-final-inner">
+      <div>
+        <span class="sg-label">Get started</span>
+        <h2 data-hl>Ready to stop doing<br><em>this the hard way?</em></h2>
+        <h2 data-cm style="display:none">Ready to run a tighter<br><em>operation?</em></h2>
+        <p class="sc-final-sub" style="margin-top:12px" data-hl>Book a 15-minute call and we'll walk through your portfolio and show you exactly how StayGentic Clean works for your setup — live, on the call.</p>
+        <p class="sc-final-sub" style="margin-top:12px" data-cm style="display:none">Book a 15-minute call and we'll walk through your client base and show you exactly how StayGentic Clean works for your contracts — live, on the call.</p>
+        <p class="sc-final-sub">No obligation. No pressure. Just an honest look at whether it makes sense for your operation.</p>
+        <ul class="sc-reassure">
+          <li><div class="sc-rdot"></div>Custom configured for your operation</li>
+          <li><div class="sc-rdot"></div>Live in 2–3 working days</li>
+          <li><div class="sc-rdot"></div>No app download for cleaners or operatives</li>
+          <li><div class="sc-rdot"></div><span data-hl>Works with Airbnb, Booking.com, Awaze, Classic Cottages</span><span data-cm style="display:none">Works with any schedule, calendar or rota format</span></li>
+          <li><div class="sc-rdot"></div>No long-term contract</li>
+        </ul>
+        <div style="margin-top:36px;padding:24px 0;border-top:1px solid rgba(255,255,255,0.08)">
+          <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(255,255,255,0.8);font-style:italic;line-height:1.6;margin-bottom:10px">"We onboard a small number of new operators each month so every setup gets our full attention."</p>
+          <span style="font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)">Evan Davies, Co-Founder</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="sc-form-card">
+          <div class="sc-form-head">
+            <h3>Book a call or register interest</h3>
+            <p>We'll be in touch within one working day.</p>
+          </div>
+          <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sc-book-link">
+            <div class="sc-book-icon">📞</div>
+            <div class="sc-book-text">
+              <strong>Book a 15-minute call</strong>
+              <span>Straight into Evan's calendar — pick a time that suits you</span>
+            </div>
+            <div class="sc-book-arr">→</div>
+          </a>
+          <div class="sc-divider"><span>or leave your details</span></div>
+          <form id="sc-form" onsubmit="scSubmit(event)">
+            <div class="sc-field-row">
+              <div class="sc-field">
+                <label>Your name</label>
+                <input id="sc-name" type="text" placeholder="Jane Davies" required>
+              </div>
+              <div class="sc-field">
+                <label>Business name</label>
+                <input id="sc-company" type="text" placeholder="Your company">
+              </div>
+            </div>
+            <div class="sc-field">
+              <label>Email address</label>
+              <input id="sc-email" type="email" placeholder="jane@yourbusiness.co.uk" required>
+            </div>
+            <div class="sc-field">
+              <label data-hl>Number of properties</label>
+              <label data-cm style="display:none">Number of sites / clients</label>
+              <select id="sc-properties">
+                <option value="" disabled selected>Select range</option>
+                <option>1–5</option>
+                <option>6–15</option>
+                <option>16–30</option>
+                <option>31–50</option>
+                <option>50+</option>
+              </select>
+            </div>
+            <div class="sc-field">
+              <label>I manage</label>
+              <select id="sc-type-select" onchange="syncToggle(this.value)">
+                <option value="" disabled selected>Select type</option>
+                <option value="holidaylet">Holiday lets / cottages</option>
+                <option value="commercial">Commercial / office cleaning</option>
+                <option value="both">Both</option>
+              </select>
+            </div>
+            <button type="submit" class="sc-submit">Register My Interest →</button>
+            <p class="sc-form-small">We'll only use your details to follow up about StayGentic Clean. No spam, ever.</p>
+          </form>
+          <div id="sc-success" style="display:none;text-align:center;padding:28px 0">
+            <div style="font-size:2rem;margin-bottom:14px">✓</div>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#fff;margin-bottom:8px">Got it — we'll be in touch.</p>
+            <p style="font-size:0.8rem;color:rgba(255,255,255,0.4)">Expect a message within one working day. Or <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" style="color:var(--gold)">book a call directly</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="sc-footer">
+  <div class="sg-container">
+    <div class="sc-footer-inner">
+      <div class="sc-footer-logo">Stay<span>Gentic</span> Clean</div>
+      <div class="sc-footer-copy">Built by The Agentic Group · Part of the StayGentic Family · staygentic.co.uk</div>
+    </div>
+  </div>
 </footer>
 
 <script>
-// Custom cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
-function animRing(){
-  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-  ring.style.left=rx+'px'; ring.style.top=ry+'px';
-  requestAnimationFrame(animRing);
+var currentMode = 'holidaylet';
+
+function setMode(mode) {
+  currentMode = mode;
+  document.body.className = 'mode-' + mode;
+
+  // Toggle buttons
+  document.getElementById('btn-hl').classList.toggle('active', mode === 'holidaylet');
+  document.getElementById('btn-cm').classList.toggle('active', mode === 'commercial');
+
+  // Swap [data-hl] / [data-cm] elements
+  document.querySelectorAll('[data-hl]').forEach(function(el) {
+    el.style.display = mode === 'holidaylet' ? '' : 'none';
+  });
+  document.querySelectorAll('[data-cm]').forEach(function(el) {
+    el.style.display = mode === 'commercial' ? '' : 'none';
+  });
+
+  // Sync the form select if already changed
+  var sel = document.getElementById('sc-type-select');
+  if (mode === 'holidaylet' && sel.value === '') sel.value = '';
+  if (mode === 'commercial' && sel.value === '') sel.value = '';
 }
-animRing();
 
-// Scroll reveal
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => observer.observe(el));
-
-// Platform toggle
-function togglePlat(label, e){
-  if(e) e.preventDefault();
-  label.classList.toggle('checked');
+// If someone selects their type in the form, auto-switch the page mode
+function syncToggle(val) {
+  if (val === 'holidaylet') setMode('holidaylet');
+  else if (val === 'commercial') setMode('commercial');
 }
 
-// Form submit
-async function submitForm(){
-  const name    = document.getElementById('f_name').value.trim();
-  const email   = document.getElementById('f_email').value.trim();
-  const phone   = document.getElementById('f_phone').value.trim();
-  const company = document.getElementById('f_company').value.trim();
-  const props   = document.getElementById('f_props').value;
-  const region  = document.getElementById('f_region').value.trim();
-
-  // Validation
-  let valid = true;
-  if(!name){  document.getElementById('f_name').style.borderColor='rgba(192,57,43,.6)';  valid=false; }
-  else { document.getElementById('f_name').style.borderColor=''; }
-  if(!email){ document.getElementById('f_email').style.borderColor='rgba(192,57,43,.6)'; valid=false; }
-  else { document.getElementById('f_email').style.borderColor=''; }
-  if(!valid) return;
-
-  // Collect selected platforms
-  const platforms = [...document.querySelectorAll('.platform-check.checked')]
-    .map(el => el.textContent.trim()).join(', ');
-
-  // Button loading state
-  const btn = document.querySelector('.submit-btn');
+function scSubmit(e) {
+  e.preventDefault();
+  var btn = e.target.querySelector('.sc-submit');
+  btn.textContent = 'Sending…';
   btn.disabled = true;
-  btn.innerHTML = '<div class="submit-arrow" style="animation:spin .7s linear infinite;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;width:18px;height:18px;"></div> Sending...';
 
-  // POST to API route → GHL Contacts API
-  try {
-    await fetch('/api/register-interest', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName:   name.split(' ')[0] || name,
-        lastName:    name.split(' ').slice(1).join(' ') || '',
-        email:       email,
-        phone:       phone,
-        companyName: company,
-        properties:  props,
-        region:      region,
-        platforms:   platforms,
-        source:      'StayGentic Clean Landing Page',
-        tags:        ['StayGentic Clean', 'Interest']
-      })
-    });
-  } catch(e) {
-    console.error('Submission error:', e);
-  }
+  var fullName = (document.getElementById('sc-name').value || '').trim();
+  var nameParts = fullName.split(' ');
+  var firstName = nameParts[0] || '';
+  var lastName = nameParts.slice(1).join(' ') || '';
+  var email = document.getElementById('sc-email').value.trim();
+  var companyName = document.getElementById('sc-company').value.trim();
+  var properties = document.getElementById('sc-properties').value;
+  var manageType = document.getElementById('sc-type-select').value;
 
-  // Show success state
-  document.querySelector('.form-grid').style.display='none';
-  document.querySelector('.submit-btn').style.display='none';
-  document.querySelector('.form-sub').style.display='none';
-  document.getElementById('formSuccess').style.display='block';
+  var tags = ['staygentic-clean-interest'];
+  if (manageType === 'holidaylet') tags.push('holiday-let');
+  else if (manageType === 'commercial') tags.push('commercial-cleaning');
+  else if (manageType === 'both') tags.push('holiday-let', 'commercial-cleaning');
+
+  fetch('/api/register-interest', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      companyName: companyName,
+      properties: properties,
+      source: 'staygentic-clean-dual-audience',
+      tags: tags
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function() {
+    document.getElementById('sc-form').style.display = 'none';
+    document.getElementById('sc-success').style.display = 'block';
+  })
+  .catch(function() {
+    btn.textContent = 'Register My Interest →';
+    btn.disabled = false;
+    alert('Something went wrong — please try again or book a call directly.');
+  });
 }
 </script>
 </body>
