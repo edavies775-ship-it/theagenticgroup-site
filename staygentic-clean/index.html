@@ -165,6 +165,22 @@ body.mode-commercial .sc-step-num{color:rgba(26,42,64,0.1)}
 .sc-step-tag{display:inline-block;background:rgba(184,150,62,0.12);color:var(--gold);font-family:'Jost',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:2px;margin-top:12px;transition:background 0.3s,color 0.3s}
 body.mode-commercial .sc-step-tag{background:rgba(46,125,209,0.12)}
 
+/* ── DEMO VIDEO ───────────────────────────────────────── */
+.sc-demo-section{background:var(--brand);padding:90px 0;position:relative;overflow:hidden;transition:background 0.4s}
+.sc-demo-section::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:background 0.3s}
+.sc-demo-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.sc-demo-copy h2{font-size:clamp(2rem,3.5vw,3rem);color:#fff;margin-bottom:16px}
+.sc-demo-copy h2 em{font-style:italic;color:var(--gold-light);transition:color 0.3s}
+.sc-demo-copy p{font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:28px}
+.sc-demo-points{list-style:none;margin-bottom:36px}
+.sc-demo-points li{display:flex;align-items:center;gap:10px;font-size:0.83rem;color:rgba(255,255,255,0.6);padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.sc-demo-points li:last-child{border-bottom:none}
+.sc-demo-points li::before{content:'✓';color:var(--gold-light);flex-shrink:0;font-size:0.75rem;transition:color 0.3s}
+.sc-video-wrap{position:relative;width:100%;max-width:340px;margin:0 auto}
+.sc-video-ratio{position:relative;padding-bottom:177.78%;height:0;overflow:hidden;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,0.5)}
+.sc-video-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+@media(max-width:900px){.sc-demo-inner{grid-template-columns:1fr}.sc-video-wrap{max-width:280px}}
+
 /* ── INVOICE DEMO ─────────────────────────────────────── */
 .sc-demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);margin-top:48px}
 .sc-demo-card{background:var(--cream);padding:32px 28px}
@@ -553,6 +569,47 @@ body.mode-commercial .sc-founding-banner{background:linear-gradient(135deg,#2E7D
         <span class="sc-step-tag" data-hl>Per property · One click</span>
         <span class="sc-step-tag" data-cm style="display:none">Per client · One click</span>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     DEMO VIDEO
+     ══════════════════════════════════════════ -->
+<section class="sc-demo-section">
+  <div class="sg-container">
+    <div class="sc-demo-inner">
+
+      <div class="sc-demo-copy">
+        <span class="sg-label">See it in action</span>
+        <h2 data-hl>Watch the system<br><em>working live.</em></h2>
+        <h2 data-cm style="display:none">Watch the system<br><em>working live.</em></h2>
+        <p data-hl>From booking sync to job logging to invoice — this is what StayGentic Clean looks like in practice for a real holiday let operation.</p>
+        <p data-cm style="display:none">From schedule sync to site sign-off to client invoice — this is StayGentic Clean running live across a real cleaning operation.</p>
+        <ul class="sc-demo-points">
+          <li data-hl>Cleaners log jobs from the doorstep in 60 seconds</li>
+          <li data-hl>Dashboard updates in real time</li>
+          <li data-hl>Month-end invoicing in under 10 minutes</li>
+          <li data-cm style="display:none">Operatives sign off from any site in seconds</li>
+          <li data-cm style="display:none">Full audit trail created automatically</li>
+          <li data-cm style="display:none">Client invoices built and sent in minutes</li>
+        </ul>
+        <a href="#pricing" class="sg-btn sg-btn-gold">See Pricing →</a>
+      </div>
+
+      <div class="sc-video-wrap">
+        <div class="sc-video-ratio">
+          <iframe
+            src="https://www.youtube.com/embed/LJVZ48mQw8s?rel=0&modestbranding=1&playsinline=1"
+            title="StayGentic Clean — product demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
