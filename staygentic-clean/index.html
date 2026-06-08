@@ -228,7 +228,96 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
 
 
 
-/* ── URGENCY BAR ──────────────────────────────────────── */
+/* ── PRICING ──────────────────────────────────────────── */
+.sc-founding-banner{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:#fff;padding:10px 22px;border-radius:2px;
+  font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:36px;
+  transition:background 0.3s;
+}
+body.mode-commercial .sc-founding-banner{background:linear-gradient(135deg,#2E7DD1,#5BA0E8)}
+.sc-pricing-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2px;background:var(--border);border:1px solid var(--border);
+  margin-top:40px;
+}
+.sc-price-card{
+  background:var(--cream);padding:38px 30px;
+  display:flex;flex-direction:column;position:relative;
+  transition:background 0.2s;
+}
+.sc-price-card:hover{background:#fff}
+.sc-price-card.featured{
+  background:var(--brand);
+  transition:background 0.4s;
+}
+.sc-price-card.featured:hover{background:var(--brand-mid)}
+.sc-price-card.enterprise{background:var(--cream-mid)}
+.sc-price-badge{
+  display:inline-block;background:var(--gold);color:#fff;
+  font-family:'Jost',sans-serif;font-size:0.6rem;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:4px 10px;border-radius:2px;margin-bottom:14px;align-self:flex-start;
+  transition:background 0.3s;
+}
+.sc-price-range{
+  font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:10px;transition:color 0.3s;
+}
+.sc-price-card.featured .sc-price-range{color:var(--gold-light)}
+.sc-price-card.enterprise .sc-price-range{color:var(--gold)}
+.sc-price-amount{
+  font-family:'Cormorant Garamond',serif;font-size:3.8rem;
+  color:var(--brand);line-height:1;margin-bottom:6px;transition:color 0.3s;
+}
+.sc-price-amount sup{
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;
+  vertical-align:top;margin-top:0.6rem;color:var(--gold);transition:color 0.3s;
+}
+.sc-price-card.featured .sc-price-amount{color:#fff}
+.sc-price-card.featured .sc-price-amount sup{color:var(--gold-light)}
+.sc-price-amount-custom{
+  font-family:'Cormorant Garamond',serif;font-size:2.8rem;
+  color:var(--brand);line-height:1;margin-bottom:6px;font-style:italic;
+  transition:color 0.3s;
+}
+.sc-price-period{
+  font-family:'Jost',sans-serif;font-size:0.68rem;
+  color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;
+  margin-bottom:20px;transition:color 0.3s;
+}
+.sc-price-card.featured .sc-price-period{color:rgba(255,255,255,0.4)}
+.sc-price-desc{
+  font-size:0.83rem;color:var(--muted);line-height:1.65;
+  margin-bottom:26px;flex:1;transition:color 0.3s;
+}
+.sc-price-card.featured .sc-price-desc{color:rgba(255,255,255,0.62)}
+.sc-price-cta{width:100%;justify-content:center;margin-top:auto;font-size:0.78rem}
+.sc-founding-note{
+  font-family:'Jost',sans-serif;font-size:0.72rem;color:var(--gold);
+  text-align:center;margin-top:18px;letter-spacing:0.08em;transition:color 0.3s;
+}
+.sc-features-wrapper{
+  background:var(--brand);padding:36px 40px;margin-top:2px;
+  transition:background 0.4s;
+}
+.sc-features-title{
+  font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:22px;transition:color 0.3s;
+}
+.sc-features-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.sc-feature-item{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:0.83rem;color:rgba(255,255,255,0.68);
+  padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.06);
+  line-height:1.5;
+}
+.sc-feature-item:last-child,.sc-feature-item:nth-last-child(2):nth-child(odd){border-bottom:none}
+.sc-feat-check{color:var(--gold-light);flex-shrink:0;font-size:0.75rem;margin-top:1px;transition:color 0.3s}
 
 /* ── FINAL CTA ────────────────────────────────────────── */
 .sc-final{background:var(--brand);padding:100px 0;transition:background 0.4s}
@@ -281,12 +370,16 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
   .sc-founder-bar{flex-direction:column;gap:20px}
   .sc-toggle-nav{display:none}
   .sc-inline-inner{flex-direction:column}
+  .sc-pricing-grid{grid-template-columns:1fr 1fr}
+  .sc-features-grid{grid-template-columns:1fr}
+  .sc-features-wrapper{padding:28px 24px}
 }
 @media(max-width:600px){
   .sc-steps{grid-template-columns:1fr}
   .sc-field-row{grid-template-columns:1fr}
   .sc-form-card{padding:28px 20px}
   .sc-hero h1{font-size:2.6rem}
+  .sc-pricing-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -300,7 +393,7 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
   <ul class="sc-toggle-nav">
     <li><a href="#how">How it works</a></li>
     <li><a href="#invoicing">Invoicing</a></li>
-
+    <li><a href="#pricing">Pricing</a></li>
     <li><a href="#register">Get started</a></li>
   </ul>
   <div class="sc-toggle-pill">
@@ -327,10 +420,10 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
       <div class="sc-hero-proof-item"><div class="sc-proof-dot"></div><span>Every extra charged. Nothing missed.</span></div>
     </div>
     <div class="sc-hero-cta">
-      <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-gold" style="padding:18px 40px;font-size:0.85rem">Book a 15-Minute Call</a>
-      <a href="#register" class="sg-btn sg-btn-outline-light">Register Interest</a>
+      <a href="#pricing" class="sg-btn sg-btn-gold" style="padding:18px 40px;font-size:0.85rem">See Pricing →</a>
+      <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-outline-light">Book a Call</a>
     </div>
-    <p class="sc-hero-note">⚡ Limited setup slots available each month.</p>
+    <p class="sc-hero-note">⚡ Founding Partner rates — locked for life. Limited slots remaining.</p>
   </div>
 
   <!-- COMMERCIAL hero content -->
@@ -344,10 +437,10 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
       <div class="sc-hero-proof-item"><div class="sc-proof-dot"></div><span>Full job history and audit trail per site</span></div>
     </div>
     <div class="sc-hero-cta">
-      <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-gold" style="padding:18px 40px;font-size:0.85rem">Book a 15-Minute Call</a>
-      <a href="#register" class="sg-btn sg-btn-outline-light">Register Interest</a>
+      <a href="#pricing" class="sg-btn sg-btn-gold" style="padding:18px 40px;font-size:0.85rem">See Pricing →</a>
+      <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-outline-light">Book a Call</a>
     </div>
-    <p class="sc-hero-note">⚡ Currently onboarding commercial contractors — limited slots.</p>
+    <p class="sc-hero-note">⚡ Founding Partner rates — locked for life. Limited slots remaining.</p>
   </div>
 
   <!-- Stats bar — shared, labels swap -->
@@ -611,8 +704,8 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
         <p data-cm style="display:none;margin-top:12px">From 3 clients to 300, every contract, extra and call-out is tracked and invoiced automatically at month end.</p>
       </div>
       <div class="sc-inline-actions">
-        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-gold">Book a Call</a>
-        <a href="#register" class="sg-btn sg-btn-outline-light">Register Interest</a>
+        <a href="#pricing" class="sg-btn sg-btn-gold">See Pricing →</a>
+        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-outline-light">Book a Call</a>
       </div>
     </div>
   </div>
@@ -761,6 +854,70 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
 
 
 <!-- ══════════════════════════════════════════
+     PRICING
+     ══════════════════════════════════════════ -->
+<section class="sc-section-mid" id="pricing">
+  <div class="sg-container">
+    <div class="sc-founding-banner">★ Founding Partner rates — locked for life · Limited slots remaining</div>
+    <span class="sg-label">Simple pricing</span>
+    <h2 style="font-size:clamp(2rem,3.5vw,3rem);color:var(--brand)">Simple pricing.<br><em style="font-style:italic">Powerful results.</em></h2>
+    <p style="font-size:0.92rem;color:var(--muted);max-width:540px;margin-top:12px;line-height:1.8">No fluff, no complexity. Everything included at every tier — pick the plan that fits your operation and you're live within days.</p>
+
+    <div class="sc-pricing-grid">
+
+      <div class="sc-price-card">
+        <div class="sc-price-range">1–15 clients</div>
+        <div class="sc-price-amount"><sup>£</sup>69</div>
+        <div class="sc-price-period">per month</div>
+        <p class="sc-price-desc">Perfect for small cleaning businesses just getting organised</p>
+        <button class="sg-btn sg-btn-outline-dark sc-price-cta" onclick="startCheckout('starter', event)">Get Started →</button>
+      </div>
+
+      <div class="sc-price-card featured">
+        <div class="sc-price-badge">Most Popular</div>
+        <div class="sc-price-range">15–30 clients</div>
+        <div class="sc-price-amount"><sup>£</sup>110</div>
+        <div class="sc-price-period">per month</div>
+        <p class="sc-price-desc">Growing teams managing multiple clients across any sector</p>
+        <button class="sg-btn sg-btn-gold sc-price-cta" onclick="startCheckout('growth', event)">Get Started →</button>
+      </div>
+
+      <div class="sc-price-card">
+        <div class="sc-price-range">30–50 clients</div>
+        <div class="sc-price-amount"><sup>£</sup>149</div>
+        <div class="sc-price-period">per month</div>
+        <p class="sc-price-desc">Established cleaning operations running at scale</p>
+        <button class="sg-btn sg-btn-outline-dark sc-price-cta" onclick="startCheckout('scale', event)">Get Started →</button>
+      </div>
+
+      <div class="sc-price-card enterprise">
+        <div class="sc-price-range">50+ clients</div>
+        <div class="sc-price-amount-custom">Custom</div>
+        <div class="sc-price-period">let's talk</div>
+        <p class="sc-price-desc">Enterprise pricing tailored to your operation and scale</p>
+        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sg-btn sg-btn-outline-dark sc-price-cta">Book a Call →</a>
+      </div>
+
+    </div>
+
+    <p class="sc-founding-note">All Founding Partner rates are locked for life. Price never goes up.</p>
+
+    <div class="sc-features-wrapper">
+      <div class="sc-features-title">Everything included, every tier</div>
+      <div class="sc-features-grid">
+        <div class="sc-feature-item"><span class="sc-feat-check">✓</span>Job scheduling across all your clients</div>
+        <div class="sc-feature-item"><span class="sc-feat-check">✓</span>Spend tracking per property or client</div>
+        <div class="sc-feature-item"><span class="sc-feat-check">✓</span>Automatic invoice generation at month end</div>
+        <div class="sc-feature-item"><span class="sc-feat-check">✓</span>Multi-rate support across your portfolio</div>
+        <div class="sc-feature-item"><span class="sc-feat-check">✓</span>Works for holiday let, residential and commercial</div>
+        <div class="sc-feature-item"><span class="sc-feat-check">✓</span>Built and supported by a real operator</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
      FINAL CTA + FORM
      ══════════════════════════════════════════ -->
 <section class="sc-final" id="register">
@@ -789,8 +946,8 @@ body.mode-commercial .sc-founder-bar{border-color:rgba(46,125,209,0.2)}
       <div>
         <div class="sc-form-card">
           <div class="sc-form-head">
-            <h3>Book a call or register interest</h3>
-            <p>We'll be in touch within one working day.</p>
+            <h3>Prefer a demo first?</h3>
+            <p>Book a call or leave your details — we'll be in touch within one working day.</p>
           </div>
           <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sc-book-link">
             <div class="sc-book-icon">📞</div>
@@ -883,6 +1040,34 @@ function setMode(mode) {
   var sel = document.getElementById('sc-type-select');
   if (mode === 'holidaylet' && sel.value === '') sel.value = '';
   if (mode === 'commercial' && sel.value === '') sel.value = '';
+}
+
+function startCheckout(tier, evt) {
+  var btn = evt.currentTarget;
+  var orig = btn.textContent;
+  btn.textContent = 'Redirecting…';
+  btn.disabled = true;
+
+  fetch('/api/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tier: tier, audience: currentMode })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      btn.textContent = orig;
+      btn.disabled = false;
+      alert('Something went wrong — please try again or book a call.');
+    }
+  })
+  .catch(function() {
+    btn.textContent = orig;
+    btn.disabled = false;
+    alert('Something went wrong — please try again or book a call.');
+  });
 }
 
 // If someone selects their type in the form, auto-switch the page mode

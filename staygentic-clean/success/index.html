@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to StayGentic Clean — Book Your Onboarding Call</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:#FAF7F0;color:#2C2C2C;font-weight:300;line-height:1.75;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:400;line-height:1.2}
+a{text-decoration:none}
+
+:root{
+  --brand:#1C3A2B;
+  --brand-mid:#2A5240;
+  --gold:#B8963E;
+  --gold-light:#D4AF6A;
+  --cream:#FAF7F0;
+  --cream-mid:#F0EBE0;
+  --border:#E0D9CE;
+  --text:#2C2C2C;
+  --muted:#5A5A5A;
+}
+
+.sg-container{max-width:1160px;margin:0 auto;padding:0 32px}
+.sg-label{font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px}
+
+/* ── NAV ───────────────────────────────────────────────── */
+.sc-nav{
+  position:sticky;top:0;z-index:9999;
+  background:var(--brand);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.sc-nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;font-weight:500}
+.sc-nav-logo span{color:var(--gold)}
+.sc-nav-back{font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);transition:color 0.2s}
+.sc-nav-back:hover{color:rgba(255,255,255,0.8)}
+
+/* ── CONFIRMATION HERO ─────────────────────────────────── */
+.sc-confirm-hero{
+  background:var(--brand);
+  padding:72px 0 56px;
+  position:relative;overflow:hidden;
+}
+.sc-confirm-hero::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light));
+}
+.sc-confirm-inner{max-width:640px}
+.sc-confirm-icon{
+  width:56px;height:56px;border-radius:50%;
+  background:rgba(184,150,62,0.15);
+  border:1.5px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:28px;
+}
+.sc-confirm-hero h1{
+  font-size:clamp(2.2rem,4vw,3.4rem);color:#fff;font-weight:300;margin-bottom:16px;
+}
+.sc-confirm-hero h1 em{font-style:italic;color:var(--gold-light)}
+.sc-confirm-sub{font-size:0.95rem;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:0;max-width:500px}
+.sc-tier-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(184,150,62,0.12);border:1px solid rgba(184,150,62,0.3);
+  padding:8px 18px;border-radius:2px;margin-bottom:24px;
+  font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);
+}
+
+/* ── STEPS STRIP ───────────────────────────────────────── */
+.sc-steps-strip{
+  background:rgba(0,0,0,0.18);
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding:28px 0;
+}
+.sc-steps-inner{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2px;background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.sc-next-step{padding:22px 28px}
+.sc-next-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;color:var(--gold-light);opacity:0.4;
+  line-height:1;margin-bottom:6px;
+}
+.sc-next-step.active .sc-next-num{opacity:1}
+.sc-next-title{
+  font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);margin-bottom:4px;
+}
+.sc-next-step.active .sc-next-title{color:var(--gold)}
+.sc-next-desc{font-size:0.78rem;color:rgba(255,255,255,0.3);line-height:1.6}
+.sc-next-step.active .sc-next-desc{color:rgba(255,255,255,0.6)}
+
+/* ── BOOKING SECTION ───────────────────────────────────── */
+.sc-booking-section{background:var(--cream);padding:72px 0}
+.sc-booking-inner{display:grid;grid-template-columns:1fr 2fr;gap:60px;align-items:start}
+.sc-booking-info h2{font-size:clamp(1.8rem,3vw,2.6rem);color:var(--brand);margin-bottom:16px}
+.sc-booking-info h2 em{font-style:italic;color:var(--gold)}
+.sc-booking-info p{font-size:0.87rem;color:var(--muted);line-height:1.8;margin-bottom:20px}
+.sc-booking-detail{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 0;border-bottom:1px solid var(--border);
+  font-size:0.82rem;color:var(--muted);
+}
+.sc-booking-detail:last-child{border-bottom:none}
+.sc-bd-icon{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(184,150,62,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.85rem;flex-shrink:0;margin-top:2px;
+}
+.sc-booking-widget{
+  border:1px solid var(--border);
+  background:#fff;
+  overflow:hidden;
+  min-height:650px;
+}
+.sc-booking-widget iframe{
+  width:100%;min-height:650px;border:none;display:block;
+}
+
+/* ── FOOTER ───────────────────────────────────────────── */
+.sc-footer{background:#1A1A1A;padding:36px 0}
+.sc-footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.sc-footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff}
+.sc-footer-logo span{color:var(--gold)}
+.sc-footer-copy{font-family:'Jost',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.2);letter-spacing:0.06em}
+
+/* ── RESPONSIVE ────────────────────────────────────────── */
+@media(max-width:900px){
+  .sc-booking-inner{grid-template-columns:1fr}
+  .sc-steps-inner{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .sg-container{padding:0 20px}
+  .sc-confirm-hero{padding:48px 0 40px}
+}
+</style>
+</head>
+<body>
+
+<nav class="sc-nav">
+  <div class="sc-nav-logo">Stay<span>Gentic</span> Clean</div>
+  <a href="/staygentic-clean/" class="sc-nav-back">← Back to site</a>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     CONFIRMATION HERO
+     ══════════════════════════════════════════ -->
+<section class="sc-confirm-hero">
+  <div class="sg-container">
+    <div class="sc-confirm-inner">
+      <div class="sc-confirm-icon">✓</div>
+      <div id="sc-tier-pill" class="sc-tier-pill" style="display:none"></div>
+      <h1>You're in.<br><em>Welcome to StayGentic Clean.</em></h1>
+      <p class="sc-confirm-sub">Your subscription is confirmed and your account is being prepared. One last step — book your 20-minute onboarding call below so we can get you fully set up and live within days.</p>
+    </div>
+  </div>
+
+  <div class="sc-steps-strip">
+    <div class="sg-container">
+      <div class="sc-steps-inner">
+        <div class="sc-next-step">
+          <div class="sc-next-num">01</div>
+          <div class="sc-next-title">Payment confirmed</div>
+          <div class="sc-next-desc">Your Founding Partner subscription is active</div>
+        </div>
+        <div class="sc-next-step active">
+          <div class="sc-next-num">02</div>
+          <div class="sc-next-title">Book onboarding call</div>
+          <div class="sc-next-desc">Pick a time below — 20 minutes with Evan to set everything up</div>
+        </div>
+        <div class="sc-next-step">
+          <div class="sc-next-num">03</div>
+          <div class="sc-next-title">Go live</div>
+          <div class="sc-next-desc">Configured for your portfolio and live within 2–3 working days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     BOOKING SECTION
+     ══════════════════════════════════════════ -->
+<section class="sc-booking-section">
+  <div class="sg-container">
+    <div class="sc-booking-inner">
+      <div class="sc-booking-info">
+        <span class="sg-label">Last step</span>
+        <h2>Book your<br><em>onboarding call.</em></h2>
+        <p>This 20-minute call is where everything gets set up. We'll configure your properties or sites, set your rates, and make sure your cleaners are ready to go.</p>
+        <div class="sc-booking-detail">
+          <div class="sc-bd-icon">⏱</div>
+          <div><strong style="display:block;color:var(--brand);font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:500;margin-bottom:2px">20 minutes</strong>Everything configured live, on the call</div>
+        </div>
+        <div class="sc-booking-detail">
+          <div class="sc-bd-icon">🗓</div>
+          <div><strong style="display:block;color:var(--brand);font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:500;margin-bottom:2px">Choose your time</strong>Pick a slot that suits you from Evan's live calendar</div>
+        </div>
+        <div class="sc-booking-detail">
+          <div class="sc-bd-icon">🚀</div>
+          <div><strong style="display:block;color:var(--brand);font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:500;margin-bottom:2px">Live in 2–3 days</strong>From call to fully operational, within the week</div>
+        </div>
+        <div style="margin-top:28px;padding:18px 20px;background:var(--cream-mid);border:1px solid var(--border);border-radius:2px">
+          <p style="font-family:'Jost',sans-serif;font-size:0.72rem;color:var(--muted);line-height:1.7">Can't find a time that works? Email <a href="mailto:evan@theagenticgroup.co.uk" style="color:var(--gold)">evan@theagenticgroup.co.uk</a> and we'll arrange something directly.</p>
+        </div>
+      </div>
+
+      <div class="sc-booking-widget">
+        <iframe
+          src="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs"
+          frameborder="0"
+          allowfullscreen
+          loading="lazy"
+          title="Book your onboarding call">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="sc-footer">
+  <div class="sg-container">
+    <div class="sc-footer-inner">
+      <div class="sc-footer-logo">Stay<span>Gentic</span> Clean</div>
+      <div class="sc-footer-copy">Built by The Agentic Group · Part of the StayGentic Family · staygentic.co.uk</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var tierLabels = {
+  starter: '1–15 Clients · £69/month',
+  growth: '15–30 Clients · £110/month',
+  scale: '30–50 Clients · £149/month'
+};
+
+var params = new URLSearchParams(window.location.search);
+var tier = params.get('tier');
+if (tier && tierLabels[tier]) {
+  var pill = document.getElementById('sc-tier-pill');
+  pill.textContent = '★ ' + tierLabels[tier] + ' · Founding Partner';
+  pill.style.display = 'inline-flex';
+}
+</script>
+</body>
+</html>
