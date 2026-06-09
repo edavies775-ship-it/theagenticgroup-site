@@ -5,7 +5,9 @@
     { "src": "*.html", "use": "@vercel/static" },
     { "src": "**/*.html", "use": "@vercel/static" },
     { "src": "*.jpg", "use": "@vercel/static" },
-    { "src": "**/*.png", "use": "@vercel/static" }
+    { "src": "**/*.png", "use": "@vercel/static" },
+    { "src": "*.txt", "use": "@vercel/static" },
+    { "src": "*.xml", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
