@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StayGentic Clean — Demo Widget</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1E3D2F;
+    --gold: #B89A5A;
+    --cream: #F5F2EC;
+    --light-green: #E8EFE9;
+    --pale-red: #FDE8E8;
+    --pale-gold: #FDF5E6;
+    --text: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 12px 20px;
+  }
+
+  /* ─── TAB SWITCHER ─── */
+  .demo-tabs {
+    display: flex;
+    gap: 0;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 420px;
+  }
+  .demo-tab {
+    flex: 1;
+    padding: 11px 8px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .demo-tab.active { background: var(--gold); color: white; }
+
+  /* ─── PHONE FRAME ─── */
+  .phone {
+    width: 100%;
+    max-width: 370px;
+    background: var(--cream);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+    min-height: 700px;
+  }
+
+  /* ─── SCREEN SYSTEM ─── */
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ─── PIN SCREEN ─── */
+  .pin-screen {
+    background: var(--green);
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .pin-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: white; text-align: center; margin-bottom: 4px; }
+  .pin-title em { color: var(--gold); font-style: italic; }
+  .pin-subtitle { color: rgba(255,255,255,0.5); font-size: 13px; text-align: center; margin-bottom: 18px; }
+  .pin-hint {
+    background: rgba(184,154,90,0.18);
+    border: 1px solid rgba(184,154,90,0.4);
+    border-radius: 10px;
+    padding: 10px 16px;
+    color: var(--gold);
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .pin-hint strong { color: white; letter-spacing: 0.1em; }
+  .pin-dots { display: flex; gap: 12px; margin-bottom: 32px; }
+  .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.4); background: transparent; transition: all 0.15s; }
+  .pin-dot.filled { background: var(--gold); border-color: var(--gold); transform: scale(1.2); }
+  .pin-grid { display: grid; grid-template-columns: repeat(3, 72px); gap: 12px; margin-bottom: 20px; }
+  .pin-key { height: 56px; border-radius: 12px; border: none; background: rgba(255,255,255,0.1); color: white; font-family: 'Jost', sans-serif; font-size: 20px; font-weight: 400; cursor: pointer; transition: all 0.1s; }
+  .pin-key:active { background: rgba(255,255,255,0.25); transform: scale(0.95); }
+  .pin-key:hover { background: rgba(255,255,255,0.18); }
+  .pin-key.empty { background: transparent; cursor: default; }
+  .pin-key.del { font-size: 16px; }
+  .pin-skip { margin-top: 20px; color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: underline; cursor: pointer; }
+  .pin-skip:hover { color: rgba(255,255,255,0.7); }
+
+  /* ─── CLEANER HOME ─── */
+  .cleaner-home { background: var(--cream); }
+  .greeting-line { padding: 16px 16px 4px; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; }
+  .greeting-sub { padding: 0 16px 14px; font-size: 13px; color: var(--muted); }
+
+  .alert-banner { background: #FDE8E8; border: 1.5px solid #f0a0a0; border-radius: 10px; margin: 0 16px 14px; padding: 12px 14px; }
+  .alert-banner .alert-title { color: #8B2020; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .alert-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .alert-tag { background: #8B2020; color: white; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+
+  .section-label { padding: 8px 16px 6px; display: flex; align-items: center; justify-content: space-between; }
+  .section-label h3 { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); display: flex; align-items: center; gap: 6px; }
+  .section-label h3::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
+  .refresh-btn { font-size: 10px; color: var(--muted); background: white; border: 1px solid var(--border); border-radius: 20px; padding: 4px 10px; cursor: pointer; font-family: 'Jost', sans-serif; }
+
+  .legend { display: flex; gap: 14px; padding: 0 16px 8px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .dot-green { background: var(--green); }
+  .dot-gold { background: var(--gold); }
+  .dot-red { background: #c0392b; }
+  .dot-blue { background: #2563eb; }
+
+  .day-strip { display: flex; gap: 8px; padding: 0 16px 14px; overflow-x: auto; scrollbar-width: none; }
+  .day-strip::-webkit-scrollbar { display: none; }
+  .day-card { min-width: 76px; border-radius: 14px; border: 2px solid var(--green); padding: 10px 8px; text-align: center; cursor: pointer; background: var(--light-green); transition: all 0.2s; flex-shrink: 0; }
+  .day-card:hover { transform: translateY(-2px); }
+  .day-card.today { background: var(--green); }
+  .day-card.empty { background: white; border-color: var(--border); }
+  .day-card.same-day { background: #FDE8E8; border-color: #e0a0a0; }
+  .day-card.selected-day { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .day-name { font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); margin-bottom: 2px; }
+  .day-card.today .day-name { color: var(--gold); }
+  .day-card.empty .day-name { color: #bbb; }
+  .day-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: var(--green); line-height: 1; margin-bottom: 6px; }
+  .day-card.today .day-num { color: white; }
+  .day-card.empty .day-num { color: #ccc; }
+  .day-dots { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; min-height: 20px; }
+
+  .changeover-box { background: var(--light-green); border-radius: 14px; margin: 0 16px; padding: 14px 16px; }
+  .co-section-title { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .co-section-title.checkout { color: var(--green); }
+  .co-section-title.checkin { color: var(--gold); margin-top: 14px; }
+  .co-section-title.commercial { color: #2563eb; margin-top: 14px; }
+  .co-property { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--text); }
+  .co-property .type-pill { font-family: 'Jost', sans-serif; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: rgba(37,99,235,0.12); color: #2563eb; letter-spacing: 0.04em; margin-left: 4px; }
+
+  .select-btn { display: block; width: calc(100% - 32px); margin: 14px 16px 8px; padding: 16px; background: var(--green); color: white; border: none; border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+  .select-btn:hover { background: #2a5240; }
+  .log-spend-btn { display: block; width: calc(100% - 32px); margin: 0 16px 20px; padding: 14px; background: white; color: var(--text); border: 1.5px solid var(--border); border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+
+  /* ─── CLEANER SELECT ─── */
+  .dropdown-select { width: calc(100% - 32px); margin: 0 16px; border: 1.5px solid var(--green); border-radius: 12px; padding: 14px 36px 14px 16px; font-family: 'Jost', sans-serif; font-size: 14px; background: white; color: var(--text); cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='%231E3D2F'%3E%3Cpath d='M0 0l6 7 6-7z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+
+  /* ─── PROPERTY DETAIL ─── */
+  .back-btn { padding: 12px 16px; font-size: 13px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 4px; }
+  .back-btn:hover { color: var(--green); }
+  .property-hero { background: var(--green); margin: 0 16px; border-radius: 14px; padding: 16px 18px; color: white; margin-bottom: 16px; }
+  .property-hero h2 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; }
+  .property-hero .date { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 3px; }
+  .booking-card { border: 1.5px solid var(--green); border-radius: 12px; padding: 14px 16px; margin: 0 16px 16px; background: var(--light-green); }
+  .booking-guest { font-weight: 600; font-size: 15px; margin-bottom: 3px; }
+  .booking-meta { font-size: 12px; color: var(--muted); }
+  .items-label { padding: 4px 16px 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-top: 1px solid var(--border); }
+  .items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 16px; margin-bottom: 16px; }
+  .item-card { background: white; border: 1.5px solid var(--border); border-radius: 10px; padding: 16px 12px; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; user-select: none; }
+  .item-card:hover { border-color: var(--green); }
+  .item-card.selected { background: var(--light-green); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .item-card.selected::after { content: ' ✓'; }
+
+  .purchase-box { background: var(--pale-gold); border: 1.5px solid var(--gold); border-radius: 12px; margin: 0 16px 16px; padding: 14px 16px; }
+  .purchase-box h4 { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .purchase-box p { font-size: 12px; color: #555; line-height: 1.5; }
+  .purchase-box .add-link { color: var(--gold); font-size: 13px; font-weight: 500; text-decoration: underline; cursor: pointer; display: block; margin-top: 10px; }
+
+  .field-group { padding: 0 16px 12px; }
+  .field-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; padding-top: 4px; }
+  .field-input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 14px; font-family: 'Jost', sans-serif; font-size: 14px; background: white; color: var(--text); outline: none; resize: none; }
+  .field-input:focus { border-color: var(--green); }
+
+  .review-btn { display: flex; width: calc(100% - 32px); margin: 4px 16px 20px; padding: 16px; background: var(--green); color: white; border: none; border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; align-items: center; justify-content: center; gap: 8px; transition: background 0.2s; }
+  .review-btn:hover { background: #2a5240; }
+
+  /* ─── SUCCESS ─── */
+  .success-screen { background: var(--green); min-height: 600px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; }
+  .success-icon { font-size: 56px; margin-bottom: 20px; animation: pop 0.4s ease; }
+  @keyframes pop { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+  .success-screen h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: white; margin-bottom: 8px; }
+  .success-screen p { color: rgba(255,255,255,0.65); font-size: 14px; line-height: 1.6; margin-bottom: 28px; }
+  .success-summary { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px 20px; width: 100%; text-align: left; margin-bottom: 24px; }
+  .success-summary .row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; color: rgba(255,255,255,0.8); }
+  .success-summary .row span:last-child { color: var(--gold); font-weight: 600; }
+  .success-btn { background: var(--gold); color: white; border: none; border-radius: 12px; padding: 14px 32px; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+
+  /* ─── MANAGER HEADER ─── */
+  .mgr-header { background: var(--green); padding: 18px 20px 14px; }
+  .mgr-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: white; font-weight: 400; }
+  .mgr-header h1 em { color: var(--gold); font-style: italic; }
+  .mgr-header h1 .page-title { color: rgba(255,255,255,0.7); }
+  .period-tabs { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
+  .period-tab { padding: 7px 16px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; border: none; font-family: 'Jost', sans-serif; transition: all 0.2s; }
+  .period-tab.active { background: var(--gold); color: white; }
+  .period-tab.inactive { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+  .period-label { font-size: 12px; color: rgba(255,255,255,0.4); margin-left: 4px; }
+  .header-btn { padding: 7px 14px; border-radius: 6px; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: 1.5px solid rgba(255,255,255,0.3); background: transparent; color: white; transition: all 0.2s; }
+  .header-btn.gold { background: var(--gold); border-color: var(--gold); }
+
+  .mgr-body { padding: 16px; background: var(--cream); }
+
+  /* ─── OVERDUE ─── */
+  .overdue-section h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--text); margin-bottom: 2px; }
+  .overdue-count { font-size: 12px; color: #c0392b; font-weight: 600; margin-bottom: 12px; }
+  .overdue-card { background: var(--pale-red); border: 1.5px solid #f0c0c0; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .overdue-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .overdue-card .meta { font-size: 12px; color: var(--muted); }
+  .overdue-badge { background: white; color: #c0392b; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 20px; white-space: nowrap; border: 1px solid #f0c0c0; }
+
+  /* ─── STATS ─── */
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .stat-card { border-radius: 12px; padding: 16px; }
+  .stat-card.green { background: var(--green); }
+  .stat-card.gold { background: var(--gold); }
+  .stat-label { font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+  .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: white; line-height: 1; }
+  .stat-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+  /* ─── LEADERBOARD ─── */
+  .leaderboard-section { margin-top: 20px; }
+  .leaderboard-section h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; margin-bottom: 12px; }
+  .lb-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .lb-rank { width: 24px; text-align: center; font-size: 13px; color: var(--muted); }
+  .lb-rank.medal { font-size: 16px; }
+  .lb-info { flex: 1; }
+  .lb-name { font-size: 14px; font-weight: 500; }
+  .lb-bar-wrap { width: 100%; height: 4px; background: var(--border); border-radius: 2px; margin-top: 4px; }
+  .lb-bar { height: 4px; background: var(--green); border-radius: 2px; }
+  .lb-bar.blue { background: #2563eb; }
+  .lb-amount { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text); }
+
+  /* ─── CLEANERS ─── */
+  .cleaners-section { margin-top: 20px; }
+  .cleaners-section h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; margin-bottom: 4px; }
+  .cleaners-section .sub { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .cleaner-table { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+  .cleaner-table-head { background: var(--light-green); display: grid; grid-template-columns: 1fr auto auto; padding: 10px 14px; gap: 12px; }
+  .cleaner-table-head span { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); }
+  .cleaner-row { display: grid; grid-template-columns: 1fr auto auto; padding: 12px 14px; gap: 12px; border-top: 1px solid var(--border); align-items: center; background: white; }
+  .cleaner-name-cell { display: flex; align-items: center; gap: 8px; }
+  .cleaner-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--green); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+  .cleaner-row .cleans { font-size: 13px; color: var(--text); text-align: right; }
+  .cleaner-row .hours { font-size: 13px; color: var(--text); text-align: right; }
+
+  /* ─── EXTRAS ─── */
+  .extras-section { margin-top: 20px; }
+  .extras-section h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; margin-bottom: 4px; }
+  .extras-section .sub { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .extras-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .extra-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  .extra-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .extra-count { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: var(--text); line-height: 1; }
+  .extra-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ─── INVOICES ─── */
+  .inv-header { background: var(--green); padding: 18px 20px 16px; }
+  .inv-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: white; font-weight: 400; line-height: 1.3; }
+  .inv-header h1 em { color: var(--gold); font-style: italic; }
+  .inv-controls { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+  .period-select { background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.3); color: white; padding: 8px 28px 8px 12px; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='white'%3E%3Cpath d='M0 0l5 6 5-6z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; outline: none; }
+  .gen-btn { background: var(--gold); border: none; color: white; padding: 8px 14px; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+  .inv-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .inv-action-btn { flex: 1; padding: 9px 8px; border: 1.5px solid rgba(255,255,255,0.3); background: transparent; color: white; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; text-align: center; }
+  .inv-back-btn { display: inline-flex; align-items: center; gap: 4px; padding: 8px 14px; border: 1.5px solid rgba(255,255,255,0.3); background: transparent; color: rgba(255,255,255,0.8); border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; margin-top: 8px; }
+
+  /* ─── GENERATE ANIMATION ─── */
+  .generating-overlay { display: none; position: fixed; inset: 0; background: rgba(30,61,47,0.97); z-index: 999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
+  .generating-overlay.show { display: flex; }
+  .gen-spinner { width: 56px; height: 56px; border: 3px solid rgba(184,154,90,0.2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 24px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .gen-label { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: white; margin-bottom: 8px; }
+  .gen-sub { font-size: 13px; color: rgba(255,255,255,0.5); }
+  .gen-progress { width: 200px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 24px; overflow: hidden; }
+  .gen-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; width: 0%; transition: width 0.1s; }
+
+  .inv-summary { background: var(--green); margin: 16px; border-radius: 14px; padding: 20px; color: white; }
+  .inv-summary h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; margin-bottom: 6px; }
+  .inv-summary .props { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 14px; }
+  .inv-summary-row { display: flex; gap: 20px; margin-bottom: 10px; }
+  .inv-summary-col .label { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .inv-summary-col .value { font-size: 16px; color: white; font-weight: 500; }
+  .total-label { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-top: 8px; margin-bottom: 2px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.15); }
+  .total-value { font-family: 'Cormorant Garamond', serif; font-size: 40px; color: white; margin-bottom: 12px; }
+  .ready-line { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+  .email-all-btn { background: var(--gold); border: none; color: white; padding: 12px 20px; border-radius: 10px; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+  .invoice-doc { background: white; margin: 0 16px 16px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+  .inv-company { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); }
+  .inv-company h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; margin-bottom: 6px; }
+  .inv-company h3 em { color: var(--gold); font-style: italic; }
+  .inv-company p { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .inv-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 400; letter-spacing: 0.05em; padding: 16px 20px 0; }
+  .inv-meta { padding: 8px 20px 16px; }
+  .inv-meta p { font-size: 12px; color: var(--text); line-height: 1.8; }
+  .inv-meta strong { font-weight: 600; }
+  .invoice-section { padding: 14px 20px; border-top: 1px solid var(--border); background: #fafafa; }
+  .inv-sec-label { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .invoice-section h4 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .invoice-section p { font-size: 12px; color: var(--muted); }
+
+  .inv-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .inv-table thead tr { background: var(--green); }
+  .inv-table thead th { padding: 9px 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: white; text-align: left; }
+  .inv-table thead th:first-child { padding-left: 20px; width: 22%; }
+  .inv-table thead th:last-child { text-align: right; padding-right: 20px; width: 18%; }
+  .inv-table thead th:nth-child(3) { width: 22%; }
+  .inv-table tbody tr { border-top: 1px solid var(--border); }
+  .inv-table tbody td { padding: 10px 6px; font-size: 12px; word-wrap: break-word; vertical-align: top; }
+  .inv-table tbody td:first-child { padding-left: 20px; }
+  .inv-table tbody td:last-child { text-align: right; font-weight: 600; padding-right: 20px; white-space: nowrap; }
+  .type-badge { background: var(--pale-gold); color: #8B6914; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px; display: inline-block; line-height: 1.4; }
+  .extras-line { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .service-line { color: var(--muted); }
+  .total-row td { font-weight: 700; font-size: 14px; background: var(--light-green); padding: 12px 6px; }
+  .total-row td:first-child { padding-left: 20px; }
+  .total-row td:last-child { padding-right: 20px; }
+
+  .inv-payment { padding: 16px 20px; border-top: 1px solid var(--border); background: #fafafa; }
+  .inv-payment h5 { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin-bottom: 8px; }
+  .inv-payment p { font-size: 11px; color: var(--muted); line-height: 1.7; }
+  .powered { font-style: italic; margin-top: 8px; color: #aaa; font-size: 11px; }
+  .inv-cta { display: flex; gap: 8px; padding: 14px 20px; }
+  .inv-cta-btn { flex: 1; padding: 12px 8px; border-radius: 10px; font-family: 'Jost', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: none; text-align: center; }
+  .inv-cta-btn.save { background: var(--green); color: white; }
+  .inv-cta-btn.email { background: var(--gold); color: white; }
+</style>
+</head>
+<body>
+
+<!-- TABS -->
+<div class="demo-tabs">
+  <button class="demo-tab active" onclick="switchMode('cleaner', this)">🧹 Cleaner App</button>
+  <button class="demo-tab" onclick="switchMode('manager', this)">📊 Manager Dashboard</button>
+</div>
+
+<!-- CLEANER APP -->
+<div id="cleaner-app" class="phone">
+
+  <!-- PIN -->
+  <div id="c-pin" class="screen active">
+    <div class="pin-screen">
+      <div class="pin-title">Clearview <em>Property<br>Management</em></div>
+      <div class="pin-subtitle">This is how your cleaners check in — try it</div>
+      <div class="pin-hint">Tap any 4 digits to continue<br><strong>e.g. 1 2 3 4</strong></div>
+      <div class="pin-dots">
+        <div class="pin-dot" id="pd0"></div>
+        <div class="pin-dot" id="pd1"></div>
+        <div class="pin-dot" id="pd2"></div>
+        <div class="pin-dot" id="pd3"></div>
+      </div>
+      <div class="pin-grid">
+        <button class="pin-key" onclick="pinPress(1)">1</button>
+        <button class="pin-key" onclick="pinPress(2)">2</button>
+        <button class="pin-key" onclick="pinPress(3)">3</button>
+        <button class="pin-key" onclick="pinPress(4)">4</button>
+        <button class="pin-key" onclick="pinPress(5)">5</button>
+        <button class="pin-key" onclick="pinPress(6)">6</button>
+        <button class="pin-key" onclick="pinPress(7)">7</button>
+        <button class="pin-key" onclick="pinPress(8)">8</button>
+        <button class="pin-key" onclick="pinPress(9)">9</button>
+        <button class="pin-key empty"></button>
+        <button class="pin-key" onclick="pinPress(0)">0</button>
+        <button class="pin-key del" onclick="pinDel()">⌫</button>
+      </div>
+      <div class="pin-skip" onclick="goCleanerScreen('c-home')">Skip → see the app</div>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div id="c-home" class="screen">
+    <div style="background:var(--green);padding:18px 20px 14px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;font-weight:400;">Clearview <em style="color:var(--gold);font-style:italic;">Property Management</em></div>
+      <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:3px;">Powered by StayGentic</div>
+    </div>
+    <div class="cleaner-home">
+      <div class="greeting-line">Good morning, Sarah!</div>
+      <div class="greeting-sub">Tap below to select your clean today.</div>
+      <div class="alert-banner">
+        <div class="alert-title">⚡ Same-day turnaround · Fri 20 Jun</div>
+        <div class="alert-tags">
+          <span class="alert-tag">Harbour Cottage</span>
+          <span class="alert-tag">The Old Mill</span>
+        </div>
+      </div>
+      <div class="section-label">
+        <h3>This Week's Schedule</h3>
+        <button class="refresh-btn">↺ Refresh</button>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="dot dot-green"></span> Checkout</div>
+        <div class="legend-item"><span class="dot dot-gold"></span> Check-in</div>
+        <div class="legend-item"><span class="dot dot-red"></span> Same day</div>
+        <div class="legend-item"><span class="dot dot-blue"></span> Commercial</div>
+      </div>
+      <div class="day-strip">
+        <div class="day-card" onclick="selectDay('thu', this)">
+          <div class="day-name">Thu</div><div class="day-num">19</div>
+          <div class="day-dots"><span class="dot dot-gold"></span><span class="dot dot-gold"></span><span class="dot dot-blue"></span></div>
+        </div>
+        <div class="day-card same-day" onclick="selectDay('fri', this)">
+          <div class="day-name">Fri</div><div class="day-num">20</div>
+          <div class="day-dots"><span class="dot dot-red"></span><span class="dot dot-red"></span><span class="dot dot-red"></span><span class="dot dot-gold"></span></div>
+        </div>
+        <div class="day-card today" onclick="selectDay('sat', this)">
+          <div class="day-name">Sat</div><div class="day-num">21</div>
+          <div class="day-dots"><span class="dot dot-green"></span><span class="dot dot-green"></span><span class="dot dot-gold"></span><span class="dot dot-gold"></span><span class="dot dot-gold"></span></div>
+        </div>
+        <div class="day-card empty">
+          <div class="day-name">Sun</div><div class="day-num">22</div>
+          <div class="day-dots"></div>
+        </div>
+        <div class="day-card" onclick="selectDay('mon', this)">
+          <div class="day-name">Mon</div><div class="day-num">23</div>
+          <div class="day-dots"><span class="dot dot-green"></span><span class="dot dot-blue"></span><span class="dot dot-gold"></span></div>
+        </div>
+      </div>
+      <div class="changeover-box" id="co-box">
+        <div class="co-section-title checkout">↑ Checking Out · Clean Required</div>
+        <div class="co-property"><span class="dot dot-green"></span> Harbour Cottage</div>
+        <div class="co-property"><span class="dot dot-green"></span> Meadow View</div>
+        <div class="co-section-title checkin">↓ Checking In · Must Be Ready</div>
+        <div class="co-property"><span class="dot dot-gold"></span> Harbour Cottage</div>
+        <div class="co-property"><span class="dot dot-gold"></span> The Granary</div>
+        <div class="co-property"><span class="dot dot-gold"></span> Riverside Barn</div>
+        <div class="co-property"><span class="dot dot-gold"></span> Rose Cottage</div>
+        <div class="co-property"><span class="dot dot-gold"></span> Meadow View</div>
+      </div>
+      <button class="select-btn" onclick="goCleanerScreen('c-select')">Select Your Clean Today</button>
+      <button class="log-spend-btn">Log a Spend (No Clean)</button>
+    </div>
+  </div>
+
+  <!-- SELECT -->
+  <div id="c-select" class="screen">
+    <div style="background:var(--green);padding:18px 20px 14px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;font-weight:400;">Clearview <em style="color:var(--gold);font-style:italic;">Property Management</em></div>
+      <div style="font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:3px;">Powered by StayGentic</div>
+    </div>
+    <div class="cleaner-home">
+      <div class="greeting-line">Good morning, Sarah!</div>
+      <div class="greeting-sub">What are you cleaning today?</div>
+      <div style="height:4px;"></div>
+      <select class="dropdown-select" onchange="if(this.value==='commercial') goCleanerScreen('c-commercial'); else if(this.value) goCleanerScreen('c-detail')">
+        <option value="">— Select a property —</option>
+        <optgroup label="Holiday Let Changeovers">
+          <option value="harbour">Harbour Cottage</option>
+          <option value="meadow">Meadow View</option>
+          <option value="granary">The Granary</option>
+          <option value="riverside">Riverside Barn</option>
+          <option value="rose">Rose Cottage</option>
+        </optgroup>
+        <optgroup label="Commercial Cleans">
+          <option value="commercial">Westgate Office Suites</option>
+        </optgroup>
+      </select>
+      <div style="height:12px;"></div>
+      <button class="log-spend-btn">Log a Spend (No Clean)</button>
+      <div class="back-btn" onclick="goCleanerScreen('c-home')" style="justify-content:center;">← Back</div>
+    </div>
+  </div>
+
+  <!-- PROPERTY DETAIL -->
+  <div id="c-detail" class="screen">
+    <div style="background:var(--green);padding:14px 20px 12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:white;font-weight:400;">Clearview <em style="color:var(--gold);font-style:italic;">Property Management</em></div>
+    </div>
+    <div class="back-btn" onclick="goCleanerScreen('c-select')">← Back</div>
+    <div class="property-hero">
+      <h2>Harbour Cottage</h2>
+      <div class="date">Saturday 21 June</div>
+    </div>
+    <div style="padding:4px 16px 8px;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);">Today's Booking</div>
+    <div class="booking-card">
+      <div class="booking-guest">Margaret & David Thornton</div>
+      <div class="booking-meta">Checks out today · 14/06/2026 – 21/06/2026 · 7 nights</div>
+    </div>
+    <div class="items-label">Items Used</div>
+    <div class="items-grid">
+      <div class="item-card" onclick="toggleItem(this)">Bins</div>
+      <div class="item-card" onclick="toggleItem(this)">Welcome Pack</div>
+      <div class="item-card" onclick="toggleItem(this)">Toilet Rolls</div>
+      <div class="item-card" onclick="toggleItem(this)">Lawns</div>
+      <div class="item-card" onclick="toggleItem(this)">Logs</div>
+      <div class="item-card" onclick="toggleItem(this)">Dishwasher Tab</div>
+    </div>
+    <div class="purchase-box">
+      <h4>Have You Purchased Anything?</h4>
+      <p>If you bought something for the property (e.g. hand soap, batteries, cleaning supplies) add it below.</p>
+      <span class="add-link">+ Add purchased item</span>
+    </div>
+    <div class="field-group">
+      <div class="field-label" style="border-top:1px solid var(--border);padding-top:12px;">Hours Spent on Clean</div>
+      <input class="field-input" type="number" placeholder="e.g. 3.5">
+    </div>
+    <div class="field-group" style="padding-top:0;">
+      <div class="field-label">Notes (Optional)</div>
+      <textarea class="field-input" rows="3" placeholder="e.g. Dripping tap in bathroom, towels running low..."></textarea>
+    </div>
+    <button class="review-btn" onclick="goCleanerScreen('c-success')">Review & Submit →</button>
+  </div>
+
+  <!-- COMMERCIAL CLEAN -->
+  <div id="c-commercial" class="screen">
+    <div style="background:var(--green);padding:14px 20px 12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:white;font-weight:400;">Clearview <em style="color:var(--gold);font-style:italic;">Property Management</em></div>
+    </div>
+    <div class="back-btn" onclick="goCleanerScreen('c-select')">← Back</div>
+    <div class="property-hero" style="background:#1a3a6b;">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:6px;">Commercial Clean</div>
+      <h2>Westgate Office Suites</h2>
+      <div class="date">Saturday 21 June · Twice-weekly visit</div>
+    </div>
+    <div style="padding:4px 16px 8px;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);">Today's Tasks</div>
+    <div class="items-grid">
+      <div class="item-card" onclick="toggleItem(this)">Toilets</div>
+      <div class="item-card" onclick="toggleItem(this)">Kitchen</div>
+      <div class="item-card" onclick="toggleItem(this)">Hoovering</div>
+      <div class="item-card" onclick="toggleItem(this)">Bins</div>
+      <div class="item-card" onclick="toggleItem(this)">Mopping</div>
+      <div class="item-card" onclick="toggleItem(this)">Reception</div>
+    </div>
+    <div class="purchase-box">
+      <h4>Supplies Used / Purchased?</h4>
+      <p>Log any cleaning supplies used or purchased during this visit.</p>
+      <span class="add-link">+ Add item</span>
+    </div>
+    <div class="field-group">
+      <div class="field-label" style="border-top:1px solid var(--border);padding-top:12px;">Hours on Site</div>
+      <input class="field-input" type="number" placeholder="e.g. 2.0">
+    </div>
+    <div class="field-group" style="padding-top:0;">
+      <div class="field-label">Notes (Optional)</div>
+      <textarea class="field-input" rows="3" placeholder="e.g. Broken hand dryer in gents, low on paper towels..."></textarea>
+    </div>
+    <button class="review-btn" style="background:#1a3a6b;" onclick="goCleanerScreen('c-success-commercial')">Review & Submit →</button>
+  </div>
+
+  <!-- SUCCESS (holiday let) -->
+  <div id="c-success" class="screen">
+    <div style="background:var(--green);padding:14px 20px 12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:white;font-weight:400;">Clearview <em style="color:var(--gold);font-style:italic;">Property Management</em></div>
+    </div>
+    <div class="success-screen">
+      <div class="success-icon">✅</div>
+      <h2>Clean Logged!</h2>
+      <p>Harbour Cottage is marked complete.<br>Your manager has been notified.</p>
+      <div class="success-summary">
+        <div class="row"><span>Property</span><span>Harbour Cottage</span></div>
+        <div class="row"><span>Date</span><span>Sat 21 Jun</span></div>
+        <div class="row"><span>Cleaner</span><span>Sarah</span></div>
+        <div class="row"><span>Hours</span><span>3.5 hrs</span></div>
+        <div class="row"><span>Items used</span><span>Bins, Welcome Pack</span></div>
+      </div>
+      <button class="success-btn" onclick="goCleanerScreen('c-home')">Back to Home</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS (commercial) -->
+  <div id="c-success-commercial" class="screen">
+    <div style="background:#1a3a6b;padding:14px 20px 12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:white;font-weight:400;">Clearview <em style="color:var(--gold);font-style:italic;">Property Management</em></div>
+    </div>
+    <div class="success-screen" style="background:#1a3a6b;">
+      <div class="success-icon">✅</div>
+      <h2>Clean Logged!</h2>
+      <p>Westgate Office Suites visit recorded.<br>Your manager has been notified.</p>
+      <div class="success-summary">
+        <div class="row"><span>Client</span><span>Westgate Office Suites</span></div>
+        <div class="row"><span>Type</span><span>Commercial Clean</span></div>
+        <div class="row"><span>Date</span><span>Sat 21 Jun</span></div>
+        <div class="row"><span>Cleaner</span><span>Sarah</span></div>
+        <div class="row"><span>Hours</span><span>2.0 hrs</span></div>
+        <div class="row"><span>Tasks</span><span>Toilets, Kitchen, Bins</span></div>
+      </div>
+      <button class="success-btn" onclick="goCleanerScreen('c-home')">Back to Home</button>
+    </div>
+  </div>
+
+</div><!-- /cleaner-app -->
+
+
+<!-- MANAGER DASHBOARD -->
+<div id="manager-app" class="phone" style="display:none;">
+
+  <!-- DASHBOARD -->
+  <div id="m-dashboard" class="screen active">
+    <div class="mgr-header">
+      <h1>Clearview <em>Property Management</em> · <span class="page-title">Dashboard</span></h1>
+      <div style="margin-top:10px;">
+        <button class="header-btn gold" onclick="goManagerScreen('m-invoices')">Owner Invoices</button>
+      </div>
+      <div class="period-tabs">
+        <button class="period-tab active">This Month</button>
+        <button class="period-tab inactive">This Year</button>
+        <span class="period-label">June 2026</span>
+      </div>
+    </div>
+    <div class="mgr-body">
+      <div class="overdue-section">
+        <h3>Cleaner Tracker</h3>
+        <div class="overdue-count">3 cleans overdue</div>
+        <div class="overdue-card">
+          <div><h4>The Old Mill</h4><div class="meta">Departed Sat 14 Jun</div><div class="meta">Guest: Patricia Worthington</div></div>
+          <span class="overdue-badge">OVERDUE 4 DAYS</span>
+        </div>
+        <div class="overdue-card">
+          <div><h4>Riverside Barn</h4><div class="meta">Departed Sat 14 Jun</div><div class="meta">Guest: Mr & Mrs Forsythe</div></div>
+          <span class="overdue-badge">OVERDUE 4 DAYS</span>
+        </div>
+        <div class="overdue-card">
+          <div><h4>Wren Cottage</h4><div class="meta">Departed Mon 16 Jun</div><div class="meta">Guest: James Blackwood</div></div>
+          <span class="overdue-badge">OVERDUE 2 DAYS</span>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card green"><div class="stat-label">Total Jobs</div><div class="stat-value">24</div><div class="stat-sub">This month</div></div>
+        <div class="stat-card gold"><div class="stat-label">Total Income</div><div class="stat-value">£4,580</div><div class="stat-sub">Fees + extras</div></div>
+        <div class="stat-card green"><div class="stat-label">Labour Hours</div><div class="stat-value">52.0</div><div class="stat-sub">hrs logged</div></div>
+        <div class="stat-card gold"><div class="stat-label">Disbursements</div><div class="stat-value">£163</div><div class="stat-sub">Purchases logged</div></div>
+      </div>
+      <div class="leaderboard-section">
+        <h3>Income by Property / Client</h3>
+        <div class="lb-row"><div class="lb-rank medal">🥇</div><div class="lb-info"><div class="lb-name">Harbour Cottage</div><div class="lb-bar-wrap"><div class="lb-bar" style="width:100%"></div></div></div><div class="lb-amount">£680</div></div>
+        <div class="lb-row"><div class="lb-rank medal">🥈</div><div class="lb-info"><div class="lb-name">The Old Mill</div><div class="lb-bar-wrap"><div class="lb-bar" style="width:78%"></div></div></div><div class="lb-amount">£530</div></div>
+        <div class="lb-row"><div class="lb-rank medal">🥉</div><div class="lb-info"><div class="lb-name">Riverside Barn</div><div class="lb-bar-wrap"><div class="lb-bar" style="width:73%"></div></div></div><div class="lb-amount">£495</div></div>
+        <div class="lb-row"><div class="lb-rank">4</div><div class="lb-info"><div class="lb-name">Meadow View</div><div class="lb-bar-wrap"><div class="lb-bar" style="width:60%"></div></div></div><div class="lb-amount">£410</div></div>
+        <div class="lb-row"><div class="lb-rank">5</div><div class="lb-info"><div class="lb-name">Westgate Office Suites <span style="font-size:10px;color:#2563eb;font-weight:600;">COMMERCIAL</span></div><div class="lb-bar-wrap"><div class="lb-bar blue" style="width:55%"></div></div></div><div class="lb-amount">£380</div></div>
+        <div class="lb-row"><div class="lb-rank">6</div><div class="lb-info"><div class="lb-name">Rose Cottage</div><div class="lb-bar-wrap"><div class="lb-bar" style="width:48%"></div></div></div><div class="lb-amount">£325</div></div>
+        <div class="lb-row"><div class="lb-rank">7</div><div class="lb-info"><div class="lb-name">The Granary</div><div class="lb-bar-wrap"><div class="lb-bar" style="width:38%"></div></div></div><div class="lb-amount">£260</div></div>
+        <div class="lb-row"><div class="lb-rank">8</div><div class="lb-info"><div class="lb-name">Wren Cottage</div><div class="lb-bar-wrap"><div class="lb-bar" style="width:25%"></div></div></div><div class="lb-amount">£170</div></div>
+      </div>
+      <div class="cleaners-section">
+        <h3>Cleaner Hours</h3>
+        <div class="sub">For verifying invoices</div>
+        <div class="cleaner-table">
+          <div class="cleaner-table-head"><span>Cleaner</span><span>Cleans</span><span>Hours</span></div>
+          <div class="cleaner-row"><div class="cleaner-name-cell"><div class="cleaner-avatar">S</div><span>Sarah</span></div><div class="cleans">11</div><div class="hours">26.0 hrs</div></div>
+          <div class="cleaner-row"><div class="cleaner-name-cell"><div class="cleaner-avatar">J</div><span>Janet</span></div><div class="cleans">6</div><div class="hours">18.5 hrs</div></div>
+          <div class="cleaner-row"><div class="cleaner-name-cell"><div class="cleaner-avatar">R</div><span>Rachel</span></div><div class="cleans">4</div><div class="hours">7.5 hrs</div></div>
+          <div class="cleaner-row"><div class="cleaner-name-cell"><div class="cleaner-avatar" style="background:var(--gold)">M</div><span>Manager</span></div><div class="cleans">3</div><div class="hours">0.0 hrs</div></div>
+        </div>
+      </div>
+      <div class="extras-section">
+        <h3>Extras Used</h3>
+        <div class="sub">Across all properties this month</div>
+        <div class="extras-grid">
+          <div class="extra-card"><div class="extra-name">Welcome Pack</div><div class="extra-count">5</div><div class="extra-label">times used</div></div>
+          <div class="extra-card"><div class="extra-name">Bins</div><div class="extra-count">4</div><div class="extra-label">times used</div></div>
+          <div class="extra-card"><div class="extra-name">Lawns</div><div class="extra-count">2</div><div class="extra-label">times used</div></div>
+          <div class="extra-card"><div class="extra-name">Logs</div><div class="extra-count">1</div><div class="extra-label">time used</div></div>
+        </div>
+      </div>
+      <div style="height:20px;"></div>
+    </div>
+  </div>
+
+  <!-- INVOICES -->
+  <div id="m-invoices" class="screen">
+    <div class="inv-header">
+      <h1>Clearview <em>Property Management</em> · Owner Invoices</h1>
+      <div class="inv-controls">
+        <select class="period-select"><option>June 2026</option><option>May 2026</option><option>April 2026</option></select>
+        <button class="gen-btn" onclick="triggerGenerate()">Generate Invoices</button>
+      </div>
+      <div class="inv-actions">
+        <button class="inv-action-btn">Email All Owners</button>
+        <button class="inv-action-btn">Print All as PDF</button>
+      </div>
+      <button class="inv-back-btn" onclick="goManagerScreen('m-dashboard')">← Dashboard</button>
+    </div>
+    <div id="inv-content" style="opacity:1;transition:opacity 0.3s;">
+      <div class="inv-summary">
+        <h2>Owner Invoices — June 2026</h2>
+        <div class="props">9 properties & clients · 24 jobs logged</div>
+        <div class="inv-summary-row">
+          <div class="inv-summary-col"><div class="label">Cleaning Fees</div><div class="value">£4,417</div></div>
+          <div class="inv-summary-col"><div class="label">Disbursements</div><div class="value">£163</div></div>
+        </div>
+        <div class="total-label">Total Invoiced</div>
+        <div class="total-value" id="inv-total">£4,580</div>
+        <div class="ready-line">9 owner / client emails ready to send</div>
+        <button class="email-all-btn">Email All Owners →</button>
+      </div>
+      <div class="invoice-doc">
+        <div class="inv-company">
+          <h3>Clearview <em>Property Management</em></h3>
+          <p>14 Church Lane<br>Cheltenham<br>GL50 2QH<br>07700 900 142<br>hello@clearviewpm.co.uk</p>
+        </div>
+        <div class="inv-title">INVOICE</div>
+        <div class="inv-meta">
+          <p>No: <strong>CPM-2606-A</strong><br>Date: <strong>30 June 2026</strong><br>Due: <strong>7 July 2026</strong><br>Period: <strong>June 2026</strong></p>
+        </div>
+        <div class="invoice-section">
+          <div class="inv-sec-label">Billed To</div>
+          <h4>Richard & Claire Ashworth</h4>
+          <p>12 Harbour View, Padstow, PL28 8BT<br>r.ashworth@outlook.com</p>
+        </div>
+        <div class="invoice-section">
+          <div class="inv-sec-label">Property</div>
+          <h4>Harbour Cottage</h4>
+          <p>3 changeovers · June 2026</p>
+        </div>
+        <table class="inv-table">
+          <thead><tr><th>Date</th><th>Description</th><th>Type</th><th>£</th></tr></thead>
+          <tbody>
+            <tr><td>07/06/26</td><td><strong>Changeover</strong><div class="extras-line">Extras: Welcome Pack, Bins</div></td><td><span class="type-badge">SHORT STAY</span></td><td>£225</td></tr>
+            <tr><td>14/06/26</td><td><strong>Changeover</strong><div class="extras-line">Extras: Lawns</div></td><td><span class="type-badge">LONG STAY</span></td><td>£240</td></tr>
+            <tr><td>21/06/26</td><td><strong>Changeover</strong></td><td><span class="type-badge">SHORT STAY</span></td><td>£215</td></tr>
+            <tr><td colspan="3" class="service-line">Cleaning Services</td><td>£680</td></tr>
+            <tr><td colspan="3" class="service-line">Management Fee (15%)</td><td>£102</td></tr>
+            <tr class="total-row"><td colspan="3"><strong>Total Due</strong></td><td><strong>£782</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="inv-payment">
+          <h5>Payment Details</h5>
+          <p>Clearview Property Management<br>Sort Code: 04-00-03 | Account: 12345678<br>Payment to be kindly made within 7 days of issue date via BACS.</p>
+          <p style="margin-top:6px;color:#aaa;font-style:italic;">VAT is not applicable — Clearview Property Management is not VAT registered.</p>
+          <p class="powered">Powered by StayGentic Clean</p>
+        </div>
+        <div class="inv-cta">
+          <button class="inv-cta-btn save">Save as PDF</button>
+          <button class="inv-cta-btn email">Email to Richard & Claire →</button>
+        </div>
+      </div>
+      <div class="invoice-doc">
+        <div class="inv-company">
+          <h3>Clearview <em>Property Management</em></h3>
+          <p>14 Church Lane<br>Cheltenham<br>GL50 2QH<br>07700 900 142<br>hello@clearviewpm.co.uk</p>
+        </div>
+        <div class="inv-title">INVOICE</div>
+        <div class="inv-meta">
+          <p>No: <strong>CPM-2606-B</strong><br>Date: <strong>30 June 2026</strong><br>Due: <strong>7 July 2026</strong><br>Period: <strong>June 2026</strong></p>
+        </div>
+        <div class="invoice-section" style="background:#EEF2FF;">
+          <div class="inv-sec-label" style="color:#2563eb;">Billed To — Commercial Client</div>
+          <h4>Westgate Office Suites</h4>
+          <p>Helen Marsh, Facilities Manager<br>Unit 4, Westgate Business Park<br>h.marsh@westgateoffices.co.uk</p>
+        </div>
+        <div class="invoice-section">
+          <div class="inv-sec-label">Service</div>
+          <h4>Twice-Weekly Office Clean</h4>
+          <p>8 visits · June 2026</p>
+        </div>
+        <table class="inv-table">
+          <thead><tr><th>Date</th><th>Description</th><th>Type</th><th>£</th></tr></thead>
+          <tbody>
+            <tr><td>03/06/26</td><td><strong>Office Clean</strong><div class="extras-line">Toilets, Kitchen, Bins</div></td><td><span class="type-badge" style="background:#EEF2FF;color:#2563eb;">WEEKLY</span></td><td>£48</td></tr>
+            <tr><td>06/06/26</td><td><strong>Office Clean</strong><div class="extras-line">+ Hoovering, Mopping</div></td><td><span class="type-badge" style="background:#EEF2FF;color:#2563eb;">WEEKLY</span></td><td>£48</td></tr>
+            <tr><td colspan="3" class="service-line">× 8 visits this month</td><td>£380</td></tr>
+            <tr class="total-row"><td colspan="3"><strong>Total Due</strong></td><td><strong>£380</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="inv-payment">
+          <h5>Payment Details</h5>
+          <p>Clearview Property Management<br>Sort Code: 04-00-03 | Account: 12345678<br>Payment within 7 days via BACS.</p>
+          <p class="powered">Powered by StayGentic Clean</p>
+        </div>
+        <div class="inv-cta">
+          <button class="inv-cta-btn save">Save as PDF</button>
+          <button class="inv-cta-btn email" style="background:#2563eb;">Email to Helen →</button>
+        </div>
+      </div>
+      <div style="height:20px;"></div>
+    </div>
+  </div>
+
+</div><!-- /manager-app -->
+
+<!-- GENERATE OVERLAY -->
+<div class="generating-overlay" id="gen-overlay">
+  <div class="gen-spinner"></div>
+  <div class="gen-label">Generating invoices...</div>
+  <div class="gen-sub">Pulling data from 24 logged jobs</div>
+  <div class="gen-progress"><div class="gen-progress-bar" id="gen-bar"></div></div>
+</div>
+
+<script>
+  let pinEntry = [];
+
+  function pinPress(n) {
+    if (pinEntry.length >= 4) return;
+    pinEntry.push(n);
+    document.getElementById('pd' + (pinEntry.length - 1)).classList.add('filled');
+    if (pinEntry.length === 4) {
+      setTimeout(() => {
+        goCleanerScreen('c-home');
+        pinEntry = [];
+        document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('filled'));
+      }, 350);
+    }
+  }
+
+  function pinDel() {
+    if (pinEntry.length === 0) return;
+    pinEntry.pop();
+    document.querySelectorAll('.pin-dot').forEach((d, i) => d.classList.toggle('filled', i < pinEntry.length));
+  }
+
+  function goCleanerScreen(id) {
+    document.querySelectorAll('#cleaner-app .screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('cleaner-app').scrollTop = 0;
+  }
+
+  function goManagerScreen(id) {
+    document.querySelectorAll('#manager-app .screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('manager-app').scrollTop = 0;
+  }
+
+  function switchMode(mode, btn) {
+    document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    if (mode === 'cleaner') {
+      document.getElementById('cleaner-app').style.display = 'block';
+      document.getElementById('manager-app').style.display = 'none';
+    } else {
+      document.getElementById('cleaner-app').style.display = 'none';
+      document.getElementById('manager-app').style.display = 'block';
+    }
+  }
+
+  const dayData = {
+    thu: { checkout: [], checkin: ['The Granary', 'Stable End'], commercial: ['Westgate Office Suites'] },
+    fri: { checkout: ['Harbour Cottage', 'The Old Mill', 'Wren Cottage'], checkin: ['Harbour Cottage', 'The Old Mill', 'Wren Cottage'], commercial: [], sameDay: true },
+    sat: { checkout: ['Harbour Cottage', 'Meadow View'], checkin: ['Harbour Cottage', 'The Granary', 'Riverside Barn', 'Rose Cottage', 'Meadow View'], commercial: [] },
+    sun: { checkout: [], checkin: [], commercial: [] },
+    mon: { checkout: ['Rose Cottage', 'Stable End'], checkin: ['The Old Mill'], commercial: ['Westgate Office Suites'] }
+  };
+
+  function selectDay(day, el) {
+    document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected-day'));
+    el.classList.add('selected-day');
+    const data = dayData[day];
+    const box = document.getElementById('co-box');
+    if (!data || (data.checkout.length === 0 && data.checkin.length === 0 && data.commercial.length === 0)) {
+      box.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:14px;">No jobs today</div>';
+      return;
+    }
+    let html = '';
+    if (data.checkout.length > 0) {
+      const label = data.sameDay ? '⚡ Same Day Turnaround' : '↑ Checking Out · Clean Required';
+      const col = data.sameDay ? 'color:#8B2020' : 'color:var(--green)';
+      html += `<div class="co-section-title checkout" style="${col}">${label}</div>`;
+      data.checkout.forEach(p => {
+        const dot = data.sameDay ? 'dot-red' : 'dot-green';
+        html += `<div class="co-property"><span class="dot ${dot}"></span> ${p}</div>`;
+      });
+    }
+    if (data.checkin.length > 0) {
+      html += `<div class="co-section-title checkin">↓ Checking In · Must Be Ready</div>`;
+      data.checkin.forEach(p => html += `<div class="co-property"><span class="dot dot-gold"></span> ${p}</div>`);
+    }
+    if (data.commercial && data.commercial.length > 0) {
+      html += `<div class="co-section-title commercial">🏢 Commercial Clean</div>`;
+      data.commercial.forEach(p => html += `<div class="co-property"><span class="dot dot-blue"></span> ${p}<span class="type-pill">OFFICE</span></div>`);
+    }
+    box.innerHTML = html;
+  }
+
+  function toggleItem(el) {
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) {
+      el.style.transform = 'scale(0.96)';
+      setTimeout(() => el.style.transform = '', 100);
+    }
+  }
+
+  function triggerGenerate() {
+    const overlay = document.getElementById('gen-overlay');
+    const bar = document.getElementById('gen-bar');
+    overlay.classList.add('show');
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 18 + 8;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          overlay.classList.remove('show');
+          bar.style.width = '0%';
+          animateCounter('inv-total', 0, 4580);
+        }, 400);
+      }
+      bar.style.width = Math.min(progress, 100) + '%';
+    }, 120);
+  }
+
+  function animateCounter(id, from, to) {
+    const el = document.getElementById(id);
+    const duration = 1200;
+    const start = performance.now();
+    function step(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = '£' + Math.round(from + (to - from) * eased).toLocaleString();
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+</script>
+</body>
+</html>
