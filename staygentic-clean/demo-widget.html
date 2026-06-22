@@ -162,10 +162,14 @@
     max-width: 370px;
     background: var(--cream);
     border-radius: 24px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
-    min-height: 700px;
+    height: 760px;
   }
+  .phone::-webkit-scrollbar { display: none; }
 
   /* ─── SCREEN SYSTEM ─── */
   .screen { display: none; }
