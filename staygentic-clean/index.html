@@ -171,25 +171,6 @@ body.mode-commercial .sc-step-tag{background:rgba(46,125,209,0.12)}
 .sc-demo-widget-wrap{width:100%;max-width:660px;margin:0 auto}
 .sc-demo-widget-wrap iframe{width:100%;height:1920px;border:0;display:block}
 
-/* ── PLATFORM SCREENS ─────────────────────────────────── */
-.sc-screens-section{background:var(--cream-mid);padding:90px 0;transition:background 0.4s}
-.sc-screens-intro{max-width:560px;margin-bottom:56px}
-.sc-screens-intro h2{font-size:clamp(2rem,3.5vw,3rem);color:var(--brand);margin-bottom:12px;transition:color 0.3s}
-.sc-screens-intro h2 em{font-style:italic;color:var(--gold);transition:color 0.3s}
-.sc-screens-intro p{font-size:0.9rem;color:var(--muted);line-height:1.8}
-.sc-view-label{font-family:'Jost',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px;transition:color 0.3s}
-.sc-view-label::after{content:'';flex:1;height:1px;background:var(--border);transition:background 0.3s}
-.sc-phones-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:56px}
-.sc-phone-wrap{position:relative}
-.sc-phone-img{width:100%;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.12);display:block;transition:transform 0.3s,box-shadow 0.3s}
-.sc-phone-img:hover{transform:translateY(-4px);box-shadow:0 20px 56px rgba(0,0,0,0.18)}
-.sc-phone-caption{font-family:'Jost',sans-serif;font-size:0.68rem;color:var(--muted);text-align:center;margin-top:10px;letter-spacing:0.06em}
-.sc-desktop-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-.sc-desktop-img{width:100%;display:block;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,0.1);border:1px solid var(--border);transition:transform 0.3s,box-shadow 0.3s}
-.sc-desktop-img:hover{transform:translateY(-3px);box-shadow:0 20px 56px rgba(0,0,0,0.15)}
-@media(max-width:1000px){.sc-phones-row{grid-template-columns:1fr 1fr}.sc-desktop-row{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.sc-desktop-row{grid-template-columns:1fr}}
-@media(max-width:520px){.sc-phones-row{grid-template-columns:1fr 1fr;gap:10px}}
 
 /* ── INVOICE DEMO ─────────────────────────────────────── */
 .sc-demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);margin-top:48px}
@@ -602,56 +583,6 @@ body.mode-commercial .sc-founding-banner{background:linear-gradient(135deg,#2E7D
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     PLATFORM SCREENSHOTS
-     ══════════════════════════════════════════ -->
-<section class="sc-screens-section">
-  <div class="sg-container">
-
-    <div class="sc-screens-intro">
-      <span class="sg-label">The platform</span>
-      <h2>Built for the people<br><em>doing the work.</em></h2>
-      <p>Cleaners get a dead-simple mobile view — no app download, no training. Managers get a real-time dashboard and invoices that run themselves.</p>
-    </div>
-
-    <div class="sc-view-label">What your cleaner sees</div>
-    <div class="sc-phones-row">
-      <div class="sc-phone-wrap">
-        <img src="screenshots/cleaner-home.png" alt="Cleaner home — upcoming jobs" class="sc-phone-img" loading="lazy">
-        <div class="sc-phone-caption">Today's jobs</div>
-      </div>
-      <div class="sc-phone-wrap">
-        <img src="screenshots/cleaner-checklist.png" alt="Job checklist" class="sc-phone-img" loading="lazy">
-        <div class="sc-phone-caption">Job checklist</div>
-      </div>
-      <div class="sc-phone-wrap">
-        <img src="screenshots/cleaner-log-spend.png" alt="Log hours and spend" class="sc-phone-img" loading="lazy">
-        <div class="sc-phone-caption">Log hours & spend</div>
-      </div>
-      <div class="sc-phone-wrap">
-        <img src="screenshots/cleaner-submitted.png" alt="Job submitted confirmation" class="sc-phone-img" loading="lazy">
-        <div class="sc-phone-caption">Submitted instantly</div>
-      </div>
-    </div>
-
-    <div class="sc-view-label">What you see as manager</div>
-    <div class="sc-desktop-row">
-      <div>
-        <img src="screenshots/dashboard-overview.png" alt="Manager dashboard overview" class="sc-desktop-img" loading="lazy">
-        <div class="sc-phone-caption" style="text-align:left;margin-top:10px">Live dashboard — income, cleans &amp; spend at a glance</div>
-      </div>
-      <div>
-        <img src="screenshots/dashboard-invoices.png" alt="Owner invoices ready to send" class="sc-desktop-img" loading="lazy">
-        <div class="sc-phone-caption" style="text-align:left;margin-top:10px">All invoices ready — one tap to run the lot</div>
-      </div>
-      <div>
-        <img src="screenshots/dashboard-send-invoice.png" alt="Send invoice to owner" class="sc-desktop-img" loading="lazy">
-        <div class="sc-phone-caption" style="text-align:left;margin-top:10px">Auto-populated invoice sent direct to the owner</div>
-      </div>
-    </div>
-
-  </div>
-</section>
 
 
 <!-- ══════════════════════════════════════════
