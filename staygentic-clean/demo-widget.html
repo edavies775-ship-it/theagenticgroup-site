@@ -29,6 +29,104 @@
     padding: 0 12px 20px;
   }
 
+  /* ─── EXPLAINER ─── */
+  .explainer-wrap {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto 36px;
+    text-align: center;
+  }
+  .explainer-wrap h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .explainer-wrap h2 em { color: var(--gold); font-style: italic; }
+  .explainer-wrap > p.lead {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 28px;
+  }
+  .audience-tags {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  .audience-tag {
+    background: rgba(184,154,90,0.15);
+    border: 1px solid rgba(184,154,90,0.35);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+  .explainer-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    margin-bottom: 24px;
+  }
+  .explainer-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: background 0.2s;
+  }
+  .explainer-step:hover { background: rgba(255,255,255,0.09); }
+  .explainer-num {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .explainer-step-text strong { display: block; font-size: 14px; color: white; margin-bottom: 2px; }
+  .explainer-step-text span { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  .explainer-cta {
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    animation: pulse 2s ease-in-out infinite;
+    margin-bottom: 4px;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+  /* ─── DEMO BADGE ─── */
+  .demo-label { text-align: center; margin-bottom: 16px; }
+  .demo-label span {
+    background: rgba(184,154,90,0.2);
+    color: var(--gold);
+    border: 1px solid rgba(184,154,90,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
   /* ─── TAB SWITCHER ─── */
   .demo-tabs {
     display: flex;
@@ -347,6 +445,50 @@
 </style>
 </head>
 <body>
+
+<!-- EXPLAINER -->
+<div class="explainer-wrap">
+  <div class="audience-tags">
+    <span class="audience-tag">Holiday Let Managers</span>
+    <span class="audience-tag">Commercial Cleaning</span>
+    <span class="audience-tag">Home Cleaners</span>
+  </div>
+  <h2>Built around <em>your</em> business — not the other way round.</h2>
+  <p class="lead">We configure StayGentic Clean around exactly how you operate — connect your booking data, your cleaners log jobs on their phones, and at month end you generate every invoice in under a minute.</p>
+  <div class="explainer-steps">
+    <div class="explainer-step">
+      <div class="explainer-num">1</div>
+      <div class="explainer-step-text">
+        <strong>We connect to your booking data</strong>
+        <span>Awaze, Airbnb, Booking.com, Classic Cottages, or your own rota — every changeover and clean populates automatically. No data entry.</span>
+      </div>
+    </div>
+    <div class="explainer-step">
+      <div class="explainer-num">2</div>
+      <div class="explainer-step-text">
+        <strong>Your cleaners log the job from their phone</strong>
+        <span>Hours, extras used, any spend — captured in under 60 seconds. No app download required.</span>
+      </div>
+    </div>
+    <div class="explainer-step">
+      <div class="explainer-num">3</div>
+      <div class="explainer-step-text">
+        <strong>Click one button at month end</strong>
+        <span>Every invoice, every client, every property — auto-populated in under a minute from what was actually logged.</span>
+      </div>
+    </div>
+    <div class="explainer-step">
+      <div class="explainer-num">4</div>
+      <div class="explainer-step-text">
+        <strong>Check and send — you're done</strong>
+        <span>Client details already saved. Email already written. Review, click send. That's it.</span>
+      </div>
+    </div>
+  </div>
+  <div class="explainer-cta">↓ Try the live demo below — tap through both views ↓</div>
+</div>
+
+<div class="demo-label"><span>Interactive Demo — fictional data, real product</span></div>
 
 <!-- TABS -->
 <div class="demo-tabs">
