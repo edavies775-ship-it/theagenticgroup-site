@@ -1313,95 +1313,26 @@ select:focus-visible,textarea:focus-visible{
 </section>
 
 <!-- STILL DOING THIS BY HAND? -->
-<section id="automation-check" style="background:var(--ink);padding:7rem 0 0;position:relative;overflow:hidden;">
+<section id="automation-check" style="background:var(--ink);padding:7rem 0;position:relative;overflow:hidden;">
   <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--teal),transparent);"></div>
 
   <div class="container">
 
-    <!-- TOP GRID: headline + bullets LEFT / image + stats RIGHT -->
-    <div class="reveal auto-header" style="display:grid;grid-template-columns:5fr 4fr;gap:5rem;align-items:start;margin-bottom:0;padding-bottom:5rem;">
-
-      <!-- LEFT: heading + pain bullets -->
-      <div>
-        <div class="eyebrow" style="color:var(--teal-bright);opacity:.7;">Sound Familiar?</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,4.8rem);font-weight:300;color:var(--cream);line-height:1.05;margin-bottom:2.8rem;">Still doing <em style="font-style:italic;color:var(--teal-bright);">this</em><br>by hand?</h2>
-
-        <div style="display:flex;flex-direction:column;gap:0;">
-          <!-- Pain item 01 -->
-          <div style="display:flex;align-items:flex-start;gap:1.4rem;padding:1.1rem 0;border-bottom:1px solid rgba(247,242,234,.06);">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:rgba(93,214,196,.3);line-height:1;min-width:1.8rem;padding-top:.15rem;">01</div>
-            <div>
-              <div style="font-size:1rem;color:var(--cream);font-weight:400;line-height:1.4;margin-bottom:.2rem;">Responding to every enquiry yourself</div>
-              <div style="font-size:.8rem;color:rgba(247,242,234,.4);font-weight:300;">Every missed message is a missed customer.</div>
-            </div>
-          </div>
-          <!-- Pain item 02 -->
-          <div style="display:flex;align-items:flex-start;gap:1.4rem;padding:1.1rem 0;border-bottom:1px solid rgba(247,242,234,.06);">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:rgba(93,214,196,.3);line-height:1;min-width:1.8rem;padding-top:.15rem;">02</div>
-            <div>
-              <div style="font-size:1rem;color:var(--cream);font-weight:400;line-height:1.4;margin-bottom:.2rem;">Chasing leads that go cold</div>
-              <div style="font-size:.8rem;color:rgba(247,242,234,.4);font-weight:300;">Most leads go cold within the hour.</div>
-            </div>
-          </div>
-          <!-- Pain item 03 -->
-          <div style="display:flex;align-items:flex-start;gap:1.4rem;padding:1.1rem 0;border-bottom:1px solid rgba(247,242,234,.06);">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:rgba(93,214,196,.3);line-height:1;min-width:1.8rem;padding-top:.15rem;">03</div>
-            <div>
-              <div style="font-size:1rem;color:var(--cream);font-weight:400;line-height:1.4;margin-bottom:.2rem;">Manually booking jobs and appointments</div>
-              <div style="font-size:.8rem;color:rgba(247,242,234,.4);font-weight:300;">Back-and-forth that should take seconds.</div>
-            </div>
-          </div>
-          <!-- Pain item 04 -->
-          <div style="display:flex;align-items:flex-start;gap:1.4rem;padding:1.1rem 0;border-bottom:1px solid rgba(247,242,234,.06);">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:rgba(93,214,196,.3);line-height:1;min-width:1.8rem;padding-top:.15rem;">04</div>
-            <div>
-              <div style="font-size:1rem;color:var(--cream);font-weight:400;line-height:1.4;margin-bottom:.2rem;">Evenings spent catching up on admin</div>
-              <div style="font-size:.8rem;color:rgba(247,242,234,.4);font-weight:300;">Your time is worth more than this.</div>
-            </div>
-          </div>
-          <!-- Pain item 05 -->
-          <div style="display:flex;align-items:flex-start;gap:1.4rem;padding:1.1rem 0;">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:rgba(93,214,196,.3);line-height:1;min-width:1.8rem;padding-top:.15rem;">05</div>
-            <div>
-              <div style="font-size:1rem;color:var(--cream);font-weight:400;line-height:1.4;margin-bottom:.2rem;">Jumping between WhatsApp, calls, and spreadsheets</div>
-              <div style="font-size:.8rem;color:rgba(247,242,234,.4);font-weight:300;">Switching tools all day is exhausting and error-prone.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT: workspace image + stat tiles + CTA bridge -->
-      <div style="display:flex;flex-direction:column;gap:1.5rem;">
-
-        <!-- Stat tiles -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(247,242,234,.06);">
-          <div style="background:var(--ink);padding:1.4rem 1.5rem;">
-            <div style="font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,242,234,.25);margin-bottom:.6rem;">Time lost per week</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--cream);line-height:1;">10<span style="color:var(--teal-bright);">-20</span></div>
-            <div style="font-size:.68rem;color:rgba(247,242,234,.3);margin-top:.35rem;font-weight:300;">hours on tasks a system handles</div>
-          </div>
-          <div style="background:var(--ink);padding:1.4rem 1.5rem;display:flex;align-items:center;">
-            <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;font-style:italic;color:rgba(247,242,234,.45);line-height:1.5;">It works until<br>it does not.</div>
-          </div>
-        </div>
-
-        <!-- CTA bridge -->
-        <div style="display:flex;align-items:center;gap:1rem;padding:.2rem 0;">
-          <p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:rgba(247,242,234,.5);line-height:1.6;margin:0;flex:1;">Tick the tasks below to see exactly how much <em style="color:var(--teal-bright);font-style:normal;">this is costing you</em>.</p>
-          <span style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);white-space:nowrap;">See the cost ↓</span>
-        </div>
-
-      </div>
+    <!-- INTRO -->
+    <div class="reveal" style="text-align:center;max-width:640px;margin:0 auto 4rem;">
+      <div class="eyebrow" style="color:var(--teal-bright);opacity:.7;">Sound Familiar?</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5vw,4rem);font-weight:300;color:var(--cream);line-height:1.05;margin-bottom:1.2rem;">Still doing <em style="font-style:italic;color:var(--teal-bright);">this</em> by hand?</h2>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:rgba(247,242,234,.5);line-height:1.6;margin:0;">Tick what your team still does manually — see exactly what it's costing you.</p>
     </div>
 
-    <!-- CALCULATOR (unchanged) -->
-    <div class="reveal" style="background:var(--ink);overflow:hidden;display:grid;grid-template-columns:1fr 360px;border-top:1px solid rgba(247,242,234,.06);" id="calc-outer">
+    <!-- CALCULATOR -->
+    <div class="reveal" style="background:var(--ink);overflow:hidden;display:grid;grid-template-columns:1fr 340px;border:1px solid rgba(247,242,234,.06);" id="calc-outer">
 
       <!-- LEFT: checklist — grouped into 4 categories -->
       <div style="padding:3rem;border-right:1px solid rgba(247,242,234,.05);">
         <div style="font-size:1.1rem;font-weight:400;font-family:'Cormorant Garamond',serif;color:var(--cream);margin-bottom:2rem;line-height:1.3;">Tick everything your team <em style="font-style:italic;color:var(--teal-bright);">currently does by hand</em></div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;" id="taskGrid">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;" id="taskGrid">
 
           <!-- Group 1: Enquiries & Leads -->
           <div>
@@ -1411,11 +1342,6 @@ select:focus-visible,textarea:focus-visible{
                 <input type="checkbox" onchange="calcTime()">
                 <span class="tc-box"></span>
                 <div class="tc-text"><div class="tc-name">Manually routing leads to the team</div><div class="tc-hrs">~2 hrs/week</div></div>
-              </label>
-              <label class="tc" data-hours="1">
-                <input type="checkbox" onchange="calcTime()">
-                <span class="tc-box"></span>
-                <div class="tc-text"><div class="tc-name">Logging enquiries from email into a sheet</div><div class="tc-hrs">~1 hr/week</div></div>
               </label>
               <label class="tc" data-hours="1.5">
                 <input type="checkbox" onchange="calcTime()">
@@ -1449,11 +1375,6 @@ select:focus-visible,textarea:focus-visible{
                 <span class="tc-box"></span>
                 <div class="tc-text"><div class="tc-name">Re-entering data between systems</div><div class="tc-hrs">~1 hr/week</div></div>
               </label>
-              <label class="tc" data-hours="1.5">
-                <input type="checkbox" onchange="calcTime()">
-                <span class="tc-box"></span>
-                <div class="tc-text"><div class="tc-name">Typing up call notes into a system</div><div class="tc-hrs">~1.5 hrs/week</div></div>
-              </label>
             </div>
           </div>
 
@@ -1461,11 +1382,6 @@ select:focus-visible,textarea:focus-visible{
           <div>
             <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-bright);opacity:.6;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid rgba(58,145,131,.12);">Reporting &amp; Finance</div>
             <div style="display:flex;flex-direction:column;gap:.35rem;">
-              <label class="tc" data-hours="1.5">
-                <input type="checkbox" onchange="calcTime()">
-                <span class="tc-box"></span>
-                <div class="tc-text"><div class="tc-name">Downloading and reformatting reports</div><div class="tc-hrs">~1.5 hrs/week</div></div>
-              </label>
               <label class="tc" data-hours="2">
                 <input type="checkbox" onchange="calcTime()">
                 <span class="tc-box"></span>
@@ -1480,33 +1396,6 @@ select:focus-visible,textarea:focus-visible{
                 <input type="checkbox" onchange="calcTime()">
                 <span class="tc-box"></span>
                 <div class="tc-text"><div class="tc-name">Manually generating client invoices</div><div class="tc-hrs">~1.5 hrs/week</div></div>
-              </label>
-            </div>
-          </div>
-
-          <!-- Group 4: Content & Operations -->
-          <div>
-            <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-bright);opacity:.6;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid rgba(58,145,131,.12);">Content &amp; Operations</div>
-            <div style="display:flex;flex-direction:column;gap:.35rem;">
-              <label class="tc" data-hours="3">
-                <input type="checkbox" onchange="calcTime()">
-                <span class="tc-box"></span>
-                <div class="tc-text"><div class="tc-name">Writing and posting social media content</div><div class="tc-hrs">~3 hrs/week</div></div>
-              </label>
-              <label class="tc" data-hours="2">
-                <input type="checkbox" onchange="calcTime()">
-                <span class="tc-box"></span>
-                <div class="tc-text"><div class="tc-name">Creating content for each platform separately</div><div class="tc-hrs">~2 hrs/week</div></div>
-              </label>
-              <label class="tc" data-hours="1.5">
-                <input type="checkbox" onchange="calcTime()">
-                <span class="tc-box"></span>
-                <div class="tc-text"><div class="tc-name">Scheduling posts one by one manually</div><div class="tc-hrs">~1.5 hrs/week</div></div>
-              </label>
-              <label class="tc" data-hours="1">
-                <input type="checkbox" onchange="calcTime()">
-                <span class="tc-box"></span>
-                <div class="tc-text"><div class="tc-name">Moving and renaming files manually</div><div class="tc-hrs">~1 hr/week</div></div>
               </label>
             </div>
           </div>
