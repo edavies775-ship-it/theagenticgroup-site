@@ -113,6 +113,24 @@
   }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
+  /* ─── CLOSING CTA ─── */
+  .closing-cta {
+    max-width: 390px;
+    width: 100%;
+    margin-top: 28px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .closing-cta h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: white; font-weight: 400; margin-bottom: 8px; line-height: 1.2; }
+  .closing-cta h3 em { color: var(--gold); font-style: italic; }
+  .closing-cta p { font-size: 13px; color: rgba(255,255,255,0.55); margin-bottom: 20px; line-height: 1.6; }
+  .closing-cta a { display: block; background: var(--gold); color: white; padding: 15px 24px; border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+  .closing-cta a:hover { background: #c9ab6a; }
+  .closing-cta .no-pressure { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 12px; }
+
   /* ─── DEMO BADGE ─── */
   .demo-label { text-align: center; margin-bottom: 16px; }
   .demo-label span {
@@ -932,6 +950,14 @@
   </div>
 
 </div><!-- /manager-app -->
+
+<!-- CLOSING CTA -->
+<div class="closing-cta">
+  <h3>Seen enough?<br>Let's set this up for <em>your</em> business.</h3>
+  <p>We configure everything around how you work — your properties, your cleaners, your rates. Most managers are up and running within a week.</p>
+  <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank">Book a Free Setup Call →</a>
+  <div class="no-pressure">No commitment. 30 minutes. We'll show you it live on your own data.</div>
+</div>
 
 <!-- GENERATE OVERLAY -->
 <div class="generating-overlay" id="gen-overlay">
