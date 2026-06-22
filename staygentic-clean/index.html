@@ -166,10 +166,26 @@ body.mode-commercial .sc-step-num{color:rgba(26,42,64,0.1)}
 body.mode-commercial .sc-step-tag{background:rgba(46,125,209,0.12)}
 
 /* ── DEMO SECTION ─────────────────────────────────────── */
-.sc-demo-section{background:var(--brand);padding:90px 0 60px;position:relative;overflow:hidden;transition:background 0.4s}
+.sc-demo-section{background:var(--brand);padding:80px 0 80px;position:relative;overflow:hidden;transition:background 0.4s}
 .sc-demo-section::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:background 0.3s}
-.sc-demo-widget-wrap{width:100%;max-width:660px;margin:0 auto}
-.sc-demo-widget-wrap iframe{width:100%;height:1920px;border:0;display:block}
+.sc-demo-section::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(184,150,62,0.1) 0%,transparent 65%);pointer-events:none}
+.sc-demo-lede{text-align:center;margin-bottom:48px;position:relative;z-index:1}
+.sc-live-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(184,150,62,0.12);border:1px solid rgba(184,150,62,0.35);color:var(--gold-light);font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:8px 20px;border-radius:30px;margin-bottom:24px}
+.sc-live-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:sc-livepulse 1.4s ease-in-out infinite}
+@keyframes sc-livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+.sc-demo-lede h2{font-size:clamp(2.2rem,4vw,3.4rem);color:#fff;margin-bottom:14px}
+.sc-demo-lede h2 em{font-style:italic;color:var(--gold-light);transition:color 0.3s}
+.sc-demo-lede p{font-size:0.92rem;color:rgba(255,255,255,0.55);max-width:480px;margin:0 auto 28px;line-height:1.8}
+.sc-demo-steps-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.sc-demo-step-pill{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 16px;max-width:240px;text-align:left;transition:background 0.2s}
+.sc-demo-step-pill:hover{background:rgba(255,255,255,0.09)}
+.sc-demo-step-pill .pill-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;transition:background 0.3s}
+.sc-demo-step-pill strong{display:block;font-size:0.75rem;color:#fff;font-weight:500;margin-bottom:1px}
+.sc-demo-step-pill span{font-size:0.7rem;color:rgba(255,255,255,0.45);line-height:1.4}
+.sc-demo-arrow{font-size:1.4rem;color:var(--gold);animation:sc-bounce 1.8s ease-in-out infinite}
+@keyframes sc-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.sc-demo-widget-wrap{width:100%;max-width:430px;margin:0 auto;position:relative;z-index:1}
+.sc-demo-widget-wrap iframe{width:100%;height:1200px;border:0;display:block}
 
 
 /* ── INVOICE DEMO ─────────────────────────────────────── */
@@ -500,6 +516,28 @@ body.mode-commercial .sc-founding-banner{background:linear-gradient(135deg,#2E7D
      ══════════════════════════════════════════ -->
 <section class="sc-demo-section">
   <div class="sg-container">
+
+    <div class="sc-demo-lede">
+      <div class="sc-live-badge"><span class="sc-live-dot"></span> Live Interactive Demo</div>
+      <h2>Try it. <em>Right now.</em></h2>
+      <p>Tap through the cleaner app and the manager dashboard — fictional data, exactly how it works in practice. No sign-up needed.</p>
+      <div class="sc-demo-steps-row">
+        <div class="sc-demo-step-pill">
+          <div class="pill-num">1</div>
+          <div><strong>Connect booking data</strong><span>Awaze, Airbnb, Classic Cottages and more</span></div>
+        </div>
+        <div class="sc-demo-step-pill">
+          <div class="pill-num">2</div>
+          <div><strong>Cleaners log from their phone</strong><span>60 seconds. No app download.</span></div>
+        </div>
+        <div class="sc-demo-step-pill">
+          <div class="pill-num">3</div>
+          <div><strong>One click at month end</strong><span>Every invoice auto-built and ready to send</span></div>
+        </div>
+      </div>
+      <div class="sc-demo-arrow">↓</div>
+    </div>
+
     <div class="sc-demo-widget-wrap">
       <iframe
         src="demo-widget.html"
@@ -509,6 +547,7 @@ body.mode-commercial .sc-founding-banner{background:linear-gradient(135deg,#2E7D
         allowtransparency="true">
       </iframe>
     </div>
+
   </div>
 </section>
 
