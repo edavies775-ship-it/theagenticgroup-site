@@ -66,10 +66,30 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ success: true, postSubmissionId: d.postSubmissionId });
     }
 
-    // ââ CRAWL WEBSITE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // ── CRAWL WEBSITE ─────────────────────────────────────────────────────────
     if (action === 'crawl_website') {
       const { url } = body;
       if (!url) return res.status(400).json({ error: 'No URL provided' });
+      if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
+
+      // Fetch the page directly so we don't need the web_search tool
+      let pageContent = '';
+      try {
+        const pageRes = await fetch(url, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ContentStudio/1.0)' },
+          signal: AbortSignal.timeout(8000),
+        });
+        if (pageRes.ok) {
+          const html = await pageRes.text();
+          pageContent = html
+            .replace(/<script[\s\S]*?<\/script>/gi, '')
+            .replace(/<style[\s\S]*?<\/style>/gi, '')
+            .replace(/<[^>]+>/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, 4000);
+        }
+      } catch (_) {}
 
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -81,13 +101,14 @@ module.exports = async function handler(req, res) {
         body: JSON.stringify({
           model: 'claude-sonnet-4-6',
           max_tokens: 1000,
-          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
           messages: [{
             role: 'user',
-            content: `Search for and analyse this business website: ${url}
+            content: `Analyse this business and return brand information as JSON.
 
-Return ONLY a JSON object with these fields (no markdown, no explanation):
-{"name":"business name","industry":"sector","description":"one sentence what they do","voice":"tone and communication style description","topics":["topic1","topic2","topic3","topic4","topic5"],"audience":"who their customers are"}`
+URL: ${url}${pageContent ? `\n\nPage content:\n${pageContent}` : ''}
+
+Return ONLY a JSON object with these exact fields (no markdown, no backticks, no explanation):
+{"name":"business name","industry":"sector","description":"one sentence what they do","voice":"tone and communication style","topics":["topic1","topic2","topic3","topic4","topic5"],"audience":"who their customers are"}`,
           }],
         }),
       });
@@ -95,7 +116,6 @@ Return ONLY a JSON object with these fields (no markdown, no explanation):
       const d = await r.json();
       const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
 
-      // Parse JSON from response
       let brand = null;
       try { brand = JSON.parse(text.trim()); } catch {}
       if (!brand) {
