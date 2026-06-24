@@ -1,4 +1,4 @@
-const STUDIO_TOKEN = process.env.STUDIO_TOKEN || 'agentic-studio-2024';
+const STUDIO_TOKEN = process.env.STUDIO_TOKEN || 'Elephant9';
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 
 module.exports = async function handler(req, res) {

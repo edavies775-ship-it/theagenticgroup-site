@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Content Studio â The Agentic Group</title>
+<title>Content Studio → The Agentic Group</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -259,13 +259,13 @@ select option{background:var(--ink-mid);}
 <div id="pin-screen">
   <div class="pin-box">
     <div class="pin-title">The Agentic <em>Group</em></div>
-    <div class="pin-sub">Content Studio â enter your access code to continue</div>
+    <div class="pin-sub">Content Studio → enter your access code to continue</div>
     <div class="field">
       <label class="field-label">Access Code</label>
-      <input type="password" id="pin-input" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢" autocomplete="off">
+      <input type="password" id="pin-input" placeholder="••••••••" autocomplete="off">
     </div>
     <button class="btn btn-primary btn-full" onclick="checkPin()">Enter Studio</button>
-    <div class="pin-error" id="pin-error">Incorrect code â try again</div>
+    <div class="pin-error" id="pin-error">Incorrect code → try again</div>
   </div>
 </div>
 
@@ -299,10 +299,10 @@ select option{background:var(--ink-mid);}
     </div>
   </div>
 
-  <!-- SETUP â URL STEP -->
+  <!-- SETUP → URL STEP -->
   <div id="view-setup-url" class="view hidden">
     <div class="view-header">
-      <button class="back-btn" onclick="showView('list')">â¹</button>
+      <button class="back-btn" onclick="showView('list')">←</button>
       <div>
         <div style="color:var(--cream);font-size:14px;font-weight:600;">New Client</div>
         <div style="color:var(--muted);font-size:11px;">Step 1 of 2</div>
@@ -323,16 +323,16 @@ select option{background:var(--ink-mid);}
       </button>
       <div style="text-align:center;margin-top:14px;">
         <button onclick="skipCrawl()" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;">
-          Skip â enter details manually
+          Skip → enter details manually
         </button>
       </div>
     </div>
   </div>
 
-  <!-- SETUP â DETAILS STEP -->
+  <!-- SETUP → DETAILS STEP -->
   <div id="view-setup-details" class="view hidden">
     <div class="view-header">
-      <button class="back-btn" onclick="showView('setup-url')">â¹</button>
+      <button class="back-btn" onclick="showView('setup-url')">←</button>
       <div>
         <div style="color:var(--cream);font-size:14px;font-weight:600;" id="setup-details-title">Client Details</div>
         <div style="color:var(--muted);font-size:11px;">Step 2 of 2</div>
@@ -379,7 +379,7 @@ select option{background:var(--ink-mid);}
   <!-- GENERATE VIEW -->
   <div id="view-generate" class="view hidden">
     <div class="view-header">
-      <button class="back-btn" onclick="showView('list')">â¹</button>
+      <button class="back-btn" onclick="showView('list')">←</button>
       <div style="flex:1;min-width:0;">
         <div style="color:var(--cream);font-size:14px;font-weight:600;" class="truncate" id="gen-client-name"></div>
         <div style="display:flex;gap:4px;margin-top:3px;" id="gen-platforms"></div>
@@ -418,14 +418,14 @@ select option{background:var(--ink-mid);}
       </div>
 
       <button class="btn btn-primary btn-full" id="gen-btn" onclick="runGenerate()">
-        â¦ Generate &amp; Schedule
+        … Generate &amp; Schedule
       </button>
 
       <div id="gen-log-wrap" class="hidden">
         <div class="eyebrow" id="gen-log-eyebrow">Activity</div>
         <div class="log-wrap" id="gen-log"></div>
         <button id="view-posts-btn" class="btn btn-teal btn-full mt-12 hidden" onclick="switchTab('posts')">
-          View Posts â
+          View Posts →
         </button>
       </div>
     </div>
@@ -433,8 +433,8 @@ select option{background:var(--ink-mid);}
     <!-- Posts tab -->
     <div id="tab-content-posts" style="flex:1;overflow-y:auto;padding:16px;display:none;">
       <div id="posts-empty" style="text-align:center;padding:50px 0;color:var(--muted);">
-        <div style="font-size:32px;margin-bottom:12px;">â¦</div>
-        <div style="font-size:13px;">No posts yet â generate some first</div>
+        <div style="font-size:32px;margin-bottom:12px;">…</div>
+        <div style="font-size:13px;">No posts yet → generate some first</div>
       </div>
       <div id="posts-summary" class="hidden" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;"></div>
       <div id="posts-list"></div>
@@ -458,7 +458,7 @@ let showingAccounts = false;
 
 const PLATFORMS = {
   linkedin:  { label:'LinkedIn',  short:'LI', color:'#0A66C2' },
-  twitter:   { label:'X',         short:'ð',  color:'#e2e2e2' },
+  twitter:   { label:'X',         short:'X',  color:'#e2e2e2' },
   instagram: { label:'Instagram', short:'IG', color:'#E1306C' },
   facebook:  { label:'Facebook',  short:'FB', color:'#1877F2' },
   tiktok:    { label:'TikTok',    short:'TT', color:'#69C9D0' },
@@ -483,7 +483,7 @@ async function checkPin() {
     return;
   }
 
-  // Token is valid â save and enter
+  // Token is valid → save and enter
   sessionStorage.setItem('studio_token', pin);
   window.STUDIO_TOKEN_VAL = pin;
   document.getElementById('pin-screen').classList.add('hidden');
@@ -532,7 +532,7 @@ async function retryAccounts() {
   if (showingAccounts && blotatoAccounts.length > 0) {
     showingAccounts = !showingAccounts;
     document.getElementById('account-list').classList.toggle('hidden', !showingAccounts);
-    document.getElementById('status-chevron').textContent = showingAccounts ? 'â²' : 'â¼';
+    document.getElementById('status-chevron').textContent = showingAccounts ? '▲' : '▼';
     return;
   }
   updateStatusBar('loading');
@@ -554,8 +554,8 @@ function updateStatusBar(state) {
   dot.className = 'status-dot ' + (s==='ok'?'dot-ok':s==='loading'?'dot-loading':'dot-error');
   text.textContent = s==='ok'
     ? `${blotatoAccounts.length} social account${blotatoAccounts.length!==1?'s':''} connected`
-    : s==='loading' ? 'Connecting...' : 'Not connected â tap to retry';
-  chevron.textContent = s==='ok' ? (showingAccounts?'â²':'â¼') : '';
+    : s==='loading' ? 'Connecting...' : 'Not connected → tap to retry';
+  chevron.textContent = s==='ok' ? (showingAccounts?'▲':'▼') : '';
 
   if (s==='ok' && blotatoAccounts.length > 0) {
     renderAccountList();
@@ -592,7 +592,7 @@ function saveClients() { localStorage.setItem('tag_studio_clients', JSON.stringi
 function renderClientList() {
   const el = document.getElementById('client-list');
   if (clients.length === 0) {
-    el.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:20px 0;text-align:center;">No clients yet â add your first one</div>`;
+    el.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:20px 0;text-align:center;">No clients yet → add your first one</div>`;
     return;
   }
   el.innerHTML = clients.map((c,i) => `
@@ -604,7 +604,7 @@ function renderClientList() {
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
         ${(c.posts||[]).length>0 ? `<span class="tag tag-gold">${c.posts.length} posts</span>` : ''}
-        <span style="color:var(--teal-bright);font-size:16px;">âº</span>
+        <span style="color:var(--teal-bright);font-size:16px;">›</span>
       </div>
     </div>
   `).join('');
@@ -615,7 +615,7 @@ function openClient(idx) {
   showGenerateView();
 }
 
-// ââ SETUP â CRAWL âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ââ SETUP → CRAWL âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 let crawledBrand = null;
 
 async function crawlWebsite() {
@@ -632,7 +632,7 @@ async function crawlWebsite() {
     populateSetupDetails(crawledBrand, url);
     showView('setup-details');
   } catch(e) {
-    errEl.textContent = 'Could not analyse website â try entering details manually';
+    errEl.textContent = 'Could not analyse website → try entering details manually';
     errEl.style.display = 'block';
   } finally {
     btn.disabled = false;
@@ -761,7 +761,7 @@ function showGenerateView() {
   document.getElementById('gen-client-name').textContent = activeClient.name;
   document.getElementById('gen-platforms').innerHTML = (activeClient.platforms||[]).map(p=>{
     const hasMapped = activeClient.accountIds?.[p];
-    return platBadge(p,18) + (!hasMapped?'<span style="font-size:9px;color:var(--warning);margin-right:2px;">â </span>':'');
+    return platBadge(p,18) + (!hasMapped?'<span style="font-size:9px;color:var(--warning);margin-right:2px;">⚠</span>':'');
   }).join('');
   generatedPosts = activeClient.posts || [];
   updatePostsTab();
@@ -832,7 +832,7 @@ async function runGenerate() {
     for (const post of posts) {
       const accId = activeClient.accountIds?.[post.platform];
       if (!accId) {
-        addLog(`${PLATFORMS[post.platform]?.label||post.platform} â saved as draft`, 'warning');
+        addLog(`${PLATFORMS[post.platform]?.label||post.platform} → saved as draft`, 'warning');
         enriched.push({ ...post, status:'draft' });
         continue;
       }
@@ -841,14 +841,14 @@ async function runGenerate() {
         addLog(`${PLATFORMS[post.platform]?.label||post.platform} post scheduled`, 'success');
         enriched.push({ ...post, status:'scheduled' });
       } catch(e) {
-        addLog(`${PLATFORMS[post.platform]?.label||post.platform} failed â saved as draft`, 'warning');
+        addLog(`${PLATFORMS[post.platform]?.label||post.platform} failed → saved as draft`, 'warning');
         enriched.push({ ...post, status:'draft' });
       }
     }
 
     generatedPosts = enriched;
     const sched = enriched.filter(p=>p.status==='scheduled').length;
-    addLog(`${enriched.length} post${enriched.length!==1?'s':''} ready${sched>0?' â '+sched+' scheduled':''}`, 'success');
+    addLog(`${enriched.length} post${enriched.length!==1?'s':''} ready${sched>0?' → '+sched+' scheduled':''}`, 'success');
     setLogState('done');
 
     // Save to client
@@ -896,7 +896,7 @@ function updatePostsTab() {
 
 function renderPostCard(post, idx) {
   const p = PLATFORMS[post.platform] || { color:'#888', label:post.platform };
-  const statusLabel = post.status==='scheduled' ? 'â Scheduled' : post.status==='scheduling' ? 'Scheduling...' : 'Draft';
+  const statusLabel = post.status==='scheduled' ? '✓ Scheduled' : post.status==='scheduling' ? 'Scheduling...' : 'Draft';
   const statusClass = post.status==='scheduled' ? 'tag-teal' : post.status==='scheduling' ? 'tag-warn' : 'tag-gold';
   const hook = post.hook || (post.text||'').slice(0,65) + '...';
   return `
@@ -909,13 +909,13 @@ function renderPostCard(post, idx) {
         </div>
         <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
           <span class="tag ${statusClass}">${statusLabel}</span>
-          <span style="color:var(--muted-low);font-size:10px;">â¼</span>
+          <span style="color:var(--muted-low);font-size:10px;">▼</span>
         </div>
       </div>
       <div class="post-card-body">
         <p style="color:var(--cream);font-size:13px;line-height:1.7;margin:0;white-space:pre-wrap;">${post.text||''}</p>
         ${post.hashtags?`<p style="color:var(--teal-bright);font-size:11px;margin-top:8px;margin-bottom:0;">${post.hashtags}</p>`:''}
-        ${post.status==='draft'?`<button class="btn btn-teal btn-sm mt-12" onclick="scheduleOne(${idx})">ð Schedule Post</button>`:''}
+        ${post.status==='draft'?`<button class="btn btn-teal btn-sm mt-12" onclick="scheduleOne(${idx})">🚀 Schedule Post</button>`:''}
       </div>
     </div>`;
 }
@@ -929,7 +929,7 @@ async function scheduleOne(idx) {
   if (!post || post.status==='scheduled') return;
   const accId = activeClient.accountIds?.[post.platform];
   if (!accId) {
-    addLog(`${PLATFORMS[post.platform]?.label||post.platform} not connected â tap Edit to set up`, 'warning');
+    addLog(`${PLATFORMS[post.platform]?.label||post.platform} not connected → tap Edit to set up`, 'warning');
     switchTab('generate');
     return;
   }

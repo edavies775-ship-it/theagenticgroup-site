@@ -1,4 +1,4 @@
-const STUDIO_TOKEN = process.env.STUDIO_TOKEN || 'agentic-studio-2024';
+const STUDIO_TOKEN = process.env.STUDIO_TOKEN || 'Elephant9';
 const BLOTATO_KEY = process.env.BLOTATO_API_KEY;
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const BLOTATO_BASE = 'https://backend.blotato.com/v2';
