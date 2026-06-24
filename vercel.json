@@ -12,6 +12,7 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "src": "/agentic", "status": 301, "headers": { "Location": "https://theagenticgroup.co.uk/" } },
+    { "src": "/studio", "dest": "/studio.html" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }

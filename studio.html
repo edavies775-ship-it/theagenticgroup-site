@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Content Studio â The Agentic Group</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d1a1c;
+  --ink-mid:#1a2e32;
+  --ink-light:#243a3f;
+  --cream:#f7f2ea;
+  --teal:#3a9183;
+  --teal-bright:#5dd6c4;
+  --gold:#c8a84b;
+  --gold-light:#e2c06a;
+  --muted:rgba(247,242,234,0.5);
+  --muted-low:rgba(247,242,234,0.25);
+  --border:rgba(58,145,131,0.2);
+  --border-faint:rgba(58,145,131,0.08);
+  --error:#ef4444;
+  --warning:#f59e0b;
+}
+html,body{height:100%;overflow:hidden;}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--ink);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+}
+#app{
+  width:100%;max-width:480px;height:100dvh;
+  display:flex;flex-direction:column;overflow:hidden;
+  position:relative;
+}
+
+/* ââ TYPOGRAPHY ââ */
+.serif{font-family:'Cormorant Garamond',serif;}
+.eyebrow{
+  display:flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--teal-bright);margin-bottom:12px;
+}
+.eyebrow::before{content:'';width:18px;height:1px;background:var(--teal-bright);flex-shrink:0;}
+
+/* ââ BUTTONS ââ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 20px;border-radius:4px;font-size:11px;font-weight:500;
+  letter-spacing:0.07em;text-transform:uppercase;font-family:'Inter',sans-serif;
+  cursor:pointer;border:none;transition:all 0.18s;
+}
+.btn:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-primary{background:var(--teal);color:#fff;}
+.btn-primary:hover:not(:disabled){background:var(--teal-bright);color:var(--ink);}
+.btn-ghost{background:transparent;color:var(--cream);border:1px solid var(--border);}
+.btn-teal{background:rgba(93,214,196,0.1);color:var(--teal-bright);border:1px solid rgba(93,214,196,0.2);}
+.btn-full{width:100%;}
+.btn-sm{padding:6px 14px;font-size:10px;}
+
+/* ââ INPUTS ââ */
+.field-label{
+  font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--teal-bright);margin-bottom:6px;display:block;
+}
+input,textarea,select{
+  width:100%;background:var(--ink-mid);border:1px solid var(--border);
+  color:var(--cream);font-size:14px;padding:11px 14px;border-radius:4px;
+  font-family:'Inter',sans-serif;outline:none;
+}
+input:focus,textarea:focus,select:focus{border-color:var(--teal);}
+textarea{resize:vertical;}
+select option{background:var(--ink-mid);}
+
+/* ââ TAGS / PILLS ââ */
+.tag{
+  display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;
+  font-size:10px;font-weight:600;letter-spacing:0.04em;
+}
+.tag-teal{color:var(--teal-bright);background:rgba(93,214,196,0.1);border:1px solid rgba(93,214,196,0.2);}
+.tag-gold{color:var(--gold-light);background:rgba(200,168,75,0.1);border:1px solid rgba(200,168,75,0.2);}
+.tag-warn{color:var(--warning);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);}
+
+/* ââ PLATFORM BADGE ââ */
+.plat{
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:5px;font-weight:700;flex-shrink:0;
+}
+
+/* ââ VIEWS ââ */
+.view{display:flex;flex-direction:column;flex:1;overflow:hidden;}
+.view-scroll{flex:1;overflow-y:auto;padding:20px 16px;}
+.view-header{
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+  padding:14px 16px;border-bottom:1px solid var(--border-faint);
+}
+.back-btn{
+  background:none;border:none;color:var(--teal-bright);
+  font-size:22px;cursor:pointer;padding:0;line-height:1;flex-shrink:0;
+}
+
+/* ââ TABS ââ */
+.tabs{display:flex;border-bottom:1px solid var(--border-faint);flex-shrink:0;}
+.tab{
+  flex:1;padding:11px 0;background:none;border:none;
+  border-bottom:2px solid transparent;
+  color:var(--muted);font-size:11px;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all 0.15s;
+}
+.tab.active{color:var(--teal-bright);border-bottom-color:var(--teal-bright);}
+
+/* ââ POST CARD ââ */
+.post-card{
+  border-radius:6px;background:var(--ink-mid);
+  border:1px solid var(--border);overflow:hidden;margin-bottom:8px;
+}
+.post-card-header{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;cursor:pointer;
+}
+.post-card-body{
+  border-top:1px solid var(--border-faint);
+  padding:12px 14px;display:none;
+}
+.post-card.open .post-card-body{display:block;}
+
+/* ââ LOG ââ */
+.log-wrap{
+  background:var(--ink);border:1px solid var(--border-faint);
+  border-radius:4px;padding:12px 14px;
+  max-height:200px;overflow-y:auto;
+  font-family:monospace;font-size:11px;
+}
+.log-wrap.active{border-color:var(--teal);}
+.log-line{padding:2px 0;}
+.log-info{color:var(--teal-bright);}
+.log-success{color:var(--gold-light);}
+.log-warning{color:var(--warning);}
+.log-error{color:var(--error);}
+.log-muted{color:var(--muted);}
+.log-time{color:var(--muted-low);margin-right:8px;}
+
+/* ââ STATUS DOT ââ */
+.status-bar{
+  display:flex;align-items:center;gap:6px;padding:8px 12px;
+  background:var(--ink-mid);border-radius:4px;border:1px solid var(--border-faint);
+  cursor:pointer;margin:0 16px 8px;
+}
+.status-dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+}
+.dot-ok{background:var(--teal-bright);}
+.dot-loading{background:var(--warning);animation:pulse 1s infinite;}
+.dot-error{background:var(--error);}
+
+/* ââ CLIENT CARD ââ */
+.client-card{
+  padding:14px 16px;border-radius:6px;cursor:pointer;
+  background:var(--ink-mid);border:1px solid var(--border-faint);
+  transition:all 0.15s;display:flex;align-items:center;gap:12px;
+  margin-bottom:8px;
+}
+.client-card:hover{border-color:var(--border);}
+
+/* ââ VOLUME GRID ââ */
+.volume-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.volume-btn{
+  padding:12px 10px;border-radius:4px;cursor:pointer;text-align:center;
+  border:1px solid var(--border);background:transparent;
+  font-family:'Inter',sans-serif;transition:all 0.15s;
+}
+.volume-btn.selected{border-color:var(--teal);background:rgba(58,145,131,0.15);}
+.volume-btn .vol-label{font-size:14px;font-weight:600;color:var(--cream);}
+.volume-btn.selected .vol-label{color:var(--teal-bright);}
+.volume-btn .vol-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+
+/* ââ PLATFORM TOGGLE ââ */
+.platform-toggles{display:flex;flex-wrap:wrap;gap:8px;}
+.plat-toggle{
+  display:flex;align-items:center;gap:6px;cursor:pointer;
+  padding:8px 12px;border-radius:4px;font-size:11px;font-weight:600;
+  border:1px solid var(--border);background:transparent;
+  font-family:'Inter',sans-serif;transition:all 0.15s;color:var(--muted);
+}
+
+/* ââ PIN SCREEN ââ */
+#pin-screen{
+  position:fixed;inset:0;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  z-index:1000;padding:24px;
+}
+.pin-box{width:100%;max-width:320px;}
+.pin-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;color:var(--cream);
+  margin-bottom:4px;
+}
+.pin-title em{font-style:italic;color:var(--teal-bright);}
+.pin-sub{font-size:12px;color:var(--muted);margin-bottom:28px;}
+.pin-error{color:var(--error);font-size:11px;margin-top:8px;display:none;}
+
+/* ââ ACCOUNT LIST ââ */
+.account-list{
+  margin-top:4px;padding:10px 12px;
+  background:var(--ink);border-radius:4px;border:1px solid var(--border-faint);
+}
+.account-item{
+  display:flex;align-items:center;gap:8px;padding:4px 0;
+}
+
+/* ââ ADD CLIENT INFO BOX ââ */
+.brand-box{
+  padding:12px 14px;background:rgba(58,145,131,0.07);
+  border:1px solid rgba(58,145,131,0.2);border-radius:6px;margin-bottom:16px;
+}
+
+/* ââ FIELD GROUP ââ */
+.field{margin-bottom:16px;}
+
+/* ââ SPINNER ââ */
+.spinner{
+  display:inline-block;width:12px;height:12px;
+  border:2px solid rgba(58,145,131,0.3);border-top:2px solid var(--teal-bright);
+  border-radius:50%;animation:spin 0.7s linear infinite;
+}
+
+/* ââ SCROLLBAR ââ */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--ink);}
+::-webkit-scrollbar-thumb{background:var(--ink-light);border-radius:2px;}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.hidden{display:none!important;}
+.gap-4{gap:4px;}
+.gap-8{gap:8px;}
+.flex{display:flex;}
+.flex-col{flex-direction:column;}
+.items-center{align-items:center;}
+.justify-between{justify-content:space-between;}
+.flex-1{flex:1;}
+.min-w-0{min-width:0;}
+.mt-8{margin-top:8px;}
+.mt-12{margin-top:12px;}
+.mb-16{margin-bottom:16px;}
+.w-full{width:100%;}
+.text-right{text-align:right;}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<!-- ââ PIN SCREEN âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div id="pin-screen">
+  <div class="pin-box">
+    <div class="pin-title">The Agentic <em>Group</em></div>
+    <div class="pin-sub">Content Studio â enter your access code to continue</div>
+    <div class="field">
+      <label class="field-label">Access Code</label>
+      <input type="password" id="pin-input" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢" autocomplete="off">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="checkPin()">Enter Studio</button>
+    <div class="pin-error" id="pin-error">Incorrect code â try again</div>
+  </div>
+</div>
+
+<!-- ââ APP ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<div id="app" class="hidden">
+
+  <!-- LIST VIEW -->
+  <div id="view-list" class="view hidden">
+    <div style="padding:20px 16px 8px;">
+      <div class="serif" style="font-size:26px;font-weight:300;line-height:1.1;margin-bottom:4px;">
+        Content <em style="font-style:italic;color:var(--teal-bright);">Studio</em>
+      </div>
+      <div style="font-size:11px;color:var(--muted);">The Agentic Group</div>
+    </div>
+
+    <div class="status-bar" id="status-bar" onclick="retryAccounts()">
+      <span class="status-dot dot-loading" id="status-dot"></span>
+      <span style="font-size:10px;color:var(--muted);letter-spacing:0.06em;flex:1;" id="status-text">Connecting...</span>
+      <span style="font-size:9px;color:var(--muted-low);" id="status-chevron"></span>
+    </div>
+    <div id="account-list" class="hidden" style="margin:0 16px 8px;">
+      <div class="account-list" id="account-list-inner"></div>
+    </div>
+
+    <div style="padding:0 16px;flex:1;overflow-y:auto;">
+      <div class="eyebrow">Your Clients</div>
+      <div id="client-list"></div>
+      <button class="btn btn-ghost btn-full" onclick="showView('setup-url')" style="margin-top:4px;gap:8px;">
+        <span style="font-size:18px;color:var(--teal);line-height:1;">+</span> Add Client
+      </button>
+    </div>
+  </div>
+
+  <!-- SETUP â URL STEP -->
+  <div id="view-setup-url" class="view hidden">
+    <div class="view-header">
+      <button class="back-btn" onclick="showView('list')">â¹</button>
+      <div>
+        <div style="color:var(--cream);font-size:14px;font-weight:600;">New Client</div>
+        <div style="color:var(--muted);font-size:11px;">Step 1 of 2</div>
+      </div>
+    </div>
+    <div class="view-scroll">
+      <div class="eyebrow">Website</div>
+      <p style="color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:16px;">
+        Drop in the client's website and we'll pull their brand voice and tone automatically.
+      </p>
+      <div class="field">
+        <label class="field-label">Website URL</label>
+        <input type="url" id="setup-url-input" placeholder="https://example.com">
+      </div>
+      <div id="crawl-error" style="color:var(--error);font-size:11px;margin-bottom:12px;display:none;"></div>
+      <button class="btn btn-primary btn-full" id="crawl-btn" onclick="crawlWebsite()">
+        Analyse Website
+      </button>
+      <div style="text-align:center;margin-top:14px;">
+        <button onclick="skipCrawl()" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;">
+          Skip â enter details manually
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP â DETAILS STEP -->
+  <div id="view-setup-details" class="view hidden">
+    <div class="view-header">
+      <button class="back-btn" onclick="showView('setup-url')">â¹</button>
+      <div>
+        <div style="color:var(--cream);font-size:14px;font-weight:600;" id="setup-details-title">Client Details</div>
+        <div style="color:var(--muted);font-size:11px;">Step 2 of 2</div>
+      </div>
+    </div>
+    <div class="view-scroll">
+      <div id="brand-box" class="brand-box hidden">
+        <div style="font-size:10px;font-weight:500;letter-spacing:0.10em;text-transform:uppercase;color:var(--teal-bright);margin-bottom:4px;">Pulled from website</div>
+        <div id="brand-description" style="color:var(--cream);font-size:12px;line-height:1.6;"></div>
+        <div id="brand-topics" style="display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;"></div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Client Name</label>
+        <input type="text" id="setup-name" placeholder="Business name">
+      </div>
+      <div class="field">
+        <label class="field-label">Industry</label>
+        <input type="text" id="setup-industry" placeholder="e.g. AI Consultancy">
+      </div>
+      <div class="field">
+        <label class="field-label">Brand Voice</label>
+        <textarea id="setup-voice" rows="4" placeholder="Tone, style, what to avoid..."></textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Platforms</label>
+        <div class="platform-toggles" id="setup-platforms"></div>
+      </div>
+
+      <div class="field" id="account-mapping-section">
+        <label class="field-label">Connect Social Accounts</label>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5;">
+          Choose which account to post to for each platform.
+        </div>
+        <div id="account-mapping"></div>
+      </div>
+
+      <div id="setup-error" style="color:var(--error);font-size:11px;margin-bottom:12px;display:none;"></div>
+      <button class="btn btn-primary btn-full" onclick="saveClient()">Save Client</button>
+    </div>
+  </div>
+
+  <!-- GENERATE VIEW -->
+  <div id="view-generate" class="view hidden">
+    <div class="view-header">
+      <button class="back-btn" onclick="showView('list')">â¹</button>
+      <div style="flex:1;min-width:0;">
+        <div style="color:var(--cream);font-size:14px;font-weight:600;" class="truncate" id="gen-client-name"></div>
+        <div style="display:flex;gap:4px;margin-top:3px;" id="gen-platforms"></div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="editCurrentClient()">Edit</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="tab-generate" onclick="switchTab('generate')">Generate</button>
+      <button class="tab" id="tab-posts" onclick="switchTab('posts')">Posts</button>
+    </div>
+
+    <!-- Generate tab -->
+    <div id="tab-content-generate" class="view-scroll" style="display:flex;flex-direction:column;gap:20px;">
+      <div class="field" style="margin-bottom:0;">
+        <label class="field-label">What do you want to post about? (optional)</label>
+        <textarea id="gen-brief" rows="3" placeholder="e.g. New service launch, autumn offers, thought leadership on AI... or leave blank for a varied mix"></textarea>
+      </div>
+
+      <div>
+        <label class="field-label">How many posts?</label>
+        <div class="volume-grid">
+          <button class="volume-btn" data-vol="1" onclick="selectVolume(1)">
+            <div class="vol-label">1 Post</div><div class="vol-sub">One-off</div>
+          </button>
+          <button class="volume-btn" data-vol="7" onclick="selectVolume(7)">
+            <div class="vol-label">Week</div><div class="vol-sub">7 posts</div>
+          </button>
+          <button class="volume-btn" data-vol="14" onclick="selectVolume(14)">
+            <div class="vol-label">Fortnight</div><div class="vol-sub">14 posts</div>
+          </button>
+          <button class="volume-btn selected" data-vol="30" onclick="selectVolume(30)">
+            <div class="vol-label">Month</div><div class="vol-sub">30 posts</div>
+          </button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" id="gen-btn" onclick="runGenerate()">
+        â¦ Generate &amp; Schedule
+      </button>
+
+      <div id="gen-log-wrap" class="hidden">
+        <div class="eyebrow" id="gen-log-eyebrow">Activity</div>
+        <div class="log-wrap" id="gen-log"></div>
+        <button id="view-posts-btn" class="btn btn-teal btn-full mt-12 hidden" onclick="switchTab('posts')">
+          View Posts â
+        </button>
+      </div>
+    </div>
+
+    <!-- Posts tab -->
+    <div id="tab-content-posts" style="flex:1;overflow-y:auto;padding:16px;display:none;">
+      <div id="posts-empty" style="text-align:center;padding:50px 0;color:var(--muted);">
+        <div style="font-size:32px;margin-bottom:12px;">â¦</div>
+        <div style="font-size:13px;">No posts yet â generate some first</div>
+      </div>
+      <div id="posts-summary" class="hidden" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;"></div>
+      <div id="posts-list"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ââ STATE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+const STUDIO_TOKEN = sessionStorage.getItem('studio_token') || '';
+let blotatoAccounts = [];
+let clients = JSON.parse(localStorage.getItem('tag_studio_clients') || '[]');
+let activeClient = null;
+let editingClient = null;
+let selectedVolume = 30;
+let generatedPosts = [];
+let setupPlatforms = [];
+let accountIds = {};
+let showingAccounts = false;
+
+const PLATFORMS = {
+  linkedin:  { label:'LinkedIn',  short:'LI', color:'#0A66C2' },
+  twitter:   { label:'X',         short:'ð',  color:'#e2e2e2' },
+  instagram: { label:'Instagram', short:'IG', color:'#E1306C' },
+  facebook:  { label:'Facebook',  short:'FB', color:'#1877F2' },
+  tiktok:    { label:'TikTok',    short:'TT', color:'#69C9D0' },
+  threads:   { label:'Threads',   short:'Th', color:'#aaaaaa' },
+};
+
+// ââ PIN âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function checkPin() {
+  const pin = document.getElementById('pin-input').value.trim();
+  if (!pin) return;
+
+  // Verify token server-side by making a test call
+  const r = await fetch('/api/studio', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-studio-token': pin },
+    body: JSON.stringify({ action: 'get_accounts' }),
+  });
+
+  if (r.status === 401) {
+    document.getElementById('pin-error').style.display = 'block';
+    document.getElementById('pin-input').value = '';
+    return;
+  }
+
+  // Token is valid â save and enter
+  sessionStorage.setItem('studio_token', pin);
+  window.STUDIO_TOKEN_VAL = pin;
+  document.getElementById('pin-screen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+
+  // Parse accounts from the response we just made
+  if (r.ok) {
+    const d = await r.json();
+    blotatoAccounts = d.accounts || [];
+    updateStatusBar();
+  }
+
+  showView('list');
+  renderClientList();
+}
+
+document.getElementById('pin-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkPin();
+});
+
+function getToken() { return window.STUDIO_TOKEN_VAL || sessionStorage.getItem('studio_token') || ''; }
+
+// ââ API HELPERS âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function apiStudio(body) {
+  const r = await fetch('/api/studio', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-studio-token': getToken() },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+async function apiGenerate(body) {
+  const r = await fetch('/api/studio-generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-studio-token': getToken() },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+// ââ ACCOUNTS ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function retryAccounts() {
+  if (showingAccounts && blotatoAccounts.length > 0) {
+    showingAccounts = !showingAccounts;
+    document.getElementById('account-list').classList.toggle('hidden', !showingAccounts);
+    document.getElementById('status-chevron').textContent = showingAccounts ? 'â²' : 'â¼';
+    return;
+  }
+  updateStatusBar('loading');
+  try {
+    const d = await apiStudio({ action: 'get_accounts' });
+    blotatoAccounts = d.accounts || [];
+    updateStatusBar('ok');
+  } catch(e) {
+    updateStatusBar('error');
+  }
+}
+
+function updateStatusBar(state) {
+  const dot = document.getElementById('status-dot');
+  const text = document.getElementById('status-text');
+  const chevron = document.getElementById('status-chevron');
+  const s = state || (blotatoAccounts.length > 0 ? 'ok' : 'idle');
+
+  dot.className = 'status-dot ' + (s==='ok'?'dot-ok':s==='loading'?'dot-loading':'dot-error');
+  text.textContent = s==='ok'
+    ? `${blotatoAccounts.length} social account${blotatoAccounts.length!==1?'s':''} connected`
+    : s==='loading' ? 'Connecting...' : 'Not connected â tap to retry';
+  chevron.textContent = s==='ok' ? (showingAccounts?'â²':'â¼') : '';
+
+  if (s==='ok' && blotatoAccounts.length > 0) {
+    renderAccountList();
+  }
+}
+
+function renderAccountList() {
+  const el = document.getElementById('account-list-inner');
+  el.innerHTML = blotatoAccounts.map(a => `
+    <div class="account-item">
+      ${platBadge(a.platform, 18)}
+      <span style="color:var(--cream);font-size:11px;">${a.name}</span>
+      ${a.username ? `<span style="color:var(--muted);font-size:10px;">@${a.username}</span>` : ''}
+    </div>
+  `).join('');
+}
+
+// ââ VIEWS âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+const VIEWS = ['list','setup-url','setup-details','generate'];
+function showView(id) {
+  VIEWS.forEach(v => document.getElementById('view-'+v).classList.add('hidden'));
+  document.getElementById('view-'+id).classList.remove('hidden');
+}
+
+// ââ PLATFORM BADGE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function platBadge(platform, size=26) {
+  const p = PLATFORMS[platform] || { short:'?', color:'#888' };
+  return `<span class="plat" style="width:${size}px;height:${size}px;font-size:${Math.round(size*0.32)}px;background:${p.color}22;color:${p.color};border:1px solid ${p.color}44;border-radius:${Math.round(size*0.28)}px;" title="${p.label}">${p.short}</span>`;
+}
+
+// ââ CLIENT LIST âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function saveClients() { localStorage.setItem('tag_studio_clients', JSON.stringify(clients)); }
+
+function renderClientList() {
+  const el = document.getElementById('client-list');
+  if (clients.length === 0) {
+    el.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:20px 0;text-align:center;">No clients yet â add your first one</div>`;
+    return;
+  }
+  el.innerHTML = clients.map((c,i) => `
+    <div class="client-card" style="border-left:3px solid ${c.color||'var(--teal)'};" onclick="openClient(${i})">
+      <div style="flex:1;min-width:0;">
+        <div style="color:var(--cream);font-size:14px;font-weight:600;margin-bottom:3px;">${c.name}</div>
+        <div style="color:var(--muted);font-size:11px;margin-bottom:6px;">${c.industry||''}</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">${(c.platforms||[]).map(p=>platBadge(p,20)).join('')}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
+        ${(c.posts||[]).length>0 ? `<span class="tag tag-gold">${c.posts.length} posts</span>` : ''}
+        <span style="color:var(--teal-bright);font-size:16px;">âº</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openClient(idx) {
+  activeClient = { ...clients[idx], _idx: idx };
+  showGenerateView();
+}
+
+// ââ SETUP â CRAWL âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+let crawledBrand = null;
+
+async function crawlWebsite() {
+  const url = document.getElementById('setup-url-input').value.trim();
+  if (!url) return;
+  const btn = document.getElementById('crawl-btn');
+  const errEl = document.getElementById('crawl-error');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Analysing...';
+  errEl.style.display = 'none';
+  try {
+    const d = await apiStudio({ action: 'crawl_website', url });
+    crawledBrand = d.brand;
+    populateSetupDetails(crawledBrand, url);
+    showView('setup-details');
+  } catch(e) {
+    errEl.textContent = 'Could not analyse website â try entering details manually';
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Analyse Website';
+  }
+}
+
+function skipCrawl() {
+  crawledBrand = null;
+  populateSetupDetails(null, document.getElementById('setup-url-input').value.trim());
+  showView('setup-details');
+}
+
+function populateSetupDetails(brand, url) {
+  document.getElementById('setup-details-title').textContent = editingClient ? 'Edit Client' : 'Client Details';
+  document.getElementById('setup-name').value = brand?.name || editingClient?.name || '';
+  document.getElementById('setup-industry').value = brand?.industry || editingClient?.industry || '';
+  document.getElementById('setup-voice').value = brand?.voice || editingClient?.voice || '';
+  setupPlatforms = editingClient?.platforms || ['linkedin','instagram','facebook'];
+  accountIds = editingClient?.accountIds || {};
+
+  const brandBox = document.getElementById('brand-box');
+  if (brand?.description) {
+    brandBox.classList.remove('hidden');
+    document.getElementById('brand-description').textContent = brand.description;
+    document.getElementById('brand-topics').innerHTML = (brand.topics||[]).map(t=>`<span class="tag tag-teal">${t}</span>`).join('');
+  } else {
+    brandBox.classList.add('hidden');
+  }
+
+  renderPlatformToggles();
+  renderAccountMapping();
+}
+
+function renderPlatformToggles() {
+  document.getElementById('setup-platforms').innerHTML = Object.entries(PLATFORMS).map(([key,p]) => `
+    <button class="plat-toggle ${setupPlatforms.includes(key)?'selected':''}"
+      style="${setupPlatforms.includes(key)?`border-color:${p.color};background:${p.color}22;color:${p.color};`:''}"
+      onclick="togglePlatform('${key}',this,'${p.color}')">
+      ${platBadge(key,18)} ${p.label}
+    </button>
+  `).join('');
+}
+
+function togglePlatform(key, btn, color) {
+  if (setupPlatforms.includes(key)) {
+    setupPlatforms = setupPlatforms.filter(p=>p!==key);
+    btn.classList.remove('selected');
+    btn.style.borderColor=''; btn.style.background=''; btn.style.color='';
+  } else {
+    setupPlatforms.push(key);
+    btn.classList.add('selected');
+    btn.style.borderColor=color; btn.style.background=color+'22'; btn.style.color=color;
+  }
+  renderAccountMapping();
+}
+
+function renderAccountMapping() {
+  const el = document.getElementById('account-mapping');
+  const section = document.getElementById('account-mapping-section');
+  if (blotatoAccounts.length === 0 || setupPlatforms.length === 0) {
+    section.style.display = 'none'; return;
+  }
+  section.style.display = 'block';
+  el.innerHTML = setupPlatforms.map(plat => {
+    const opts = blotatoAccounts.filter(a => a.platform === plat);
+    if (!opts.length) return `
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0;">
+        ${platBadge(plat,22)}
+        <span style="color:var(--warning);font-size:11px;">Not connected in Blotato yet</span>
+      </div>`;
+    return `
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        ${platBadge(plat,22)}
+        <select style="flex:1;" onchange="accountIds['${plat}']=this.value">
+          <option value="">-- select account --</option>
+          ${opts.map(a=>`<option value="${a.id}" ${accountIds[plat]===a.id?'selected':''}>${a.name}${a.username?' (@'+a.username+')':''}</option>`).join('')}
+        </select>
+      </div>`;
+  }).join('');
+}
+
+function saveClient() {
+  const name = document.getElementById('setup-name').value.trim();
+  if (!name) { document.getElementById('setup-error').textContent='Please enter a client name'; document.getElementById('setup-error').style.display='block'; return; }
+  document.getElementById('setup-error').style.display='none';
+
+  const data = {
+    id: editingClient?.id || ('c_'+Math.random().toString(36).slice(2,9)),
+    website: document.getElementById('setup-url-input').value.trim(),
+    name,
+    industry: document.getElementById('setup-industry').value.trim(),
+    voice: document.getElementById('setup-voice').value.trim(),
+    platforms: setupPlatforms,
+    accountIds: { ...accountIds },
+    description: crawledBrand?.description || editingClient?.description || '',
+    audience: crawledBrand?.audience || editingClient?.audience || '',
+    topics: crawledBrand?.topics || editingClient?.topics || [],
+    color: 'var(--teal-bright)',
+    posts: editingClient?.posts || [],
+  };
+
+  if (editingClient?._idx !== undefined) {
+    clients[editingClient._idx] = data;
+  } else {
+    clients.push(data);
+  }
+  saveClients();
+  activeClient = { ...data, _idx: editingClient?._idx ?? clients.length-1 };
+  editingClient = null;
+  renderClientList();
+  showGenerateView();
+}
+
+// ââ EDIT CLIENT âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function editCurrentClient() {
+  if (!activeClient) return;
+  editingClient = activeClient;
+  document.getElementById('setup-url-input').value = activeClient.website || '';
+  populateSetupDetails(null, activeClient.website || '');
+  showView('setup-details');
+}
+
+// ââ GENERATE VIEW âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function showGenerateView() {
+  document.getElementById('gen-client-name').textContent = activeClient.name;
+  document.getElementById('gen-platforms').innerHTML = (activeClient.platforms||[]).map(p=>{
+    const hasMapped = activeClient.accountIds?.[p];
+    return platBadge(p,18) + (!hasMapped?'<span style="font-size:9px;color:var(--warning);margin-right:2px;">â </span>':'');
+  }).join('');
+  generatedPosts = activeClient.posts || [];
+  updatePostsTab();
+  if (generatedPosts.length > 0) {
+    document.getElementById('tab-posts').textContent = `Posts (${generatedPosts.length})`;
+  }
+  showView('generate');
+  switchTab('generate');
+}
+
+function selectVolume(v) {
+  selectedVolume = v;
+  document.querySelectorAll('.volume-btn').forEach(b => {
+    b.classList.toggle('selected', parseInt(b.dataset.vol)===v);
+  });
+}
+
+function switchTab(tab) {
+  document.getElementById('tab-generate').classList.toggle('active', tab==='generate');
+  document.getElementById('tab-posts').classList.toggle('active', tab==='posts');
+  document.getElementById('tab-content-generate').style.display = tab==='generate'?'flex':'none';
+  document.getElementById('tab-content-posts').style.display = tab==='posts'?'block':'none';
+}
+
+// ââ LOGGING âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function addLog(text, type='info') {
+  const wrap = document.getElementById('gen-log-wrap');
+  const log = document.getElementById('gen-log');
+  wrap.classList.remove('hidden');
+  const t = new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const div = document.createElement('div');
+  div.className = `log-line log-${type}`;
+  div.innerHTML = `<span class="log-time">${t}</span>${text}`;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
+
+function setLogState(state) {
+  const eyebrow = document.getElementById('gen-log-eyebrow');
+  const logWrap = document.getElementById('gen-log');
+  const labels = { generating:'Creating your content...', scheduling:'Scheduling posts...', done:'Done', error:'Error' };
+  eyebrow.innerHTML = (state==='generating'||state==='scheduling')
+    ? `<span class="spinner" style="width:10px;height:10px;"></span> ${labels[state]}`
+    : labels[state]||state;
+  logWrap.classList.toggle('active', state==='generating'||state==='scheduling');
+}
+
+// ââ RUN GENERATE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+async function runGenerate() {
+  const btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  document.getElementById('gen-log').innerHTML = '';
+  document.getElementById('view-posts-btn').classList.add('hidden');
+  generatedPosts = [];
+  updatePostsTab();
+
+  try {
+    setLogState('generating');
+    addLog('Creating your content...', 'info');
+
+    const brief = document.getElementById('gen-brief').value.trim();
+    const d = await apiGenerate({ client: activeClient, brief, postCount: selectedVolume });
+    const posts = d.posts || [];
+    addLog(`${posts.length} posts created`, 'success');
+
+    setLogState('scheduling');
+    const enriched = [];
+    for (const post of posts) {
+      const accId = activeClient.accountIds?.[post.platform];
+      if (!accId) {
+        addLog(`${PLATFORMS[post.platform]?.label||post.platform} â saved as draft`, 'warning');
+        enriched.push({ ...post, status:'draft' });
+        continue;
+      }
+      try {
+        await apiStudio({ action:'schedule_post', accountId:accId, platform:post.platform, text:post.text, hashtags:post.hashtags });
+        addLog(`${PLATFORMS[post.platform]?.label||post.platform} post scheduled`, 'success');
+        enriched.push({ ...post, status:'scheduled' });
+      } catch(e) {
+        addLog(`${PLATFORMS[post.platform]?.label||post.platform} failed â saved as draft`, 'warning');
+        enriched.push({ ...post, status:'draft' });
+      }
+    }
+
+    generatedPosts = enriched;
+    const sched = enriched.filter(p=>p.status==='scheduled').length;
+    addLog(`${enriched.length} post${enriched.length!==1?'s':''} ready${sched>0?' â '+sched+' scheduled':''}`, 'success');
+    setLogState('done');
+
+    // Save to client
+    if (activeClient._idx !== undefined) {
+      clients[activeClient._idx].posts = enriched;
+      saveClients();
+      activeClient.posts = enriched;
+    }
+
+    updatePostsTab();
+    document.getElementById('tab-posts').textContent = `Posts (${enriched.length})`;
+    document.getElementById('view-posts-btn').classList.remove('hidden');
+
+  } catch(e) {
+    addLog('Error: ' + e.message, 'error');
+    setLogState('error');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ââ POSTS TAB âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function updatePostsTab() {
+  const empty = document.getElementById('posts-empty');
+  const summary = document.getElementById('posts-summary');
+  const list = document.getElementById('posts-list');
+
+  if (!generatedPosts.length) {
+    empty.style.display = 'block';
+    summary.classList.add('hidden');
+    list.innerHTML = '';
+    return;
+  }
+  empty.style.display = 'none';
+  const sched = generatedPosts.filter(p=>p.status==='scheduled').length;
+  const drafts = generatedPosts.filter(p=>p.status==='draft').length;
+  summary.classList.remove('hidden');
+  summary.style.display = 'flex';
+  summary.innerHTML = `
+    <span class="tag tag-teal">${sched} scheduled</span>
+    <span class="tag tag-gold">${drafts} draft${drafts!==1?'s':''}</span>
+  `;
+  list.innerHTML = generatedPosts.map((post,i) => renderPostCard(post,i)).join('');
+}
+
+function renderPostCard(post, idx) {
+  const p = PLATFORMS[post.platform] || { color:'#888', label:post.platform };
+  const statusLabel = post.status==='scheduled' ? 'â Scheduled' : post.status==='scheduling' ? 'Scheduling...' : 'Draft';
+  const statusClass = post.status==='scheduled' ? 'tag-teal' : post.status==='scheduling' ? 'tag-warn' : 'tag-gold';
+  const hook = post.hook || (post.text||'').slice(0,65) + '...';
+  return `
+    <div class="post-card" id="post-card-${idx}" style="border-left-color:${p.color};">
+      <div class="post-card-header" onclick="togglePostCard(${idx})">
+        ${platBadge(post.platform)}
+        <div style="flex:1;min-width:0;">
+          <div style="color:var(--cream);font-size:12px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${hook}</div>
+          <div style="color:var(--muted);font-size:10px;margin-top:2px;">${p.label}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
+          <span class="tag ${statusClass}">${statusLabel}</span>
+          <span style="color:var(--muted-low);font-size:10px;">â¼</span>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <p style="color:var(--cream);font-size:13px;line-height:1.7;margin:0;white-space:pre-wrap;">${post.text||''}</p>
+        ${post.hashtags?`<p style="color:var(--teal-bright);font-size:11px;margin-top:8px;margin-bottom:0;">${post.hashtags}</p>`:''}
+        ${post.status==='draft'?`<button class="btn btn-teal btn-sm mt-12" onclick="scheduleOne(${idx})">ð Schedule Post</button>`:''}
+      </div>
+    </div>`;
+}
+
+function togglePostCard(idx) {
+  document.getElementById('post-card-'+idx)?.classList.toggle('open');
+}
+
+async function scheduleOne(idx) {
+  const post = generatedPosts[idx];
+  if (!post || post.status==='scheduled') return;
+  const accId = activeClient.accountIds?.[post.platform];
+  if (!accId) {
+    addLog(`${PLATFORMS[post.platform]?.label||post.platform} not connected â tap Edit to set up`, 'warning');
+    switchTab('generate');
+    return;
+  }
+  generatedPosts[idx] = { ...post, status:'scheduling' };
+  updatePostsTab();
+  try {
+    await apiStudio({ action:'schedule_post', accountId:accId, platform:post.platform, text:post.text, hashtags:post.hashtags });
+    generatedPosts[idx] = { ...post, status:'scheduled' };
+    addLog(`${PLATFORMS[post.platform]?.label||post.platform} post scheduled`, 'success');
+    if (activeClient._idx !== undefined) {
+      clients[activeClient._idx].posts = generatedPosts;
+      saveClients();
+    }
+  } catch(e) {
+    generatedPosts[idx] = { ...post, status:'draft' };
+    addLog('Failed: ' + e.message, 'error');
+  }
+  updatePostsTab();
+}
+
+// ââ INIT ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// Check if already authenticated this session
+if (sessionStorage.getItem('studio_token')) {
+  window.STUDIO_TOKEN_VAL = sessionStorage.getItem('studio_token');
+  document.getElementById('pin-screen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  showView('list');
+  renderClientList();
+  retryAccounts();
+}
+</script>
+</body>
+</html>
