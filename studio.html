@@ -1140,13 +1140,27 @@ function togglePostCard(idx) {
   document.getElementById('post-card-'+idx)?.classList.toggle('open');
 }
 
+function showToast(msg, type) {
+  let t = document.getElementById('studio-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'studio-toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:6px;font-size:12px;font-weight:500;z-index:9999;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;';
+    document.body.appendChild(t);
+  }
+  const colors = { success:'#1a2e32;color:#4ade80;border:1px solid #4ade8044', warning:'#1a2e32;color:#f59e0b;border:1px solid #f59e0b44', error:'#1a2e32;color:#ef4444;border:1px solid #ef444444' };
+  t.style.cssText += `background:${colors[type]||colors.warning};opacity:1;`;
+  t.textContent = msg;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2800);
+}
+
 async function scheduleOne(idx) {
   const post = generatedPosts[idx];
   if (!post || post.status==='scheduled') return;
   const accId = activeClient.accountIds?.[post.platform];
   if (!accId) {
-    addLog(`${PLATFORMS[post.platform]?.label||post.platform} not connected → tap Edit to set up`, 'warning');
-    switchTab('generate');
+    showToast(`${PLATFORMS[post.platform]?.label||post.platform} not connected — tap Edit to link an account`, 'warning');
     return;
   }
   generatedPosts[idx] = { ...post, status:'scheduling' };
@@ -1154,14 +1168,14 @@ async function scheduleOne(idx) {
   try {
     await apiStudio({ action:'schedule_post', accountId:accId, platform:post.platform, text:post.text, hashtags:post.hashtags });
     generatedPosts[idx] = { ...post, status:'scheduled' };
-    addLog(`${PLATFORMS[post.platform]?.label||post.platform} post scheduled`, 'success');
+    showToast(`${PLATFORMS[post.platform]?.label||post.platform} post scheduled ✓`, 'success');
     if (activeClient._idx !== undefined) {
       clients[activeClient._idx].posts = generatedPosts;
       saveClients();
     }
   } catch(e) {
     generatedPosts[idx] = { ...post, status:'draft' };
-    addLog('Failed: ' + e.message, 'error');
+    showToast('Scheduling failed: ' + e.message, 'error');
   }
   updatePostsTab();
 }
