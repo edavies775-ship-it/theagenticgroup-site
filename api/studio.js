@@ -49,7 +49,7 @@ module.exports = async function handler(req, res) {
       }
       const fullText = text + (hashtags ? '\n\n' + hashtags : '');
       const target = { targetType: platform };
-      if (platform === 'facebook' || platform === 'linkedin') target.pageId = accountId;
+      if (platform === 'facebook') target.pageId = accountId;
       const r = await fetch(`${BLOTATO_BASE}/posts`, {
         method: 'POST',
         headers: {
