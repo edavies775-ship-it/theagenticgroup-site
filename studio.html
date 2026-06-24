@@ -510,6 +510,16 @@ select option{background:var(--ink-mid);}
 
 </div>
 
+<!-- Account Picker -->
+<div id="account-picker-overlay" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.65);" onclick="closeAccountPicker()">
+  <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#0d1a1c;border-radius:12px 12px 0 0;padding:20px 16px 32px;" onclick="event.stopPropagation()">
+    <div style="font-size:13px;font-weight:600;color:var(--cream);margin-bottom:4px;">Post to which account?</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:16px;" id="picker-platform-label"></div>
+    <div id="account-picker-list"></div>
+    <button class="btn btn-ghost btn-full" onclick="closeAccountPicker()" style="margin-top:12px;">Cancel</button>
+  </div>
+</div>
+
 <script>
 // ââ STATE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const STUDIO_TOKEN = sessionStorage.getItem('studio_token') || '';
@@ -1170,14 +1180,59 @@ function showToast(msg, type) {
   t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2800);
 }
 
+let pickerPostIdx = null;
+
+function showAccountPicker(idx, accounts) {
+  pickerPostIdx = idx;
+  const post = generatedPosts[idx];
+  const platLabel = PLATFORMS[post.platform]?.label || post.platform;
+  document.getElementById('picker-platform-label').textContent = platLabel;
+  document.getElementById('account-picker-list').innerHTML = accounts.map(a => `
+    <button onclick="pickAccount('${a.id||a.accountId||a._id}')" style="
+      display:flex;align-items:center;gap:10px;width:100%;
+      background:rgba(58,145,131,0.08);border:1px solid var(--border);
+      border-radius:6px;padding:11px 12px;margin-bottom:8px;cursor:pointer;text-align:left;">
+      ${platBadge(post.platform, 22)}
+      <div>
+        <div style="color:var(--cream);font-size:13px;font-weight:500;">${a.name||a.displayName||'Account'}</div>
+        ${(a.username||a.handle)?`<div style="color:var(--muted);font-size:11px;">@${a.username||a.handle}</div>`:''}
+      </div>
+    </button>`).join('');
+  document.getElementById('account-picker-overlay').style.display = 'block';
+}
+
+function closeAccountPicker() {
+  document.getElementById('account-picker-overlay').style.display = 'none';
+  pickerPostIdx = null;
+}
+
+async function pickAccount(accId) {
+  closeAccountPicker();
+  if (pickerPostIdx === null) return;
+  await doSchedule(pickerPostIdx, accId);
+}
+
 async function scheduleOne(idx) {
   const post = generatedPosts[idx];
   if (!post || post.status==='scheduled') return;
-  const accId = activeClient.accountIds?.[post.platform];
-  if (!accId) {
-    showToast(`${PLATFORMS[post.platform]?.label||post.platform} not connected — tap Edit to link an account`, 'warning');
-    return;
+
+  const platformAccounts = blotatoAccounts.filter(a => a.platform === post.platform);
+  if (platformAccounts.length === 0) {
+    const accId = activeClient.accountIds?.[post.platform];
+    if (!accId) {
+      showToast(`${PLATFORMS[post.platform]?.label||post.platform} not connected — tap Edit to link an account`, 'warning');
+      return;
+    }
+    await doSchedule(idx, accId);
+  } else if (platformAccounts.length === 1) {
+    await doSchedule(idx, platformAccounts[0].id || platformAccounts[0].accountId || platformAccounts[0]._id);
+  } else {
+    showAccountPicker(idx, platformAccounts);
   }
+}
+
+async function doSchedule(idx, accId) {
+  const post = generatedPosts[idx];
   generatedPosts[idx] = { ...post, status:'scheduling' };
   updatePostsTab();
   try {

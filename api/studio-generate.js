@@ -48,12 +48,20 @@ BRAND VOICE: ${client.voice || 'Professional and approachable'}
 KEY TOPICS: ${(client.topics || []).join(', ')}
 PLATFORMS: ${platformList}
 
+STRICT CHARACTER LIMITS — the "text" field MUST NOT exceed these (count carefully):
+- twitter: 240 chars max (leave room for hashtags)
+- threads: 480 chars max
+- linkedin: 2800 chars max
+- instagram: 2000 chars max
+- facebook: 2000 chars max
+- tiktok: 2000 chars max
+
 You MUST respond with ONLY a valid JSON object. No markdown. No backticks. No explanation. Start with { end with }.
 
 Format:
 {"posts":[{"platform":"linkedin","text":"full post text","hashtags":"#Tag1 #Tag2","hook":"opening hook","type":"text"}]}
 
-Create platform-optimised content. LinkedIn: professional, longer form. Instagram: visual, punchy. Facebook: conversational. Twitter/X: concise, punchy under 280 chars. TikTok: hook-first, trend-aware. Distribute posts evenly across all platforms.`,
+Create platform-optimised content. LinkedIn: professional, insight-led, can be longer. Instagram: visual, punchy, emoji-friendly. Facebook: conversational, community feel. Twitter/X: ultra-concise, punchy, MUST be under 240 chars. TikTok: hook-first, trend-aware. Threads: conversational, concise. Distribute posts evenly across all platforms.`,
         messages: [{ role: 'user', content: userMsg }],
       }),
     });
@@ -72,7 +80,14 @@ Create platform-optimised content. LinkedIn: professional, longer form. Instagra
       const stripped = rawText.replace(/```json|```/g, '').trim();
       try { const p = JSON.parse(stripped); if (Array.isArray(p.posts)) posts = p.posts; } catch {}
     }
-    if (!posts || posts.length === 0) throw new Error('Could not parse response â please try again');
+    if (!posts || posts.length === 0) throw new Error('Could not parse response — please try again');
+
+    const LIMITS = { twitter:240, threads:480, linkedin:2800, instagram:2000, facebook:2000, tiktok:2000 };
+    posts = posts.map(p => {
+      const limit = LIMITS[p.platform] || 2000;
+      if (p.text && p.text.length > limit) p.text = p.text.slice(0, limit - 1).trimEnd() + '…';
+      return p;
+    });
 
     return res.status(200).json({ posts });
 
