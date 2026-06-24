@@ -471,7 +471,7 @@ async function checkPin() {
   if (!pin) return;
 
   // Verify token server-side by making a test call
-  const r = await fetch('/api/studio', {
+  const r = await fetch(`${API_BASE}/api/studio`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-studio-token': pin },
     body: JSON.stringify({ action: 'get_accounts' }),
@@ -506,9 +506,11 @@ document.getElementById('pin-input').addEventListener('keydown', e => {
 
 function getToken() { return window.STUDIO_TOKEN_VAL || sessionStorage.getItem('studio_token') || ''; }
 
-// ââ API HELPERS âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── API HELPERS ───────────────────────────────────────────────────────────────
+const API_BASE = 'https://theagenticgroup-site.vercel.app';
+
 async function apiStudio(body) {
-  const r = await fetch('/api/studio', {
+  const r = await fetch(`${API_BASE}/api/studio`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-studio-token': getToken() },
     body: JSON.stringify(body),
@@ -518,7 +520,7 @@ async function apiStudio(body) {
 }
 
 async function apiGenerate(body) {
-  const r = await fetch('/api/studio-generate', {
+  const r = await fetch(`${API_BASE}/api/studio-generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-studio-token': getToken() },
     body: JSON.stringify(body),
