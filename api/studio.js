@@ -23,12 +23,17 @@ module.exports = async function handler(req, res) {
   try {
     // ââ GET ACCOUNTS ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
     if (action === 'get_accounts') {
-      const r = await fetch(`${BLOTATO_BASE}/users/me/accounts`, {
-        headers: { 'blotato-api-key': BLOTATO_KEY }
-      });
-      if (!r.ok) throw new Error('Blotato error: ' + r.status);
-      const d = await r.json();
-      return res.status(200).json({ accounts: d.accounts || [] });
+      if (!BLOTATO_KEY) return res.status(200).json({ accounts: [], warning: 'BLOTATO_API_KEY not set' });
+      try {
+        const r = await fetch(`${BLOTATO_BASE}/users/me/accounts`, {
+          headers: { 'blotato-api-key': BLOTATO_KEY }
+        });
+        if (!r.ok) return res.status(200).json({ accounts: [], warning: 'Blotato error: ' + r.status });
+        const d = await r.json();
+        return res.status(200).json({ accounts: d.accounts || [] });
+      } catch (e) {
+        return res.status(200).json({ accounts: [], warning: e.message });
+      }
     }
 
     // ââ SCHEDULE POST âââââââââââââââââââââââââââââââââââââââââââââââââââââââââ

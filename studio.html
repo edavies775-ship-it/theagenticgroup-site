@@ -539,7 +539,7 @@ async function retryAccounts() {
   try {
     const d = await apiStudio({ action: 'get_accounts' });
     blotatoAccounts = d.accounts || [];
-    updateStatusBar('ok');
+    updateStatusBar(blotatoAccounts.length > 0 ? 'ok' : 'warning');
   } catch(e) {
     updateStatusBar('error');
   }
@@ -549,12 +549,14 @@ function updateStatusBar(state) {
   const dot = document.getElementById('status-dot');
   const text = document.getElementById('status-text');
   const chevron = document.getElementById('status-chevron');
-  const s = state || (blotatoAccounts.length > 0 ? 'ok' : 'idle');
+  const s = state || (blotatoAccounts.length > 0 ? 'ok' : 'warning');
 
-  dot.className = 'status-dot ' + (s==='ok'?'dot-ok':s==='loading'?'dot-loading':'dot-error');
+  dot.className = 'status-dot ' + (s==='ok'?'dot-ok':s==='loading'?'dot-loading':s==='error'?'dot-error':'dot-loading');
   text.textContent = s==='ok'
     ? `${blotatoAccounts.length} social account${blotatoAccounts.length!==1?'s':''} connected`
-    : s==='loading' ? 'Connecting...' : 'Not connected → tap to retry';
+    : s==='loading' ? 'Connecting...'
+    : s==='error' ? 'Connection error — tap to retry'
+    : 'No social accounts — posts will save as drafts';
   chevron.textContent = s==='ok' ? (showingAccounts?'▲':'▼') : '';
 
   if (s==='ok' && blotatoAccounts.length > 0) {
