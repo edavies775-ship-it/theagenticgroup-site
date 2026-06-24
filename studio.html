@@ -608,13 +608,17 @@ async function retryAccounts() {
   try {
     const d = await apiStudio({ action: 'get_accounts' });
     blotatoAccounts = d.accounts || [];
-    updateStatusBar(blotatoAccounts.length > 0 ? 'ok' : 'warning');
+    if (blotatoAccounts.length > 0) {
+      updateStatusBar('ok');
+    } else {
+      updateStatusBar('warning', d.warning || 'No social accounts connected in Blotato');
+    }
   } catch(e) {
-    updateStatusBar('error');
+    updateStatusBar('error', e.message);
   }
 }
 
-function updateStatusBar(state) {
+function updateStatusBar(state, customMsg) {
   const dot = document.getElementById('status-dot');
   const text = document.getElementById('status-text');
   const chevron = document.getElementById('status-chevron');
@@ -624,8 +628,8 @@ function updateStatusBar(state) {
   text.textContent = s==='ok'
     ? `${blotatoAccounts.length} social account${blotatoAccounts.length!==1?'s':''} connected`
     : s==='loading' ? 'Connecting...'
-    : s==='error' ? 'Connection error — tap to retry'
-    : 'No social accounts — posts will save as drafts';
+    : s==='error' ? (customMsg || 'Connection error — tap to retry')
+    : (customMsg || 'No social accounts — posts will save as drafts');
   chevron.textContent = s==='ok' ? (showingAccounts?'▲':'▼') : '';
 
   if (s==='ok' && blotatoAccounts.length > 0) {
