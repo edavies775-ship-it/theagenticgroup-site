@@ -315,7 +315,7 @@ select option{background:var(--ink-mid);}
       </p>
       <div class="field">
         <label class="field-label">Website URL</label>
-        <input type="url" id="setup-url-input" placeholder="https://example.com">
+        <input type="text" id="setup-url-input" placeholder="theagenticgroup.co.uk">
       </div>
       <div id="crawl-error" style="color:var(--error);font-size:11px;margin-bottom:12px;display:none;"></div>
       <button class="btn btn-primary btn-full" id="crawl-btn" onclick="crawlWebsite()">
@@ -619,8 +619,10 @@ function openClient(idx) {
 let crawledBrand = null;
 
 async function crawlWebsite() {
-  const url = document.getElementById('setup-url-input').value.trim();
+  let url = document.getElementById('setup-url-input').value.trim();
   if (!url) return;
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  document.getElementById('setup-url-input').value = url;
   const btn = document.getElementById('crawl-btn');
   const errEl = document.getElementById('crawl-error');
   btn.disabled = true;
