@@ -187,7 +187,26 @@ select option{background:var(--ink-mid);}
   font-family:'Inter',sans-serif;transition:all 0.15s;color:var(--muted);
 }
 
-/* ââ PIN SCREEN ââ */
+/* ── SEO REPORT ── */
+.seo-section{border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px;}
+.seo-section-hd{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:600;color:var(--cream);margin-bottom:8px;letter-spacing:0.02em;}
+.seo-score{font-size:15px;font-weight:700;}
+.seo-item{font-size:11px;line-height:1.6;padding:2px 0;}
+.seo-win{color:#4ade80;}
+.seo-action{color:var(--teal-bright);}
+.seo-grade{font-size:64px;font-weight:300;font-family:'Cormorant Garamond',serif;line-height:1;}
+.audit-card{
+  display:flex;align-items:center;justify-content:space-between;
+  border:1px solid rgba(200,168,75,0.25);border-radius:8px;
+  padding:13px 14px;margin-bottom:16px;cursor:pointer;
+  background:rgba(200,168,75,0.04);transition:background 0.15s;
+}
+.audit-card:hover{background:rgba(200,168,75,0.09);}
+.audit-card-left{display:flex;flex-direction:column;gap:3px;}
+.audit-card-title{font-size:12px;font-weight:600;color:var(--gold);letter-spacing:0.04em;}
+.audit-card-sub{font-size:11px;color:var(--muted);}
+
+/* ── PIN SCREEN ── */
 #pin-screen{
   position:fixed;inset:0;background:var(--ink);
   display:flex;align-items:center;justify-content:center;
@@ -291,11 +310,50 @@ select option{background:var(--ink-mid);}
     </div>
 
     <div style="padding:0 16px;flex:1;overflow-y:auto;">
+      <button class="audit-card" onclick="showSeoView()">
+        <div class="audit-card-left">
+          <div class="audit-card-title">SEO · GEO · AEO Report</div>
+          <div class="audit-card-sub">Audit your AI search visibility</div>
+        </div>
+        <span style="color:var(--gold);font-size:18px;">→</span>
+      </button>
       <div class="eyebrow">Your Clients</div>
       <div id="client-list"></div>
       <button class="btn btn-ghost btn-full" onclick="showView('setup-url')" style="margin-top:4px;gap:8px;">
         <span style="font-size:18px;color:var(--teal);line-height:1;">+</span> Add Client
       </button>
+    </div>
+  </div>
+
+  <!-- SEO / GEO / AEO REPORT VIEW -->
+  <div id="view-seo" class="view hidden">
+    <div class="view-header">
+      <button class="back-btn" onclick="showView('list')">←</button>
+      <div>
+        <div style="color:var(--cream);font-size:14px;font-weight:600;">SEO · GEO · AEO Audit</div>
+        <div style="color:var(--muted);font-size:11px;">AI visibility report</div>
+      </div>
+    </div>
+    <div class="view-scroll">
+      <div id="seo-input-state">
+        <p style="color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:6px;">
+          Enter any website URL. We'll score it across three pillars:
+        </p>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;">
+          <div style="font-size:12px;color:var(--cream);"><span style="color:var(--teal-bright);">SEO</span> — traditional search ranking signals</div>
+          <div style="font-size:12px;color:var(--cream);"><span style="color:#a78bfa;">GEO</span> — Generative Engine Optimisation (ChatGPT, Perplexity, AI Overviews)</div>
+          <div style="font-size:12px;color:var(--cream);"><span style="color:var(--gold);">AEO</span> — Answer Engine Optimisation (voice, featured snippets, PAA)</div>
+        </div>
+        <div class="field">
+          <label class="field-label">Website URL</label>
+          <input type="text" id="seo-url-input" placeholder="yourwebsite.co.uk">
+        </div>
+        <div id="seo-error" style="color:var(--error);font-size:11px;margin-bottom:12px;display:none;"></div>
+        <button class="btn btn-primary btn-full" id="seo-gen-btn" onclick="generateSeoReport()">
+          Generate Report
+        </button>
+      </div>
+      <div id="seo-report" class="hidden"></div>
     </div>
   </div>
 
@@ -587,7 +645,7 @@ function renderAccountList() {
 }
 
 // ââ VIEWS âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-const VIEWS = ['list','setup-url','setup-details','generate'];
+const VIEWS = ['list','setup-url','setup-details','generate','seo'];
 function showView(id) {
   VIEWS.forEach(v => document.getElementById('view-'+v).classList.add('hidden'));
   document.getElementById('view-'+id).classList.remove('hidden');
@@ -854,6 +912,80 @@ function setLogState(state) {
     ? `<span class="spinner" style="width:10px;height:10px;"></span> ${labels[state]}`
     : labels[state]||state;
   logWrap.classList.toggle('active', state==='generating'||state==='scheduling');
+}
+
+// ── SEO / GEO / AEO REPORT ────────────────────────────────────────────────────
+function showSeoView() {
+  document.getElementById('seo-input-state').style.display = '';
+  document.getElementById('seo-report').classList.add('hidden');
+  document.getElementById('seo-report').innerHTML = '';
+  document.getElementById('seo-error').style.display = 'none';
+  document.getElementById('seo-gen-btn').disabled = false;
+  document.getElementById('seo-gen-btn').textContent = 'Generate Report';
+  showView('seo');
+}
+
+async function generateSeoReport() {
+  let url = document.getElementById('seo-url-input').value.trim();
+  if (!url) return;
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+
+  const btn = document.getElementById('seo-gen-btn');
+  const errEl = document.getElementById('seo-error');
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = '… Analysing';
+
+  try {
+    const d = await apiStudio({ action: 'generate_seo_report', url });
+    renderSeoReport(d.report, url);
+  } catch(e) {
+    errEl.textContent = 'Could not generate report — ' + e.message;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Generate Report';
+  }
+}
+
+function renderSeoReport(r, url) {
+  const s = r.overall_score || 0;
+  const grade = s >= 80 ? 'A' : s >= 65 ? 'B' : s >= 50 ? 'C' : 'D';
+  const gradeColor = s >= 80 ? '#4ade80' : s >= 65 ? 'var(--teal-bright)' : s >= 50 ? 'var(--gold)' : 'var(--error)';
+
+  const section = (title, accent, data) => {
+    if (!data) return '';
+    const wins = (data.wins||[]).map(w=>`<div class="seo-item seo-win">✓ ${w}</div>`).join('');
+    const actions = (data.actions||[]).map(a=>`<div class="seo-item seo-action">→ ${a}</div>`).join('');
+    return `<div class="seo-section">
+      <div class="seo-section-hd">
+        <span>${title}</span>
+        <span class="seo-score" style="color:${accent};">${data.score||0}/100</span>
+      </div>
+      <p style="color:var(--muted);font-size:12px;line-height:1.6;margin-bottom:8px;">${data.summary||''}</p>
+      ${wins ? `<div style="margin-bottom:6px;">${wins}</div>` : ''}
+      ${actions}
+    </div>`;
+  };
+
+  const quickWins = (r.quick_wins||[]).map(w=>`<div class="seo-item" style="color:var(--gold-light);">⚡ ${w}</div>`).join('');
+
+  document.getElementById('seo-report').innerHTML = `
+    <div style="text-align:center;padding:16px 0 22px;">
+      <div class="seo-grade" style="color:${gradeColor};">${grade}</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px;">${s}/100 overall score</div>
+      <div style="font-size:10px;color:var(--muted-low);margin-top:4px;letter-spacing:0.04em;">${url}</div>
+    </div>
+    ${quickWins ? `<div class="seo-section" style="border-color:rgba(200,168,75,0.3);background:rgba(200,168,75,0.05);">
+      <div class="seo-section-hd" style="color:var(--gold);">Quick Wins</div>
+      ${quickWins}
+    </div>` : ''}
+    ${section('SEO — Search Engine Optimisation','var(--teal-bright)',r.seo)}
+    ${section('GEO — Generative Engine Optimisation','#a78bfa',r.geo)}
+    ${section('AEO — Answer Engine Optimisation','var(--gold)',r.aeo)}
+    <button class="btn btn-ghost btn-full" onclick="showSeoView()" style="margin-top:4px;">← Run another audit</button>
+  `;
+  document.getElementById('seo-report').classList.remove('hidden');
+  document.getElementById('seo-input-state').style.display = 'none';
 }
 
 // ── SUGGEST TOPICS ────────────────────────────────────────────────────────────

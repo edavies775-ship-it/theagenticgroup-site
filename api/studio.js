@@ -110,6 +110,53 @@ Return ONLY a valid JSON object with these exact fields (no markdown, no backtic
       return res.status(200).json({ brand });
     }
 
+    // ── SEO / GEO / AEO REPORT ───────────────────────────────────────────────
+    if (action === 'generate_seo_report') {
+      const { url } = body;
+      if (!url) return res.status(400).json({ error: 'No URL provided' });
+      if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
+
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_KEY,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1500,
+          messages: [{
+            role: 'user',
+            content: `You are an expert in SEO, GEO (Generative Engine Optimisation) and AEO (Answer Engine Optimisation). Audit this website based on your knowledge of it and its industry.
+
+URL: ${url}
+
+Definitions:
+- SEO: traditional search ranking (keywords, backlinks, technical, content quality)
+- GEO: optimising to appear in AI-generated answers from ChatGPT, Perplexity, Google AI Overviews — needs clear factual claims, citations, structured content, topical authority
+- AEO: optimising for featured snippets, People Also Ask, voice assistants — needs FAQ schema, direct answers, conversational content
+
+Return ONLY valid JSON (no markdown, no backticks, no explanation):
+{"overall_score":<0-100>,"seo":{"score":<0-100>,"summary":"<2 sentences>","wins":["<strength>","<strength>","<strength>"],"actions":["<fix>","<fix>","<fix>","<fix>"]},"geo":{"score":<0-100>,"summary":"<2 sentences>","wins":["<strength>","<strength>"],"actions":["<fix>","<fix>","<fix>"]},"aeo":{"score":<0-100>,"summary":"<2 sentences>","wins":["<strength>","<strength>"],"actions":["<fix>","<fix>","<fix>"]},"quick_wins":["<highest impact action>","<highest impact action>","<highest impact action>"]}
+
+Be specific to this actual site and sector. Score honestly.`,
+          }],
+        }),
+      });
+      if (!r.ok) {
+        const errBody = await r.text().catch(() => '');
+        throw new Error(`AI error ${r.status}: ${errBody.slice(0, 200)}`);
+      }
+      const d = await r.json();
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      let report = null;
+      try { report = JSON.parse(text.trim()); } catch {}
+      if (!report) { const m = text.match(/\{[\s\S]*\}/); if (m) try { report = JSON.parse(m[0]); } catch {} }
+      if (!report) throw new Error(`Could not parse report: ${text.slice(0, 100)}`);
+      return res.status(200).json({ report });
+    }
+
     // ── SUGGEST TOPICS ────────────────────────────────────────────────────────
     if (action === 'suggest_topics') {
       const { client } = body;
