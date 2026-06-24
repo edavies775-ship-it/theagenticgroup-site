@@ -400,6 +400,11 @@ select option{background:var(--ink-mid);}
       </div>
 
       <div>
+        <label class="field-label">Which platforms?</label>
+        <div class="platform-toggles" id="gen-platform-toggles"></div>
+      </div>
+
+      <div>
         <label class="field-label">How many posts?</label>
         <div class="volume-grid">
           <button class="volume-btn" data-vol="1" onclick="selectVolume(1)">
@@ -763,12 +768,18 @@ function editCurrentClient() {
 }
 
 // ââ GENERATE VIEW âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+let selectedGenPlatforms = [];
+
 function showGenerateView() {
   document.getElementById('gen-client-name').textContent = activeClient.name;
   document.getElementById('gen-platforms').innerHTML = (activeClient.platforms||[]).map(p=>{
     const hasMapped = activeClient.accountIds?.[p];
     return platBadge(p,18) + (!hasMapped?'<span style="font-size:9px;color:var(--warning);margin-right:2px;">⚠</span>':'');
   }).join('');
+
+  selectedGenPlatforms = [...(activeClient.platforms || [])];
+  renderGenPlatformToggles();
+
   generatedPosts = activeClient.posts || [];
   updatePostsTab();
   if (generatedPosts.length > 0) {
@@ -776,6 +787,32 @@ function showGenerateView() {
   }
   showView('generate');
   switchTab('generate');
+}
+
+function renderGenPlatformToggles() {
+  document.getElementById('gen-platform-toggles').innerHTML = (activeClient.platforms||[]).map(key => {
+    const p = PLATFORMS[key];
+    if (!p) return '';
+    const on = selectedGenPlatforms.includes(key);
+    return `<button class="plat-toggle ${on?'selected':''}"
+      style="${on?`border-color:${p.color};background:${p.color}22;color:${p.color};`:''}"
+      onclick="toggleGenPlatform('${key}',this,'${p.color}')">
+      ${platBadge(key,18)} ${p.label}
+    </button>`;
+  }).join('');
+}
+
+function toggleGenPlatform(key, btn, color) {
+  if (selectedGenPlatforms.includes(key)) {
+    if (selectedGenPlatforms.length === 1) return;
+    selectedGenPlatforms = selectedGenPlatforms.filter(p=>p!==key);
+    btn.classList.remove('selected');
+    btn.style.borderColor=''; btn.style.background=''; btn.style.color='';
+  } else {
+    selectedGenPlatforms.push(key);
+    btn.classList.add('selected');
+    btn.style.borderColor=color; btn.style.background=color+'22'; btn.style.color=color;
+  }
 }
 
 function selectVolume(v) {
@@ -829,7 +866,8 @@ async function runGenerate() {
     addLog('Creating your content...', 'info');
 
     const brief = document.getElementById('gen-brief').value.trim();
-    const d = await apiGenerate({ client: activeClient, brief, postCount: selectedVolume });
+    const clientForGen = { ...activeClient, platforms: selectedGenPlatforms };
+    const d = await apiGenerate({ client: clientForGen, brief, postCount: selectedVolume });
     const posts = d.posts || [];
     addLog(`${posts.length} posts created`, 'success');
 
