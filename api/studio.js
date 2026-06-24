@@ -29,11 +29,13 @@ module.exports = async function handler(req, res) {
           headers: { 'blotato-api-key': BLOTATO_KEY }
         });
         const rawText = await r.text();
-        console.log('Blotato status:', r.status, 'body:', rawText.slice(0, 500));
+        console.log('Blotato status:', r.status, 'body:', rawText.slice(0, 2000));
         if (!r.ok) return res.status(200).json({ accounts: [], warning: `Blotato error ${r.status}: ${rawText.slice(0,100)}` });
         const d = JSON.parse(rawText);
         const accounts = d.accounts || d.items || d.data || (Array.isArray(d) ? d : []);
         console.log('Parsed accounts:', accounts.length);
+        const liAccounts = accounts.filter(a => a.platform === 'linkedin');
+        console.log('LinkedIn accounts:', JSON.stringify(liAccounts));
         return res.status(200).json({ accounts, warning: accounts.length === 0 ? 'Key valid but no accounts returned — keys: ' + Object.keys(d).join(',') : undefined });
       } catch (e) {
         console.log('Blotato fetch error:', e.message);
@@ -47,9 +49,13 @@ module.exports = async function handler(req, res) {
       if (!accountId || !platform || !text) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
-      const fullText = text + (hashtags ? '\n\n' + hashtags : '');
+      let fullText = text + (hashtags ? '\n\n' + hashtags : '');
+      const CHAR_LIMITS = { twitter: 240, threads: 500, linkedin: 3000, instagram: 2200, facebook: 2200, tiktok: 2200 };
+      const charLimit = CHAR_LIMITS[platform] || 2200;
+      if (fullText.length > charLimit) fullText = fullText.slice(0, charLimit - 1).trimEnd() + '…';
       const target = { targetType: platform };
       if (platform === 'facebook') target.pageId = accountId;
+      console.log('Scheduling:', JSON.stringify({ accountId, platform, textLen: fullText.length, target }));
       const r = await fetch(`${BLOTATO_BASE}/posts`, {
         method: 'POST',
         headers: {
