@@ -856,9 +856,7 @@ function showGenerateView() {
 }
 
 function renderGenPlatformToggles() {
-  document.getElementById('gen-platform-toggles').innerHTML = (activeClient.platforms||[]).map(key => {
-    const p = PLATFORMS[key];
-    if (!p) return '';
+  document.getElementById('gen-platform-toggles').innerHTML = Object.entries(PLATFORMS).map(([key,p]) => {
     const on = selectedGenPlatforms.includes(key);
     return `<button class="plat-toggle ${on?'selected':''}"
       style="${on?`border-color:${p.color};background:${p.color}22;color:${p.color};`:''}"
