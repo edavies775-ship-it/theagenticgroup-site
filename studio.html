@@ -1135,13 +1135,26 @@ function renderPostCard(post, idx) {
       <div class="post-card-body">
         <p style="color:var(--cream);font-size:13px;line-height:1.7;margin:0;white-space:pre-wrap;">${post.text||''}</p>
         ${post.hashtags?`<p style="color:var(--teal-bright);font-size:11px;margin-top:8px;margin-bottom:0;">${post.hashtags}</p>`:''}
-        ${post.status==='draft'?`<button class="btn btn-teal btn-sm mt-12" onclick="scheduleOne(${idx})">🚀 Schedule Post</button>`:''}
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <button class="btn btn-ghost btn-sm" onclick="copyPost(${idx})" id="copy-btn-${idx}">Copy</button>
+          ${post.status==='draft'?`<button class="btn btn-teal btn-sm" onclick="scheduleOne(${idx})">🚀 Schedule</button>`:''}
+        </div>
       </div>
     </div>`;
 }
 
 function togglePostCard(idx) {
   document.getElementById('post-card-'+idx)?.classList.toggle('open');
+}
+
+function copyPost(idx) {
+  const post = generatedPosts[idx];
+  if (!post) return;
+  const full = post.text + (post.hashtags ? '\n\n' + post.hashtags : '');
+  navigator.clipboard.writeText(full).then(() => {
+    const btn = document.getElementById('copy-btn-' + idx);
+    if (btn) { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = 'Copy'; }, 2000); }
+  }).catch(() => showToast('Could not copy — try long-pressing the text', 'warning'));
 }
 
 function showToast(msg, type) {
