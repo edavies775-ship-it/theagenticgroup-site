@@ -796,7 +796,7 @@ function renderAccountMapping() {
         ${platBadge(plat,22)}
         <select style="flex:1;" onchange="accountIds['${plat}']=this.value">
           <option value="">-- select account --</option>
-          ${opts.map(a=>`<option value="${a.id}" ${accountIds[plat]===a.id?'selected':''}>${a.name}${a.username?' (@'+a.username+')':''}</option>`).join('')}
+          ${opts.map(a=>`<option value="${a.id}" ${accountIds[plat]===a.id?'selected':''}>${a.fullname||a.name||'Account'}${a.username?' (@'+a.username+')':''}</option>`).join('')}
         </select>
       </div>`;
   }).join('');
