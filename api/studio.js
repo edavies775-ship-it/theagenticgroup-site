@@ -32,7 +32,7 @@ module.exports = async function handler(req, res) {
         console.log('Blotato status:', r.status, 'body:', rawText.slice(0, 500));
         if (!r.ok) return res.status(200).json({ accounts: [], warning: `Blotato error ${r.status}: ${rawText.slice(0,100)}` });
         const d = JSON.parse(rawText);
-        const accounts = d.accounts || d.data || (Array.isArray(d) ? d : []);
+        const accounts = d.accounts || d.items || d.data || (Array.isArray(d) ? d : []);
         console.log('Parsed accounts:', accounts.length);
         return res.status(200).json({ accounts, warning: accounts.length === 0 ? 'Key valid but no accounts returned — keys: ' + Object.keys(d).join(',') : undefined });
       } catch (e) {
