@@ -110,6 +110,48 @@ Return ONLY a valid JSON object with these exact fields (no markdown, no backtic
       return res.status(200).json({ brand });
     }
 
+    // ── SUGGEST TOPICS ────────────────────────────────────────────────────────
+    if (action === 'suggest_topics') {
+      const { client } = body;
+      if (!client) return res.status(400).json({ error: 'No client provided' });
+      if (!ANTHROPIC_KEY) return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
+
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_KEY,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 400,
+          messages: [{
+            role: 'user',
+            content: `You are a social media strategist. Suggest 5 specific content ideas for this business.
+
+Business: ${client.name}
+Industry: ${client.industry || ''}
+Description: ${client.description || ''}
+Audience: ${client.audience || ''}
+Brand voice: ${client.voice || ''}
+Key topics: ${(client.topics || []).join(', ')}
+
+Return ONLY a JSON array of 5 short content steer strings (10-15 words each, punchy and specific, no quotes inside strings):
+["idea 1","idea 2","idea 3","idea 4","idea 5"]`,
+          }],
+        }),
+      });
+      if (!r.ok) throw new Error('AI error: ' + r.status);
+      const d = await r.json();
+      const text = (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+      let ideas = null;
+      try { ideas = JSON.parse(text.trim()); } catch {}
+      if (!ideas) { const m = text.match(/\[[\s\S]*\]/); if (m) try { ideas = JSON.parse(m[0]); } catch {} }
+      if (!Array.isArray(ideas)) throw new Error('Could not parse ideas');
+      return res.status(200).json({ ideas });
+    }
+
     return res.status(400).json({ error: 'Unknown action' });
 
   } catch (e) {

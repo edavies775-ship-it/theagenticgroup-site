@@ -395,8 +395,12 @@ select option{background:var(--ink-mid);}
     <!-- Generate tab -->
     <div id="tab-content-generate" class="view-scroll" style="display:flex;flex-direction:column;gap:20px;">
       <div class="field" style="margin-bottom:0;">
-        <label class="field-label">What do you want to post about? (optional)</label>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <label class="field-label" style="margin-bottom:0;">What do you want to post about?</label>
+          <button id="suggest-btn" onclick="suggestTopics()" style="background:none;border:none;color:var(--teal-bright);font-size:11px;font-weight:500;cursor:pointer;padding:0;letter-spacing:0.05em;">✦ Suggest ideas</button>
+        </div>
         <textarea id="gen-brief" rows="3" placeholder="e.g. New service launch, autumn offers, thought leadership on AI... or leave blank for a varied mix"></textarea>
+        <div id="suggest-chips" style="display:none;flex-wrap:wrap;gap:6px;margin-top:10px;"></div>
       </div>
 
       <div>
@@ -852,7 +856,43 @@ function setLogState(state) {
   logWrap.classList.toggle('active', state==='generating'||state==='scheduling');
 }
 
-// ââ RUN GENERATE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── SUGGEST TOPICS ────────────────────────────────────────────────────────────
+async function suggestTopics() {
+  const btn = document.getElementById('suggest-btn');
+  const chipsEl = document.getElementById('suggest-chips');
+  btn.textContent = '✦ Thinking…';
+  btn.disabled = true;
+  chipsEl.style.display = 'none';
+  chipsEl.innerHTML = '';
+  try {
+    const d = await apiStudio({ action: 'suggest_topics', client: activeClient });
+    const ideas = d.ideas || [];
+    chipsEl.innerHTML = ideas.map(idea => `
+      <button onclick="useIdea(this)" style="
+        background:rgba(58,145,131,0.12);border:1px solid var(--border);
+        color:var(--cream);font-size:11px;padding:6px 10px;border-radius:20px;
+        cursor:pointer;font-family:'Inter',sans-serif;text-align:left;
+        transition:all 0.15s;line-height:1.4;">
+        ${idea}
+      </button>`).join('');
+    chipsEl.style.display = 'flex';
+  } catch(e) {
+    btn.textContent = '✦ Suggest ideas';
+  } finally {
+    btn.textContent = '✦ Suggest ideas';
+    btn.disabled = false;
+  }
+}
+
+function useIdea(btn) {
+  document.getElementById('gen-brief').value = btn.textContent.trim();
+  document.querySelectorAll('#suggest-chips button').forEach(b => {
+    b.style.borderColor = b === btn ? 'var(--teal)' : '';
+    b.style.background = b === btn ? 'rgba(58,145,131,0.25)' : 'rgba(58,145,131,0.12)';
+  });
+}
+
+// ── RUN GENERATE ──────────────────────────────────────────────────────────────
 async function runGenerate() {
   const btn = document.getElementById('gen-btn');
   btn.disabled = true;
