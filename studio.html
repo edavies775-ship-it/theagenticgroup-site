@@ -652,7 +652,7 @@ function renderAccountList() {
   el.innerHTML = blotatoAccounts.map(a => `
     <div class="account-item">
       ${platBadge(a.platform, 18)}
-      <span style="color:var(--cream);font-size:11px;">${a.name}</span>
+      <span style="color:var(--cream);font-size:11px;">${a.fullname||a.name||'Account'}</span>
       ${a.username ? `<span style="color:var(--muted);font-size:10px;">@${a.username}</span>` : ''}
     </div>
   `).join('');
@@ -1194,8 +1194,8 @@ function showAccountPicker(idx, accounts) {
       border-radius:6px;padding:11px 12px;margin-bottom:8px;cursor:pointer;text-align:left;">
       ${platBadge(post.platform, 22)}
       <div>
-        <div style="color:var(--cream);font-size:13px;font-weight:500;">${a.name||a.displayName||'Account'}</div>
-        ${(a.username||a.handle)?`<div style="color:var(--muted);font-size:11px;">@${a.username||a.handle}</div>`:''}
+        <div style="color:var(--cream);font-size:13px;font-weight:500;">${a.fullname||a.name||a.displayName||'Account'}</div>
+        ${(a.username)?`<div style="color:var(--muted);font-size:11px;">@${a.username}</div>`:''}
       </div>
     </button>`).join('');
   document.getElementById('account-picker-overlay').style.display = 'block';

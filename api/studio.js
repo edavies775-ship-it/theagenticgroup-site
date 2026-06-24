@@ -48,6 +48,8 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
       const fullText = text + (hashtags ? '\n\n' + hashtags : '');
+      const target = { targetType: platform };
+      if (platform === 'facebook' || platform === 'linkedin') target.pageId = accountId;
       const r = await fetch(`${BLOTATO_BASE}/posts`, {
         method: 'POST',
         headers: {
@@ -58,7 +60,7 @@ module.exports = async function handler(req, res) {
           post: {
             accountId,
             content: { text: fullText, mediaUrls: [], platform },
-            target: { targetType: platform },
+            target,
           },
           useNextFreeSlot: true,
         }),
