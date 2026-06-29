@@ -1187,7 +1187,8 @@ function scSubmit(e) {
   .catch(function(err) {
     btn.textContent = 'Register My Interest →';
     btn.disabled = false;
-    var msg = (err && err.message && err.message.indexOf('duplicated') !== -1)
+    var m = (err && err.message) ? err.message.toLowerCase() : '';
+    var msg = (m.indexOf('duplicat') !== -1 || m.indexOf('already exist') !== -1)
       ? 'It looks like you\'ve already registered — we\'ll be in touch soon.'
       : 'Something went wrong — please try again or book a call directly.';
     alert(msg);
