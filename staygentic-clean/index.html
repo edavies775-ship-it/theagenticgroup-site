@@ -1162,7 +1162,7 @@ function scSubmit(e) {
   else if (manageType === 'commercial') tags.push('commercial-cleaning');
   else if (manageType === 'both') tags.push('holiday-let', 'commercial-cleaning');
 
-  fetch('/api/register-interest', {
+  fetch('https://theagenticgroup-site.vercel.app/api/register-interest', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
