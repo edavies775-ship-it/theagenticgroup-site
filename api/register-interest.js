@@ -10,6 +10,24 @@ export default async function handler(req, res) {
 
   if (!email) return res.status(400).json({ error: 'Email is required' });
 
+  // Only include custom fields that have actual values
+  const customFields = [];
+  if (properties) customFields.push({ key: 'properties', field_value: properties });
+  if (region) customFields.push({ key: 'region', field_value: region });
+  if (platforms) customFields.push({ key: 'platforms', field_value: platforms });
+
+  const payload = {
+    locationId: 'Qpoz379HAyQuaCJRwhKk',
+    firstName,
+    lastName,
+    email,
+    companyName,
+    source,
+    tags,
+    ...(phone && { phone }),
+    ...(customFields.length > 0 && { customFields })
+  };
+
   try {
     const response = await fetch('https://services.leadconnectorhq.com/contacts/', {
       method: 'POST',
@@ -18,33 +36,19 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         'Version': '2021-07-28'
       },
-      body: JSON.stringify({
-        locationId: 'Qpoz379HAyQuaCJRwhKk',
-        firstName,
-        lastName,
-        email,
-        phone,
-        companyName,
-        source,
-        tags,
-        customFields: [
-          { key: 'properties', field_value: properties },
-          { key: 'region', field_value: region },
-          { key: 'platforms', field_value: platforms }
-        ]
-      })
+      body: JSON.stringify(payload)
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('GHL error:', data);
+      console.error('GHL error:', JSON.stringify(data));
       return res.status(response.status).json({ error: data.message || 'GHL API error' });
     }
 
     return res.status(200).json({ success: true, contactId: data.contact?.id });
   } catch (err) {
-    console.error('Server error:', err);
+    console.error('Server error:', err.message);
     return res.status(500).json({ error: 'Server error' });
   }
 }
