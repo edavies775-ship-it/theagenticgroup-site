@@ -1,0 +1,107 @@
+<!-- ═══════════════════════════════════════════════
+     STAYGENTIC CLEAN — PRICING BLOCK FOR GHL
+     Drop this into a Custom HTML element
+     ═══════════════════════════════════════════════ -->
+<style>
+.sgp-wrap{font-family:'Jost',sans-serif;background:#F0EBE0;padding:80px 20px;box-sizing:border-box}
+.sgp-inner{max-width:1100px;margin:0 auto}
+.sgp-banner{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#B8963E,#D4AF6A);color:#fff;padding:10px 20px;font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:32px}
+.sgp-label{font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#B8963E;display:block;margin-bottom:12px}
+.sgp-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);color:#1C3A2B;font-weight:400;line-height:1.2;margin-bottom:12px}
+.sgp-heading em{font-style:italic;color:#B8963E}
+.sgp-sub{font-size:0.88rem;color:#5A5A5A;max-width:520px;line-height:1.8;margin-bottom:44px}
+.sgp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:#E0D9CE;border:1px solid #E0D9CE;margin-bottom:2px}
+.sgp-card{background:#FAF7F0;padding:36px 26px;display:flex;flex-direction:column;position:relative}
+.sgp-card:hover{background:#fff}
+.sgp-card.featured{background:#1C3A2B}
+.sgp-card.featured:hover{background:#2A5240}
+.sgp-card.enterprise{background:#F0EBE0}
+.sgp-badge{display:inline-block;background:#B8963E;color:#fff;font-size:0.58rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;margin-bottom:14px;align-self:flex-start}
+.sgp-range{font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:#B8963E;margin-bottom:10px}
+.sgp-card.featured .sgp-range{color:#D4AF6A}
+.sgp-amount{font-family:'Cormorant Garamond',serif;font-size:3.6rem;color:#1C3A2B;line-height:1;margin-bottom:5px}
+.sgp-amount sup{font-size:1.4rem;vertical-align:top;margin-top:0.5rem;color:#B8963E}
+.sgp-card.featured .sgp-amount{color:#fff}
+.sgp-card.featured .sgp-amount sup{color:#D4AF6A}
+.sgp-custom{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-style:italic;color:#1C3A2B;line-height:1;margin-bottom:5px}
+.sgp-period{font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;color:#5A5A5A;margin-bottom:18px}
+.sgp-card.featured .sgp-period{color:rgba(255,255,255,0.4)}
+.sgp-desc{font-size:0.82rem;color:#5A5A5A;line-height:1.65;margin-bottom:24px;flex:1}
+.sgp-card.featured .sgp-desc{color:rgba(255,255,255,0.6)}
+.sgp-btn{display:block;text-align:center;font-family:'Jost',sans-serif;font-size:0.75rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:14px 20px;cursor:pointer;text-decoration:none;transition:all 0.2s;margin-top:auto}
+.sgp-btn-outline{background:transparent;color:#1C3A2B;border:1.5px solid rgba(28,58,43,0.3)}
+.sgp-btn-outline:hover{border-color:#B8963E;color:#B8963E}
+.sgp-btn-gold{background:#B8963E;color:#fff;border:none}
+.sgp-btn-gold:hover{background:#D4AF6A}
+.sgp-note{font-size:0.7rem;color:#B8963E;text-align:center;padding:14px 0;letter-spacing:0.08em}
+.sgp-features{background:#1C3A2B;padding:32px 36px}
+.sgp-feat-title{font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#B8963E;margin-bottom:20px}
+.sgp-feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.sgp-feat-item{display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:rgba(255,255,255,0.65);padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);line-height:1.5}
+.sgp-feat-item:nth-child(5),.sgp-feat-item:nth-child(6){border-bottom:none}
+.sgp-check{color:#D4AF6A;flex-shrink:0;font-size:0.75rem;margin-top:1px}
+@media(max-width:860px){.sgp-grid{grid-template-columns:1fr 1fr}.sgp-feat-grid{grid-template-columns:1fr}.sgp-feat-item{border-bottom:1px solid rgba(255,255,255,0.06)!important}}
+@media(max-width:520px){.sgp-grid{grid-template-columns:1fr}.sgp-features{padding:24px 20px}}
+</style>
+
+<div class="sgp-wrap" id="pricing">
+  <div class="sgp-inner">
+
+    <div class="sgp-banner">★ Founding Partner rates — locked for life · Limited slots remaining</div>
+    <span class="sgp-label">Simple pricing</span>
+    <h2 class="sgp-heading">Simple pricing.<br><em>Powerful results.</em></h2>
+    <p class="sgp-sub">No fluff, no complexity. Everything included at every tier — pick the plan that fits your operation and you're live within days.</p>
+
+    <div class="sgp-grid">
+
+      <div class="sgp-card">
+        <div class="sgp-range">1–15 clients</div>
+        <div class="sgp-amount"><sup>£</sup>69</div>
+        <div class="sgp-period">per month</div>
+        <p class="sgp-desc">Perfect for small cleaning businesses just getting organised</p>
+        <a href="https://buy.stripe.com/eVq7sMb2Qh2p9iu8eS3oA00" class="sgp-btn sgp-btn-outline">Get Started →</a>
+      </div>
+
+      <div class="sgp-card featured">
+        <div class="sgp-badge">Most Popular</div>
+        <div class="sgp-range">15–30 clients</div>
+        <div class="sgp-amount"><sup>£</sup>110</div>
+        <div class="sgp-period">per month</div>
+        <p class="sgp-desc">Growing teams managing multiple clients across any sector</p>
+        <a href="https://buy.stripe.com/4gMbJ24EseUheCO52G3oA01" class="sgp-btn sgp-btn-gold">Get Started →</a>
+      </div>
+
+      <div class="sgp-card">
+        <div class="sgp-range">30–50 clients</div>
+        <div class="sgp-amount"><sup>£</sup>149</div>
+        <div class="sgp-period">per month</div>
+        <p class="sgp-desc">Established cleaning operations running at scale</p>
+        <a href="https://buy.stripe.com/4gMeVedaYdQd8eqgLo3oA02" class="sgp-btn sgp-btn-outline">Get Started →</a>
+      </div>
+
+      <div class="sgp-card enterprise">
+        <div class="sgp-range">50+ clients</div>
+        <div class="sgp-custom">Custom</div>
+        <div class="sgp-period">let's talk</div>
+        <p class="sgp-desc">Enterprise pricing tailored to your operation and scale</p>
+        <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" class="sgp-btn sgp-btn-outline">Book a Call →</a>
+      </div>
+
+    </div>
+
+    <p class="sgp-note">All Founding Partner rates are locked for life. Price never goes up.</p>
+
+    <div class="sgp-features">
+      <div class="sgp-feat-title">Everything included, every tier</div>
+      <div class="sgp-feat-grid">
+        <div class="sgp-feat-item"><span class="sgp-check">✓</span>Job scheduling across all your clients</div>
+        <div class="sgp-feat-item"><span class="sgp-check">✓</span>Spend tracking per property or client</div>
+        <div class="sgp-feat-item"><span class="sgp-check">✓</span>Automatic invoice generation at month end</div>
+        <div class="sgp-feat-item"><span class="sgp-check">✓</span>Multi-rate support across your portfolio</div>
+        <div class="sgp-feat-item"><span class="sgp-check">✓</span>Works for holiday let, residential and commercial</div>
+        <div class="sgp-feat-item"><span class="sgp-check">✓</span>Built and supported by a real operator</div>
+      </div>
+    </div>
+
+  </div>
+</div>
