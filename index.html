@@ -1021,10 +1021,10 @@ footer{
   .ai-stats{grid-template-columns:1fr 1fr 1fr;}
   /* Products section inline-grid overrides */
   #products [style*="grid-template-columns:1fr 1fr"]{display:flex!important;flex-direction:column!important;}
-  #products [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr 1fr!important;}
+  #products [style*="grid-template-columns:repeat(3,1fr)"],#staygentic-featured [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr 1fr!important;}
   #products [style*="gap:4rem"]{grid-template-columns:1fr!important;gap:2rem!important;padding:2rem 1.5rem!important;}
-  #products [style*="grid-template-columns:auto 1fr"]{grid-template-columns:1fr!important;gap:1.5rem!important;}
-  #products [style*="padding:2.5rem 3rem"]{padding:2.5rem 1.5rem!important;}
+  #products [style*="grid-template-columns:auto 1fr"],#staygentic-featured [style*="grid-template-columns:auto 1fr"]{grid-template-columns:1fr!important;gap:1.5rem!important;}
+  #products [style*="padding:2.5rem 3rem"],#staygentic-featured [style*="padding:2.5rem 3rem"]{padding:2.5rem 1.5rem!important;}
   /* Philosophy section: geographic strip (3-col) */
   #philosophy [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;}
   /* Process section: 4-col timeline strip */
@@ -1085,9 +1085,9 @@ footer{
   #hours-display{font-size:3.5rem!important;}
   .ai-stats{grid-template-columns:1fr!important;}
   /* Products: all inline grids collapse to single column */
-  #products [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important;}
+  #products [style*="grid-template-columns:repeat(3,1fr)"],#staygentic-featured [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important;}
   #products [style*="gap:4rem"]{grid-template-columns:1fr!important;gap:1.5rem!important;padding:1.8rem 1.1rem!important;}
-  #products [style*="padding:2.5rem 3rem"]{padding:2rem 1.1rem!important;}
+  #products [style*="padding:2.5rem 3rem"],#staygentic-featured [style*="padding:2.5rem 3rem"]{padding:2rem 1.1rem!important;}
   /* Philosophy geographic strip: single column */
   #philosophy [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;}
   /* Process 4-col strip: single column on small mobile */
@@ -1251,7 +1251,7 @@ select:focus-visible,textarea:focus-visible{
   <a href="#services" onclick="closeMobile()">Services</a>
   <a href="#products" onclick="closeMobile()">Products</a>
   <a href="#partnership" onclick="closeMobile()">Partnership</a>
-  <a href="https://staygentic.co.uk" target="_blank" rel="noopener" onclick="closeMobile()">StayGentic ↗</a>
+  <a href="https://staygentic.co.uk" target="_blank" rel="noopener" onclick="closeMobile()" style="color:var(--sg-gold-light);">StayGentic ↗</a>
   <a href="#assessment" onclick="closeMobile()">Assessment</a>
   <a href="#contact" onclick="closeMobile()">Contact</a>
   <a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" onclick="closeMobile()" class="nav-mobile-cta">Book a Call</a>
@@ -1271,7 +1271,7 @@ select:focus-visible,textarea:focus-visible{
     <li><a href="#services">Services</a></li>
     <li><a href="#products">Products</a></li>
     <li><a href="#partnership">Partnership</a></li>
-    <li><a href="https://staygentic.co.uk" target="_blank" rel="noopener">StayGentic ↗</a></li>
+    <li><a href="https://staygentic.co.uk" target="_blank" rel="noopener" style="background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.4);color:var(--sg-gold-light);padding:.4rem 1rem;border-radius:999px;" onmouseover="this.style.background='rgba(201,168,76,.24)';this.style.borderColor='rgba(201,168,76,.7)'" onmouseout="this.style.background='rgba(201,168,76,.14)';this.style.borderColor='rgba(201,168,76,.4)'">StayGentic ↗</a></li>
     <li><a href="https://api.leadconnectorhq.com/widget/booking/D5mGUYmjpvbFQcnD56zs" target="_blank" rel="noopener" class="nav-cta">Book a Call</a></li>
   </ul>
   <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -1311,6 +1311,80 @@ select:focus-visible,textarea:focus-visible{
     </a>
   </div>
 </section>
+<section class="section" id="staygentic-featured" style="background:var(--ink-mid);position:relative;overflow:hidden;">
+  <div class="container" style="position:relative;z-index:1;">
+
+
+    <!-- ═══════════════════════════════════
+         STAYGENTIC — Hospitality vertical
+         ═══════════════════════════════════ -->
+    <div class="reveal" style="margin-bottom:1.5rem;margin-top:4rem;">
+      <div style="font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,242,234,.25);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;">
+        <span style="width:32px;height:1px;background:rgba(247,242,234,.15);"></span>
+        Hospitality &amp; holiday lets
+      </div>
+    </div>
+
+    <div class="reveal" style="background:var(--sg-green);border:1px solid rgba(201,168,76,.1);padding:2.5rem 3rem;margin-bottom:4rem;">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:start;margin-bottom:2rem;">
+        <div>
+          <div style="font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--sg-gold-light);margin-bottom:.5rem;">Sector Product</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--sg-gold-light);line-height:1;">Stay<em style="font-style:italic;">Gentic</em></div>
+         </div>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.45);line-height:1.85;font-weight:300;padding-top:.4rem;">AI guest technology for UK holiday lets and hotels. Built because nothing else existed — and now powering properties across Wales and beyond.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2rem;">
+
+        <!-- Concierge + Finder -->
+        <div style="background:rgba(0,0,0,.2);padding:1.8rem;display:flex;flex-direction:column;gap:.7rem;">
+          <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-gold-light);">Concierge &amp; Finder</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--sg-gold-light);">StayGentic</div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.65;font-weight:300;">24/7 AI concierge with natural language property search. Guests find and book direct — no OTA fees.</div>
+          <div style="display:flex;flex-direction:column;gap:.3rem;padding-top:.6rem;border-top:1px solid rgba(201,168,76,.1);">
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Voice &amp; chat, 24/7</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Natural language AI property search</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Live in 48 hrs · From £25/property/month</div>
+          </div>
+        </div>
+
+        <!-- StayGentic Clean -->
+        <div style="background:rgba(0,0,0,.2);padding:1.8rem;display:flex;flex-direction:column;gap:.7rem;border-left:1px solid rgba(201,168,76,.08);">
+          <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-gold-light);">Cleaning Operations</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--sg-gold-light);">StayGentic <em style="font-style:italic;">Clean</em></div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.65;font-weight:300;">Automated cleaning coordination, job logging and owner invoicing. A booking syncs — your cleaner is already sorted.</div>
+          <div style="display:flex;flex-direction:column;gap:.3rem;padding-top:.6rem;border-top:1px solid rgba(201,168,76,.1);">
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Syncs with Airbnb, Booking.com &amp; more</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Cleaners log jobs in 60 seconds</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Month-end invoices built automatically</div>
+          </div>
+            <a href="https://theagenticgroup.co.uk/staygentic-clean/" target="_blank" rel="noopener" style="margin-top:.6rem;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sg-gold-light);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;">See Pricing →</a>
+        </div>
+
+        <!-- StayGentic PMS -->
+        <div style="background:rgba(0,0,0,.2);padding:1.8rem;display:flex;flex-direction:column;gap:.7rem;border-left:1px solid rgba(201,168,76,.08);">
+          <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-gold-light);">Property Management</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--sg-gold-light);">StayGentic <em style="font-style:italic;">PMS</em></div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.65;font-weight:300;">Full property management system with 2-way OTA sync. Manage your entire portfolio from one place.</div>
+          <div style="display:flex;flex-direction:column;gap:.3rem;padding-top:.6rem;border-top:1px solid rgba(201,168,76,.1);">
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>2-way OTA sync — Airbnb, Booking.com</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Unified calendar, bookings &amp; payments</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Built for agencies managing multiple properties</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://staygentic.co.uk" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--sg-gold);color:var(--sg-green);padding:.75rem 1.6rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='var(--sg-gold-light)'" onmouseout="this.style.background='var(--sg-gold)'">Explore StayGentic →</a>
+        <a href="https://staygentic-demo.vercel.app" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;background:transparent;border:1px solid rgba(201,168,76,.5);color:var(--sg-gold-light);padding:.75rem 1.6rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .2s;" onmouseover="this.style.borderColor='rgba(201,168,76,.9)';this.style.background='rgba(201,168,76,.06)'" onmouseout="this.style.borderColor='rgba(201,168,76,.5)';this.style.background='transparent'">See Finder Live ↗</a>
+        <a href="https://youtube.com/shorts/LJVZ48mQw8s?feature=share" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--sg-gold-light);padding:.75rem 1.6rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .2s;" onmouseover="this.style.borderColor='rgba(201,168,76,.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,.3)'">Watch StayGentic Clean ▶</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
 <!-- STILL DOING THIS BY HAND? -->
 <section id="automation-check" style="background:var(--ink);padding:7rem 0;position:relative;overflow:hidden;">
@@ -1706,73 +1780,6 @@ select:focus-visible,textarea:focus-visible{
       </div>
 
     </div>
-
-    <!-- ═══════════════════════════════════
-         STAYGENTIC — Hospitality vertical
-         ═══════════════════════════════════ -->
-    <div class="reveal" style="margin-bottom:1.5rem;margin-top:4rem;">
-      <div style="font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,242,234,.25);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;">
-        <span style="width:32px;height:1px;background:rgba(247,242,234,.15);"></span>
-        Hospitality &amp; holiday lets
-      </div>
-    </div>
-
-    <div class="reveal" style="background:var(--sg-green);border:1px solid rgba(201,168,76,.1);padding:2.5rem 3rem;margin-bottom:4rem;">
-      <div style="display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:start;margin-bottom:2rem;">
-        <div>
-          <div style="font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--sg-gold-light);margin-bottom:.5rem;">Sector Product</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--sg-gold-light);line-height:1;">Stay<em style="font-style:italic;">Gentic</em></div>
-         </div>
-        <p style="font-size:.88rem;color:rgba(255,255,255,.45);line-height:1.85;font-weight:300;padding-top:.4rem;">AI guest technology for UK holiday lets and hotels. Built because nothing else existed — and now powering properties across Wales and beyond.</p>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2rem;">
-
-        <!-- Concierge + Finder -->
-        <div style="background:rgba(0,0,0,.2);padding:1.8rem;display:flex;flex-direction:column;gap:.7rem;">
-          <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-gold-light);">Concierge &amp; Finder</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--sg-gold-light);">StayGentic</div>
-          <div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.65;font-weight:300;">24/7 AI concierge with natural language property search. Guests find and book direct — no OTA fees.</div>
-          <div style="display:flex;flex-direction:column;gap:.3rem;padding-top:.6rem;border-top:1px solid rgba(201,168,76,.1);">
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Voice &amp; chat, 24/7</div>
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Natural language AI property search</div>
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Live in 48 hrs · From £25/property/month</div>
-          </div>
-        </div>
-
-        <!-- StayGentic Clean -->
-        <div style="background:rgba(0,0,0,.2);padding:1.8rem;display:flex;flex-direction:column;gap:.7rem;border-left:1px solid rgba(201,168,76,.08);">
-          <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-gold-light);">Cleaning Operations</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--sg-gold-light);">StayGentic <em style="font-style:italic;">Clean</em></div>
-          <div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.65;font-weight:300;">Automated cleaning coordination, job logging and owner invoicing. A booking syncs — your cleaner is already sorted.</div>
-          <div style="display:flex;flex-direction:column;gap:.3rem;padding-top:.6rem;border-top:1px solid rgba(201,168,76,.1);">
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Syncs with Airbnb, Booking.com &amp; more</div>
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Cleaners log jobs in 60 seconds</div>
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Month-end invoices built automatically</div>
-          </div>
-        </div>
-
-        <!-- StayGentic PMS -->
-        <div style="background:rgba(0,0,0,.2);padding:1.8rem;display:flex;flex-direction:column;gap:.7rem;border-left:1px solid rgba(201,168,76,.08);">
-          <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sg-gold-light);">Property Management</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--sg-gold-light);">StayGentic <em style="font-style:italic;">PMS</em></div>
-          <div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.65;font-weight:300;">Full property management system with 2-way OTA sync. Manage your entire portfolio from one place.</div>
-          <div style="display:flex;flex-direction:column;gap:.3rem;padding-top:.6rem;border-top:1px solid rgba(201,168,76,.1);">
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>2-way OTA sync — Airbnb, Booking.com</div>
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Unified calendar, bookings &amp; payments</div>
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);display:flex;gap:.5rem;align-items:center;"><span style="width:3px;height:3px;border-radius:50%;background:var(--sg-gold);flex-shrink:0;"></span>Built for agencies managing multiple properties</div>
-          </div>
-        </div>
-
-      </div>
-
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-        <a href="https://staygentic.co.uk" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--sg-gold);color:var(--sg-green);padding:.75rem 1.6rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='var(--sg-gold-light)'" onmouseout="this.style.background='var(--sg-gold)'">Explore StayGentic →</a>
-        <a href="https://staygentic-demo.vercel.app" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;background:transparent;border:1px solid rgba(201,168,76,.5);color:var(--sg-gold-light);padding:.75rem 1.6rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .2s;" onmouseover="this.style.borderColor='rgba(201,168,76,.9)';this.style.background='rgba(201,168,76,.06)'" onmouseout="this.style.borderColor='rgba(201,168,76,.5)';this.style.background='transparent'">See Finder Live ↗</a>
-        <a href="https://youtube.com/shorts/LJVZ48mQw8s?feature=share" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--sg-gold-light);padding:.75rem 1.6rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .2s;" onmouseover="this.style.borderColor='rgba(201,168,76,.6)'" onmouseout="this.style.borderColor='rgba(201,168,76,.3)'">Watch StayGentic Clean ▶</a>
-      </div>
-    </div>
-
         <!-- ═══════════════════════════════════════════════
          TIER 2: HOW WE WORK — Build / Partner / Team
          ═══════════════════════════════════════════════ -->
@@ -2212,6 +2219,7 @@ select:focus-visible,textarea:focus-visible{
         <div class="fc-title">Products</div>
         <ul class="fc-links">
           <li><a href="https://staygentic.co.uk" target="_blank">StayGentic ↗</a></li>
+          <li><a href="https://theagenticgroup.co.uk/staygentic-clean/" target="_blank">StayGentic Clean</a></li>
           <li><a href="https://staygentic.co.uk/#concierge" target="_blank">AI Concierge</a></li>
           <li><a href="https://staygentic.co.uk/#finder" target="_blank">Property Finder</a></li>
         </ul>
