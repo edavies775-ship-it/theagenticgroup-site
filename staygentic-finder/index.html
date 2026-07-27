@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembrokeshire Coastal Cottages | Holiday Lets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:#fff;color:#2C2C2C;font-weight:300;line-height:1.75;overflow-x:hidden}
+
+/* ══════════════════════════════════════════════
+   AGENCY SITE — BACKGROUND
+══════════════════════════════════════════════ */
+
+/* NAV */
+.ag-nav{
+  position:sticky;top:0;z-index:100;
+  background:#fff;
+  border-bottom:1px solid #e8e8e8;
+  padding:0 48px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ag-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:500;color:#1a3020;
+  display:flex;align-items:center;gap:10px;
+}
+.ag-logo-dot{
+  width:8px;height:8px;background:#3a8a5a;
+  border-radius:50%;display:inline-block;
+}
+.ag-nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.ag-nav-links a{
+  font-size:0.78rem;color:#555;letter-spacing:0.04em;
+  transition:color 0.2s;
+}
+.ag-nav-links a:hover{color:#3a8a5a}
+.ag-nav-right{display:flex;align-items:center;gap:12px}
+.ag-nav-tel{font-size:0.78rem;color:#888;display:flex;align-items:center;gap:6px}
+.ag-nav-cta{
+  background:#3a8a5a;color:#fff;border:none;cursor:pointer;
+  padding:9px 20px;border-radius:3px;
+  font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+}
+
+/* HERO */
+.ag-hero{
+  position:relative;height:88vh;min-height:560px;
+  display:flex;align-items:flex-end;
+  overflow:hidden;
+}
+.ag-hero-bg{
+  position:absolute;inset:0;
+  background:url('https://assets.cdn.filesafe.space/Qpoz379HAyQuaCJRwhKk/media/69b5e7525b89c777d3853611.jpg') center 40%/cover no-repeat;
+}
+.ag-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.55) 100%);
+}
+.ag-hero-content{
+  position:relative;z-index:2;
+  padding:0 56px 56px;max-width:700px;
+}
+.ag-hero-tag{
+  display:inline-block;
+  background:rgba(58,138,90,0.85);
+  color:#fff;font-size:0.65rem;
+  letter-spacing:0.18em;text-transform:uppercase;font-weight:500;
+  padding:5px 14px;border-radius:2px;margin-bottom:16px;
+}
+.ag-hero-content h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,4.5vw,4rem);
+  color:#fff;font-weight:300;line-height:1.1;
+  margin-bottom:12px;
+}
+.ag-hero-content p{
+  font-size:0.9rem;color:rgba(255,255,255,0.75);
+  max-width:480px;line-height:1.7;margin-bottom:24px;
+}
+.ag-hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.ag-btn-white{
+  background:#fff;color:#1a3020;border:none;cursor:pointer;
+  padding:13px 28px;border-radius:3px;
+  font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  transition:all 0.2s;
+}
+.ag-btn-white:hover{background:#f0f0f0}
+.ag-btn-outline-w{
+  background:transparent;color:#fff;
+  border:1.5px solid rgba(255,255,255,0.6);
+  cursor:pointer;padding:13px 28px;border-radius:3px;
+  font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  transition:all 0.2s;
+}
+.ag-btn-outline-w:hover{border-color:#fff;background:rgba(255,255,255,0.1)}
+
+/* OLD-STYLE SEARCH BAR */
+.ag-search-bar{
+  background:#fff;
+  border-bottom:2px solid #e8e8e8;
+  padding:0 48px;
+  display:flex;align-items:center;
+  height:72px;gap:0;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+}
+.ag-search-field{
+  flex:1;display:flex;flex-direction:column;
+  padding:0 20px;border-right:1px solid #e8e8e8;height:100%;justify-content:center;
+}
+.ag-search-field:last-of-type{border-right:none}
+.ag-search-field label{
+  font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:#aaa;font-weight:500;margin-bottom:2px;
+}
+.ag-search-field input,.ag-search-field select{
+  border:none;outline:none;font-family:'Jost',sans-serif;
+  font-size:0.85rem;color:#333;background:transparent;
+  font-weight:400;
+}
+.ag-search-field select{cursor:pointer}
+.ag-search-submit{
+  background:#3a8a5a;color:#fff;border:none;cursor:pointer;
+  height:48px;padding:0 28px;border-radius:3px;margin-left:16px;
+  font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  white-space:nowrap;flex-shrink:0;
+}
+
+/* TRUST STRIP */
+.ag-trust{
+  background:#f8f8f6;
+  border-bottom:1px solid #ebebeb;
+  padding:14px 48px;
+  display:flex;align-items:center;gap:32px;
+  font-size:0.72rem;color:#888;
+}
+.ag-trust-item{display:flex;align-items:center;gap:6px}
+.ag-trust-item svg{color:#3a8a5a}
+
+/* FEATURED */
+.ag-featured{padding:64px 48px}
+.ag-section-hdr{margin-bottom:32px;display:flex;align-items:baseline;justify-content:space-between}
+.ag-section-hdr h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:#1a3020;font-weight:400}
+.ag-section-hdr a{font-size:0.75rem;color:#3a8a5a;letter-spacing:0.06em;text-transform:uppercase}
+.ag-prop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.ag-prop-card{border-radius:4px;overflow:hidden;background:#fff;border:1px solid #eee;transition:box-shadow 0.2s}
+.ag-prop-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.09)}
+.ag-prop-img{height:180px;overflow:hidden;position:relative}
+.ag-prop-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.ag-prop-card:hover .ag-prop-img img{transform:scale(1.04)}
+.ag-prop-badge{
+  position:absolute;top:12px;left:12px;
+  background:#3a8a5a;color:#fff;
+  font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;
+  padding:4px 10px;border-radius:2px;font-weight:500;
+}
+.ag-prop-body{padding:16px}
+.ag-prop-loc{font-size:0.65rem;color:#888;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.ag-prop-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#1a3020;margin-bottom:8px;line-height:1.2}
+.ag-prop-meta{display:flex;gap:12px;font-size:0.7rem;color:#999;margin-bottom:10px}
+.ag-prop-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.ag-prop-tag{background:#f0f5f2;padding:3px 8px;border-radius:2px;font-size:0.62rem;color:#555}
+.ag-prop-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid #f0f0f0}
+.ag-prop-price{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:#1a3020}
+.ag-prop-price small{font-family:'Jost',sans-serif;font-size:0.62rem;color:#aaa}
+.ag-prop-book{background:#3a8a5a;color:#fff;border:none;cursor:pointer;padding:7px 16px;border-radius:2px;font-size:0.65rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase}
+
+/* AREAS STRIP */
+.ag-areas{padding:0 48px 64px}
+.ag-areas-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:24px}
+.ag-area-item{position:relative;height:120px;border-radius:4px;overflow:hidden;cursor:pointer}
+.ag-area-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
+.ag-area-item:hover img{transform:scale(1.06)}
+.ag-area-item-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);display:flex;align-items:flex-end;padding:10px}
+.ag-area-item-name{font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:#fff;font-weight:400}
+
+/* FOOTER */
+.ag-footer{background:#1a3020;padding:40px 48px 24px}
+.ag-footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:20px}
+.ag-footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;margin-bottom:12px}
+.ag-footer-text{font-size:0.78rem;color:rgba(255,255,255,0.35);line-height:1.7;max-width:260px}
+.ag-footer-col h5{font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:#3a8a5a;font-weight:500;margin-bottom:14px}
+.ag-footer-col a{display:block;font-size:0.78rem;color:rgba(255,255,255,0.35);margin-bottom:7px}
+.ag-footer-bottom{font-size:0.7rem;color:rgba(255,255,255,0.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+
+/* ══════════════════════════════════════════════
+   STAYGENTIC FINDER — FLOATING WIDGET
+══════════════════════════════════════════════ */
+
+/* Trigger button — bottom right */
+.sf-trigger{
+  position:fixed;bottom:32px;right:32px;z-index:9000;
+  background:#1C3A2B;
+  color:#fff;border:none;cursor:pointer;
+  padding:16px 24px;border-radius:4px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.25);
+  transition:all 0.3s;
+  font-family:'Jost',sans-serif;
+}
+.sf-trigger:hover{background:#2A5240;transform:translateY(-2px);box-shadow:0 14px 50px rgba(0,0,0,0.3)}
+.sf-trigger-icon{
+  width:36px;height:36px;background:rgba(184,150,62,0.2);
+  border:1px solid rgba(184,150,62,0.5);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-size:1.1rem;
+}
+.sf-trigger-text{text-align:left}
+.sf-trigger-label{
+  font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:#B8963E;font-weight:500;display:block;margin-bottom:2px;
+}
+.sf-trigger-cta{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;color:#fff;display:block;line-height:1;
+}
+.sf-trigger-pulse{
+  position:absolute;top:-4px;right:-4px;
+  width:12px;height:12px;background:#B8963E;border-radius:50%;
+}
+.sf-trigger-pulse::after{
+  content:'';position:absolute;inset:-3px;
+  border-radius:50%;background:rgba(184,150,62,0.4);
+  animation:sfpulse 1.8s ease-in-out infinite;
+}
+@keyframes sfpulse{0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.6);opacity:0}}
+
+/* Modal overlay */
+.sf-overlay{
+  position:fixed;inset:0;z-index:9998;
+  background:rgba(10,20,14,0.7);
+  backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;
+  transition:opacity 0.35s;
+}
+.sf-overlay.open{opacity:1;pointer-events:all}
+
+/* Modal panel */
+.sf-panel{
+  position:fixed;
+  right:24px;bottom:88px;
+  z-index:9999;
+  width:min(480px,calc(100vw - 32px));
+  background:#0d1f14;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,0.5);
+  transform:translateY(16px) scale(0.97);
+  opacity:0;pointer-events:none;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s;
+  max-height:75vh;
+  display:flex;flex-direction:column;
+}
+.sf-panel.open{
+  transform:translateY(0) scale(1);
+  opacity:1;pointer-events:all;
+}
+
+/* Panel header */
+.sf-panel-header{
+  background:#1C3A2B;
+  padding:13px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.sf-panel-header-left{display:flex;align-items:center;gap:12px}
+.sf-panel-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;color:#fff;font-weight:500;
+}
+.sf-panel-logo span{color:#B8963E}
+.sf-panel-tag{
+  background:rgba(184,150,62,0.15);
+  border:1px solid rgba(184,150,62,0.3);
+  padding:3px 10px;border-radius:2px;
+  font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;
+  color:#B8963E;font-weight:500;
+}
+.sf-close{
+  background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,0.4);font-size:1.4rem;
+  line-height:1;padding:4px;transition:color 0.2s;
+}
+.sf-close:hover{color:#fff}
+
+/* Panel body — scrollable */
+.sf-panel-body{
+  overflow-y:auto;flex:1;
+}
+
+/* Search area */
+.sf-search-area{padding:16px 18px}
+.sf-search-prompt{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;color:#fff;font-weight:300;
+  margin-bottom:4px;line-height:1.2;
+}
+.sf-search-prompt em{font-style:italic;color:#D4AF6A}
+.sf-search-sub{
+  font-size:0.88rem;color:rgba(255,255,255,0.4);
+  margin-bottom:20px;line-height:1.5;
+}
+.sf-input-wrap{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:4px;overflow:hidden;
+  transition:border-color 0.3s;
+  margin-bottom:14px;
+}
+.sf-input-wrap:focus-within{border-color:rgba(184,150,62,0.5)}
+.sf-input{
+  width:100%;background:transparent;border:none;outline:none;
+  padding:18px 20px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:300;color:#fff;
+  line-height:1.4;
+}
+.sf-input::placeholder{color:rgba(255,255,255,0.25)}
+.sf-input-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  gap:10px;
+}
+.sf-char-hint{font-size:0.78rem;color:rgba(255,255,255,0.2)}
+.sf-search-btn{
+  background:#B8963E;color:#fff;border:none;cursor:pointer;
+  padding:12px 26px;border-radius:3px;
+  font-family:'Jost',sans-serif;font-size:0.82rem;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  transition:all 0.2s;display:flex;align-items:center;gap:8px;
+  white-space:nowrap;
+}
+.sf-search-btn:hover{background:#D4AF6A}
+.sf-search-btn:disabled{opacity:0.4;cursor:not-allowed}
+
+/* Quick searches */
+.sf-quick{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}
+.sf-quick-label{
+  width:100%;font-size:0.75rem;letter-spacing:0.14em;
+  text-transform:uppercase;color:rgba(255,255,255,0.25);
+  margin-bottom:2px;
+}
+.sf-quick-btn{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:7px 14px;border-radius:3px;
+  font-size:0.84rem;color:rgba(255,255,255,0.55);
+  cursor:pointer;transition:all 0.2s;
+  font-family:'Jost',sans-serif;
+}
+.sf-quick-btn:hover{
+  background:rgba(184,150,62,0.12);
+  border-color:rgba(184,150,62,0.35);
+  color:#D4AF6A;
+}
+
+/* Divider */
+.sf-divider{height:1px;background:rgba(255,255,255,0.06);margin:0 18px}
+
+/* Loading */
+.sf-loading{
+  padding:36px 24px;text-align:center;
+  display:none;
+}
+.sf-loading.on{display:block}
+.sf-loading-dots{display:flex;justify-content:center;gap:7px;margin-bottom:14px}
+.sf-ld{
+  width:8px;height:8px;background:#B8963E;border-radius:50%;
+  animation:ldb 1.2s ease-in-out infinite;
+}
+.sf-ld:nth-child(2){animation-delay:.2s}
+.sf-ld:nth-child(3){animation-delay:.4s}
+@keyframes ldb{0%,80%,100%{transform:scale(0.5);opacity:0.3}40%{transform:scale(1);opacity:1}}
+.sf-loading-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;color:rgba(255,255,255,0.5);font-style:italic;
+  animation:fp 1.5s ease-in-out infinite;
+}
+@keyframes fp{0%,100%{opacity:0.3}50%{opacity:1}}
+
+/* Results */
+.sf-results{display:none;padding:0 18px 18px}
+.sf-results.on{display:block}
+.sf-results-hdr{margin-bottom:16px;padding-top:20px}
+.sf-results-eyebrow{
+  font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:#B8963E;font-weight:500;display:block;margin-bottom:6px;
+}
+.sf-results-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.55rem;color:#fff;font-weight:300;line-height:1.2;margin-bottom:3px;
+}
+.sf-results-title em{font-style:italic;color:#D4AF6A}
+.sf-results-sub{font-size:0.88rem;color:rgba(255,255,255,0.35);line-height:1.5}
+
+/* Property result cards */
+.sf-prop{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:4px;overflow:hidden;
+  margin-bottom:10px;
+  display:flex;
+  transition:background 0.2s;
+  animation:cardIn 0.4s ease both;
+}
+.sf-prop:nth-child(1){animation-delay:0.05s}
+.sf-prop:nth-child(2){animation-delay:0.12s}
+.sf-prop:nth-child(3){animation-delay:0.19s}
+@keyframes cardIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+.sf-prop:hover{background:rgba(255,255,255,0.07)}
+.sf-prop-img{
+  width:115px;flex-shrink:0;overflow:hidden;
+}
+.sf-prop-img img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.5s;display:block;
+}
+.sf-prop:hover .sf-prop-img img{transform:scale(1.06)}
+.sf-prop-body{padding:10px 12px;flex:1;min-width:0}
+.sf-prop-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px}
+.sf-prop-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;color:#fff;line-height:1.2;
+}
+.sf-prop-match{
+  font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+  padding:3px 9px;border-radius:2px;white-space:nowrap;flex-shrink:0;
+  font-weight:500;
+}
+.sf-prop-match.best{background:rgba(184,150,62,0.2);color:#D4AF6A;border:1px solid rgba(184,150,62,0.3)}
+.sf-prop-match.good{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1)}
+.sf-prop-loc{font-size:0.78rem;color:#B8963E;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:block}
+.sf-prop-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.sf-prop-tag{
+  background:rgba(255,255,255,0.05);
+  padding:3px 9px;border-radius:2px;
+  font-size:0.75rem;color:rgba(255,255,255,0.45);
+}
+.sf-prop-reason{
+  font-size:0.88rem;color:rgba(255,255,255,0.4);
+  line-height:1.55;margin-bottom:10px;
+  font-style:italic;
+  border-left:2px solid rgba(184,150,62,0.3);
+  padding-left:10px;
+}
+.sf-prop-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sf-prop-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;color:#D4AF6A;
+}
+.sf-prop-price small{font-family:'Jost',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.3);margin-left:3px}
+.sf-prop-rating{font-size:0.78rem;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:4px}
+.sf-prop-stars{color:#B8963E;font-size:0.75rem}
+.sf-book-btn{
+  background:#B8963E;color:#fff;border:none;cursor:pointer;
+  padding:10px 20px;border-radius:2px;
+  font-family:'Jost',sans-serif;font-size:0.78rem;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;
+  transition:all 0.2s;white-space:nowrap;
+}
+.sf-book-btn:hover{background:#D4AF6A}
+
+/* Footer brand strip inside panel */
+.sf-panel-footer{
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding:10px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;background:#0a1a0f;
+}
+.sf-panel-footer-left{
+  font-size:0.78rem;color:rgba(255,255,255,0.2);
+  line-height:1.5;
+}
+.sf-panel-footer-left strong{color:#B8963E}
+.sf-panel-footer-right{
+  font-size:0.75rem;color:rgba(255,255,255,0.15);
+  letter-spacing:0.1em;text-transform:uppercase;
+}
+
+/* spinner */
+.sf-spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:768px){
+  .ag-nav{padding:0 20px}
+  .ag-nav-links{display:none}
+  .ag-nav-right .ag-nav-tel{display:none}
+  .ag-hero-content{padding:0 24px 40px}
+  .ag-search-bar{padding:0 16px;flex-wrap:wrap;height:auto;padding:16px}
+  .ag-featured,.ag-areas{padding:40px 20px}
+  .ag-prop-grid{grid-template-columns:1fr}
+  .ag-areas-grid{grid-template-columns:repeat(3,1fr)}
+  .ag-footer-inner{grid-template-columns:1fr}
+  .sf-panel{right:12px;bottom:80px;width:calc(100vw - 24px);max-height:70vh}
+  .sf-trigger{right:16px;bottom:16px;padding:11px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ AGENCY SITE BACKGROUND ══════════════════════════════════ -->
+
+<nav class="ag-nav">
+  <div class="ag-logo">
+    <span class="ag-logo-dot"></span>
+    Pembrokeshire Coastal Cottages
+  </div>
+  <ul class="ag-nav-links">
+    <li><a href="#">Properties</a></li>
+    <li><a href="#">Areas</a></li>
+    <li><a href="#">Special Offers</a></li>
+    <li><a href="#">Owner Services</a></li>
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="ag-nav-right">
+    <span class="ag-nav-tel">&#128222; 01834 000 000</span>
+    <button class="ag-nav-cta">Book Direct</button>
+  </div>
+</nav>
+
+<section class="ag-hero">
+  <div class="ag-hero-bg"></div>
+  <div class="ag-hero-overlay"></div>
+  <div class="ag-hero-content">
+    <span class="ag-hero-tag">Pembrokeshire Coast National Park</span>
+    <h1>Beautiful cottages.<br>All to yourself.</h1>
+    <p>Hand-picked holiday lets across Pembrokeshire — from clifftop retreats in Tenby to waterfront escapes in Dale. Book direct for the best price.</p>
+    <div class="ag-hero-btns">
+      <button class="ag-btn-white">Browse Properties</button>
+      <button class="ag-btn-outline-w">View Special Offers</button>
+    </div>
+  </div>
+</section>
+
+<div class="ag-search-bar">
+  <div class="ag-search-field">
+    <label>Destination</label>
+    <input type="text" placeholder="e.g. Tenby, Saundersfoot…">
+  </div>
+  <div class="ag-search-field">
+    <label>Check In</label>
+    <input type="text" placeholder="Select date">
+  </div>
+  <div class="ag-search-field">
+    <label>Check Out</label>
+    <input type="text" placeholder="Select date">
+  </div>
+  <div class="ag-search-field">
+    <label>Guests</label>
+    <select><option>2 guests</option><option>4 guests</option><option>6 guests</option><option>8+ guests</option></select>
+  </div>
+  <div class="ag-search-field">
+    <label>Bedrooms</label>
+    <select><option>Any</option><option>1 bed</option><option>2 bed</option><option>3 bed</option><option>4+ bed</option></select>
+  </div>
+  <button class="ag-search-submit">Search</button>
+</div>
+
+<div class="ag-trust">
+  <div class="ag-trust-item"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 1l1.3 2.7L10 4.2 8 6.1l.5 2.7L6 7.5 3.5 8.8 4 6.1 2 4.2l2.7-.5L6 1z"/></svg> 200+ verified properties</div>
+  <div class="ag-trust-item"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 1l1.3 2.7L10 4.2 8 6.1l.5 2.7L6 7.5 3.5 8.8 4 6.1 2 4.2l2.7-.5L6 1z"/></svg> Best direct price guaranteed</div>
+  <div class="ag-trust-item"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 1l1.3 2.7L10 4.2 8 6.1l.5 2.7L6 7.5 3.5 8.8 4 6.1 2 4.2l2.7-.5L6 1z"/></svg> Free cancellation on most properties</div>
+  <div class="ag-trust-item"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 1l1.3 2.7L10 4.2 8 6.1l.5 2.7L6 7.5 3.5 8.8 4 6.1 2 4.2l2.7-.5L6 1z"/></svg> 24/7 guest support</div>
+</div>
+
+<section class="ag-featured">
+  <div class="ag-section-hdr">
+    <h2>Featured Properties</h2>
+    <a href="#">View all 200+ properties &rarr;</a>
+  </div>
+  <div class="ag-prop-grid">
+    <div class="ag-prop-card">
+      <div class="ag-prop-img"><img src="https://images.unsplash.com/photo-1720775736104-9aa3240e495b?w=1400&q=95&auto=format&fit=crop" alt=""><span class="ag-prop-badge">Customers' Choice</span></div>
+      <div class="ag-prop-body">
+        <div class="ag-prop-loc">Tenby, Pembrokeshire</div>
+        <div class="ag-prop-name">Harbour View House</div>
+        <div class="ag-prop-meta"><span>4 bed</span><span>Sleeps 8</span><span>&#9733; 4.9</span></div>
+        <div class="ag-prop-tags"><span class="ag-prop-tag">Sea View</span><span class="ag-prop-tag">Parking</span><span class="ag-prop-tag">Dog Friendly</span></div>
+        <div class="ag-prop-footer"><div class="ag-prop-price">£320 <small>/night</small></div><button class="ag-prop-book">Book Now</button></div>
+      </div>
+    </div>
+    <div class="ag-prop-card">
+      <div class="ag-prop-img"><img src="https://images.unsplash.com/photo-1768573491204-45c922d0969d?w=1400&q=95&auto=format&fit=crop" alt=""><span class="ag-prop-badge">Customers' Choice</span></div>
+      <div class="ag-prop-body">
+        <div class="ag-prop-loc">Tenby, Pembrokeshire</div>
+        <div class="ag-prop-name">The Old Lifeboat House</div>
+        <div class="ag-prop-meta"><span>3 bed</span><span>Sleeps 6</span><span>&#9733; 5.0</span></div>
+        <div class="ag-prop-tags"><span class="ag-prop-tag">Sea View</span><span class="ag-prop-tag">Hot Tub</span><span class="ag-prop-tag">Luxury</span></div>
+        <div class="ag-prop-footer"><div class="ag-prop-price">£245 <small>/night</small></div><button class="ag-prop-book">Book Now</button></div>
+      </div>
+    </div>
+    <div class="ag-prop-card">
+      <div class="ag-prop-img"><img src="https://images.unsplash.com/photo-1688396538097-af54bb314ab6?w=1400&q=95&auto=format&fit=crop" alt=""><span class="ag-prop-badge">Customers' Choice</span></div>
+      <div class="ag-prop-body">
+        <div class="ag-prop-loc">St Davids, Pembrokeshire</div>
+        <div class="ag-prop-name">Chapel Rock Retreat</div>
+        <div class="ag-prop-meta"><span>4 bed</span><span>Sleeps 8</span><span>&#9733; 4.9</span></div>
+        <div class="ag-prop-tags"><span class="ag-prop-tag">Sea View</span><span class="ag-prop-tag">Hot Tub</span><span class="ag-prop-tag">Luxury</span></div>
+        <div class="ag-prop-footer"><div class="ag-prop-price">£340 <small>/night</small></div><button class="ag-prop-book">Book Now</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ag-areas">
+  <div class="ag-section-hdr">
+    <h2>Explore by Area</h2>
+    <a href="#">See all areas &rarr;</a>
+  </div>
+  <div class="ag-areas-grid">
+    <div class="ag-area-item"><img src="https://images.unsplash.com/photo-1770493967117-6ae3927c0d05?w=1400&q=95&auto=format&fit=crop" alt="Tenby"><div class="ag-area-item-overlay"><span class="ag-area-item-name">Tenby</span></div></div>
+    <div class="ag-area-item"><img src="https://images.unsplash.com/photo-1575967746859-f7126d2a2344?w=1400&q=95&auto=format&fit=crop" alt="Saundersfoot"><div class="ag-area-item-overlay"><span class="ag-area-item-name">Saundersfoot</span></div></div>
+    <div class="ag-area-item"><img src="https://images.unsplash.com/photo-1694157294702-e8e86487a327?w=1400&q=95&auto=format&fit=crop" alt="Dale"><div class="ag-area-item-overlay"><span class="ag-area-item-name">Dale</span></div></div>
+    <div class="ag-area-item"><img src="https://images.unsplash.com/photo-1549482867-3918fa0e5ad1?w=1400&q=95&auto=format&fit=crop" alt="St Davids"><div class="ag-area-item-overlay"><span class="ag-area-item-name">St Davids</span></div></div>
+    <div class="ag-area-item"><img src="https://images.unsplash.com/photo-1773158097622-3ca6544e55b2?w=1400&q=95&auto=format&fit=crop" alt="Pembroke"><div class="ag-area-item-overlay"><span class="ag-area-item-name">Pembroke</span></div></div>
+  </div>
+</section>
+
+<footer class="ag-footer">
+  <div class="ag-footer-inner">
+    <div>
+      <div class="ag-footer-brand">Pembrokeshire Coastal Cottages</div>
+      <p class="ag-footer-text">Independent holiday let agency covering the Pembrokeshire Coast National Park. Book direct for the best price, every time.</p>
+    </div>
+    <div class="ag-footer-col"><h5>Properties</h5><a href="#">All Properties</a><a href="#">Sea View</a><a href="#">Dog Friendly</a><a href="#">Hot Tubs</a><a href="#">Large Groups</a></div>
+    <div class="ag-footer-col"><h5>Areas</h5><a href="#">Tenby</a><a href="#">Saundersfoot</a><a href="#">St Davids</a><a href="#">Dale</a><a href="#">Pembroke</a></div>
+    <div class="ag-footer-col"><h5>Help</h5><a href="#">About Us</a><a href="#">Contact</a><a href="#">Owner Services</a><a href="#">FAQs</a></div>
+  </div>
+  <div class="ag-footer-bottom">
+    <span>&copy; 2026 Pembrokeshire Coastal Cottages. All rights reserved.</span>
+    <span>Smart search powered by StayGentic Finder</span>
+  </div>
+</footer>
+
+
+<!-- ══ STAYGENTIC FINDER WIDGET ════════════════════════════════ -->
+
+<!-- Background overlay -->
+<div class="sf-overlay" id="sf-overlay"></div>
+
+<!-- Floating trigger button -->
+<button class="sf-trigger" id="sf-trigger">
+  <div class="sf-trigger-pulse"></div>
+  <div class="sf-trigger-icon">&#128269;</div>
+  <div class="sf-trigger-text">
+    <span class="sf-trigger-label">StayGentic Finder</span>
+    <span class="sf-trigger-cta">Describe your perfect stay</span>
+  </div>
+</button>
+
+<!-- Finder panel -->
+<div class="sf-panel" id="sf-panel">
+
+  <div class="sf-panel-header">
+    <div class="sf-panel-header-left">
+      <div class="sf-panel-logo">Stay<span>Gentic</span> Finder</div>
+      <div class="sf-panel-tag">AI Property Search</div>
+    </div>
+    <button class="sf-close" id="sf-close">&times;</button>
+  </div>
+
+  <div class="sf-panel-body" id="sf-panel-body">
+
+    <div class="sf-search-area">
+      <div class="sf-search-prompt">Describe your <em>perfect stay.</em></div>
+      <p class="sf-search-sub">Tell us what you're looking for in plain English — bedrooms, views, features, location. We'll find the best matches instantly.</p>
+
+      <div class="sf-input-wrap">
+        <input type="text" class="sf-input" id="sf-input"
+          placeholder="e.g. 4-bed sea view cottage in Tenby, sleeps 8, parking…"
+          autocomplete="off">
+        <div class="sf-input-footer">
+          <span class="sf-char-hint">Press Enter or click Search</span>
+          <button class="sf-search-btn" id="sf-search-btn">
+            <span id="sf-btn-txt">Find Properties</span>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M9 9l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="sf-quick">
+        <span class="sf-quick-label">Try a search</span>
+        <button class="sf-quick-btn" data-q="4 bedroom sea view cottage in Tenby, sleeps 8, dog friendly, parking">4 bed &middot; sea view &middot; Tenby</button>
+        <button class="sf-quick-btn" data-q="Romantic couples hot tub cottage near Pembrokeshire coast">Hot tub &middot; couples</button>
+        <button class="sf-quick-btn" data-q="Dog friendly cottage with enclosed garden, sleeps 6">Dog friendly &middot; garden</button>
+        <button class="sf-quick-btn" data-q="Luxury 4 bedroom coastal property sleeps 8 with sea views">Luxury &middot; large group</button>
+      </div>
+    </div>
+
+    <div class="sf-divider"></div>
+
+    <div class="sf-loading" id="sf-loading">
+      <div class="sf-loading-dots"><div class="sf-ld"></div><div class="sf-ld"></div><div class="sf-ld"></div></div>
+      <p class="sf-loading-text" id="sf-loading-text">Searching our portfolio&hellip;</p>
+    </div>
+
+    <div class="sf-results" id="sf-results">
+      <div class="sf-results-hdr">
+        <span class="sf-results-eyebrow">Your Matches</span>
+        <div class="sf-results-title" id="sf-results-title">We found <em>3 great matches</em> for you.</div>
+        <p class="sf-results-sub" id="sf-results-sub">All available to book direct.</p>
+      </div>
+      <div id="sf-cards"></div>
+    </div>
+
+  </div>
+
+  <div class="sf-panel-footer">
+    <div class="sf-panel-footer-left">
+      Powered by <strong>StayGentic Finder</strong> &nbsp;&middot;&nbsp; staygentic.co.uk
+    </div>
+    <div class="sf-panel-footer-right">AI property matching</div>
+  </div>
+
+</div>
+
+<script>
+const PORTFOLIO = [
+  {id:1,name:"Harbour View House",location:"Tenby, Pembrokeshire",bedrooms:4,sleeps:8,price:"£320",rating:"4.9",reviews:52,tags:["Sea View","4 Bedrooms","Sleeps 8","Parking","Dog Friendly"],features:["sea view","4 bedroom","sleeps 8","parking","tenby","dog friendly","coastal","family","large group"],image:"https://images.unsplash.com/photo-1720775736104-9aa3240e495b?w=1400&q=95&auto=format&fit=crop"},
+  {id:2,name:"The Old Lifeboat House",location:"Tenby, Pembrokeshire",bedrooms:3,sleeps:6,price:"£245",rating:"5.0",reviews:34,tags:["Sea View","Hot Tub","3 Bedrooms","Sleeps 6","Luxury"],features:["sea view","hot tub","3 bedroom","sleeps 6","tenby","luxury","coastal","couples"],image:"https://images.unsplash.com/photo-1768573491204-45c922d0969d?w=1400&q=95&auto=format&fit=crop"},
+  {id:3,name:"Cliffside Cottage",location:"Saundersfoot, Pembrokeshire",bedrooms:2,sleeps:4,price:"£168",rating:"4.8",reviews:67,tags:["Sea View","2 Bedrooms","Sleeps 4","Garden","Couples"],features:["sea view","2 bedroom","sleeps 4","garden","saundersfoot","coastal","couples","romantic"],image:"https://images.unsplash.com/photo-1700419597730-9bebc2f15bd6?w=1400&q=95&auto=format&fit=crop"},
+  {id:4,name:"Pembroke Bay House",location:"Pembroke, Pembrokeshire",bedrooms:5,sleeps:10,price:"£385",rating:"4.7",reviews:29,tags:["5 Bedrooms","Sleeps 10","Hot Tub","Dog Friendly","Garden"],features:["5 bedroom","sleeps 10","hot tub","dog friendly","large group","garden","parking","family"],image:"https://images.unsplash.com/photo-1758828413494-124c39bffb73?w=1400&q=95&auto=format&fit=crop"},
+  {id:5,name:"Rosehip Cottage",location:"Tenby, Pembrokeshire",bedrooms:1,sleeps:2,price:"£130",rating:"4.9",reviews:58,tags:["Sea View","1 Bedroom","Sleeps 2","Romantic","Couples"],features:["sea view","1 bedroom","sleeps 2","tenby","couples","romantic","quiet","coastal"],image:"https://images.unsplash.com/photo-1700419594924-f076859e8a33?w=1400&q=95&auto=format&fit=crop"},
+  {id:6,name:"The Boathouse",location:"Dale, Pembrokeshire",bedrooms:3,sleeps:6,price:"£225",rating:"4.8",reviews:41,tags:["Waterfront","Dog Friendly","3 Bedrooms","Garden"],features:["waterfront","dog friendly","3 bedroom","sleeps 6","dale","garden","family","coastal"],image:"https://images.unsplash.com/photo-1694157294702-e8e86487a327?w=1400&q=95&auto=format&fit=crop"},
+  {id:7,name:"Tenby Sands House",location:"Tenby, Pembrokeshire",bedrooms:4,sleeps:7,price:"£295",rating:"4.8",reviews:38,tags:["Sea View","4 Bedrooms","Sleeps 7","Near Beach","Family"],features:["sea view","4 bedroom","sleeps 7","parking","tenby","beach","family","dog friendly"],image:"https://images.unsplash.com/photo-1772465970925-65332478fbbe?w=1400&q=95&auto=format&fit=crop"},
+  {id:8,name:"Chapel Rock Retreat",location:"St Davids, Pembrokeshire",bedrooms:4,sleeps:8,price:"£340",rating:"4.9",reviews:22,tags:["Sea View","4 Bedrooms","Sleeps 8","Hot Tub","Luxury"],features:["sea view","4 bedroom","sleeps 8","hot tub","st davids","luxury","coastal","large group"],image:"https://images.unsplash.com/photo-1688396538097-af54bb314ab6?w=1400&q=95&auto=format&fit=crop"}
+];
+
+// ── LOCAL FALLBACK MATCHER ──────────────────────────────────────
+// Scores each property against the query so the demo always works
+function localMatch(query) {
+  const q = query.toLowerCase();
+
+  // Extract signals from query
+  const bedMatch = q.match(/(\d)\s*bed/);
+  const wantedBeds = bedMatch ? parseInt(bedMatch[1]) : null;
+  const signals = {
+    tenby:       /tenby/i.test(q),
+    saundersfoot:/saundersfoot/i.test(q),
+    dale:        /dale/i.test(q),
+    davids:      /st\s*david/i.test(q),
+    seaView:     /sea\s*view|sea view|coastal|coast|ocean/i.test(q),
+    hotTub:      /hot\s*tub|hottub/i.test(q),
+    dogFriendly: /dog|pet/i.test(q),
+    garden:      /garden/i.test(q),
+    couples:     /couple|romantic|two of us|just us/i.test(q),
+    luxury:      /luxury|luxurious/i.test(q),
+    large:       /large|group|family|8|9|10/i.test(q),
+    parking:     /parking|park/i.test(q),
+    beach:       /beach|sand/i.test(q),
+    waterfront:  /waterfront|water front|estuary/i.test(q),
+  };
+
+  const scored = PORTFOLIO.map(p => {
+    let score = 0;
+    const f = p.features;
+
+    // Bedroom match — heavily weighted, must match if specified
+    if (wantedBeds !== null) {
+      if (p.bedrooms === wantedBeds) score += 50;
+      else if (Math.abs(p.bedrooms - wantedBeds) === 1) score += 10;
+      else score -= 30;
+    }
+
+    // Location signals — reward match, penalise wrong town when user specified one
+    const anyLocationSpecified = signals.tenby || signals.saundersfoot || signals.dale || signals.davids;
+    if (signals.tenby       && f.includes('tenby'))        score += 20;
+    if (signals.saundersfoot && f.includes('saundersfoot')) score += 20;
+    if (signals.dale        && f.includes('dale'))         score += 20;
+    if (signals.davids      && f.includes('st davids'))    score += 20;
+    // Penalise wrong location heavily so off-town results don't sneak in
+    if (signals.tenby       && !f.includes('tenby'))        score -= 35;
+    if (signals.saundersfoot && !f.includes('saundersfoot')) score -= 35;
+    if (signals.dale        && !f.includes('dale'))         score -= 35;
+    if (signals.davids      && !f.includes('st davids'))    score -= 35;
+
+    // Feature signals
+    if (signals.seaView     && f.includes('sea view'))     score += 15;
+    if (signals.hotTub      && f.includes('hot tub'))      score += 15;
+    if (signals.dogFriendly && f.includes('dog friendly')) score += 12;
+    if (signals.garden      && f.includes('garden'))       score += 10;
+    if (signals.couples     && f.includes('couples'))      score += 12;
+    if (signals.luxury      && f.includes('luxury'))       score += 10;
+    if (signals.large       && (f.includes('large group') || p.sleeps >= 8)) score += 10;
+    if (signals.parking     && f.includes('parking'))      score += 8;
+    if (signals.beach       && f.includes('beach'))        score += 10;
+    if (signals.waterfront  && f.includes('waterfront'))   score += 15;
+
+    // Build reason string
+    const reasons = [];
+    if (wantedBeds && p.bedrooms === wantedBeds) reasons.push(`${p.bedrooms}-bedroom`);
+    if (signals.seaView    && f.includes('sea view'))     reasons.push('sea views');
+    if (signals.hotTub     && f.includes('hot tub'))      reasons.push('private hot tub');
+    if (signals.dogFriendly && f.includes('dog friendly')) reasons.push('dogs welcome');
+    if (signals.couples    && f.includes('couples'))      reasons.push('perfect for couples');
+    if (signals.tenby      && f.includes('tenby'))        reasons.push('in Tenby');
+    if (signals.beach      && f.includes('beach'))        reasons.push('near the beach');
+    if (signals.waterfront && f.includes('waterfront'))   reasons.push('waterfront location');
+    if (signals.garden     && f.includes('garden'))       reasons.push('enclosed garden');
+    if (signals.luxury     && f.includes('luxury'))       reasons.push('luxury finish');
+
+    const reasonText = reasons.length
+      ? `Matches your search: ${reasons.slice(0,3).join(', ')}.`
+      : `Strong match for your requirements in ${p.location}.`;
+
+    return { id: p.id, score, reason: reasonText };
+  });
+
+  const top3 = scored.sort((a,b) => b.score - a.score).slice(0,3);
+
+  const locationHint = signals.tenby ? 'in Tenby' : signals.dale ? 'in Dale' : 'in Pembrokeshire';
+  return {
+    headline: `3 great matches ${locationHint} for you`,
+    subtitle: 'All available to book direct — no platform fees.',
+    matches: top3
+  };
+}
+
+// ── API MATCHER (with local fallback) ──────────────────────────
+async function findMatches(query){
+  const summary=PORTFOLIO.map(p=>`ID:${p.id} | ${p.name} | ${p.location} | ${p.bedrooms} bed | Sleeps ${p.sleeps} | ${p.features.join(', ')}`).join('\n');
+  try {
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "anthropic-dangerous-direct-browser-access":"true"
+      },
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",max_tokens:800,
+        messages:[{role:"user",content:`You are a property matching engine for a Pembrokeshire holiday let agency.\n\nGuest searched: "${query}"\n\nPortfolio:\n${summary}\n\nReturn the 3 best matches. Match bedroom count exactly if specified. For each give ONE sentence (max 16 words) on exactly why it matches.\n\nHeadline: max 7 words, natural. Subtitle: max 12 words, mention book direct.\n\nJSON only, no other text:\n{"headline":"...","subtitle":"...","matches":[{"id":1,"reason":"..."},{"id":2,"reason":"..."},{"id":3,"reason":"..."}]}`}]
+      })
+    });
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const d=await res.json();
+    if(d.error) throw new Error(d.error.message);
+    const parsed = JSON.parse(d.content.map(i=>i.text||"").join("").replace(/```json|```/g,"").trim());
+    return parsed;
+  } catch(err) {
+    console.warn('API unavailable, using local matching:', err.message);
+    return localMatch(query);
+  }
+}
+
+function renderCards(matches){
+  const c=document.getElementById('sf-cards');
+  c.innerHTML='';
+  const labels=["Best Match","Great Match","Strong Match"];
+  matches.forEach((m,i)=>{
+    const p=PORTFOLIO.find(x=>x.id===m.id);
+    if(!p)return;
+    const el=document.createElement('div');
+    el.className='sf-prop';
+    el.innerHTML=`<div class="sf-prop-img"><img src="${p.image}" alt="${p.name}" loading="lazy"></div><div class="sf-prop-body"><div class="sf-prop-top"><div class="sf-prop-name">${p.name}</div><span class="sf-prop-match ${i===0?'best':'good'}">${labels[i]}</span></div><span class="sf-prop-loc">${p.location}</span><div class="sf-prop-tags">${p.tags.map(t=>`<span class="sf-prop-tag">${t}</span>`).join('')}</div><p class="sf-prop-reason">${m.reason}</p><div class="sf-prop-footer"><div><div class="sf-prop-price">${p.price}<small>/ night</small></div><div class="sf-prop-rating"><span class="sf-prop-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>${p.rating} &middot; ${p.reviews} reviews</div></div><button class="sf-book-btn">Book Now</button></div></div>`;
+    c.appendChild(el);
+  });
+}
+
+async function doSearch(query){
+  if(!query.trim())return;
+  const loadEl=document.getElementById('sf-loading');
+  const resEl=document.getElementById('sf-results');
+  const btn=document.getElementById('sf-search-btn');
+  const btntxt=document.getElementById('sf-btn-txt');
+  const ltxt=document.getElementById('sf-loading-text');
+
+  resEl.classList.remove('on');
+  loadEl.classList.add('on');
+  btn.disabled=true;
+  btntxt.innerHTML='<span class="sf-spinner"></span>';
+
+  const msgs=['Searching our portfolio\u2026','Matching to your requirements\u2026','Finding your perfect properties\u2026'];
+  let mi=0;
+  const t=setInterval(()=>{mi=(mi+1)%msgs.length;ltxt.textContent=msgs[mi];},1300);
+
+  // Scroll panel body to results
+  setTimeout(()=>{
+    document.getElementById('sf-panel-body').scrollTo({top:300,behavior:'smooth'});
+  },400);
+
+  try{
+    const r=await findMatches(query);
+    clearInterval(t);
+    document.getElementById('sf-results-title').innerHTML=r.headline.replace(/(\d)/g,'<em>$1</em>');
+    document.getElementById('sf-results-sub').textContent=r.subtitle;
+    renderCards(r.matches);
+    loadEl.classList.remove('on');
+    resEl.classList.add('on');
+    setTimeout(()=>{
+      document.getElementById('sf-panel-body').scrollTo({top:9999,behavior:'smooth'});
+    },200);
+  }catch(e){
+    clearInterval(t);
+    loadEl.classList.remove('on');
+    resEl.classList.add('on');
+    // Use local fallback directly if something slips through
+    const fallback = localMatch(query);
+    document.getElementById('sf-results-title').innerHTML=fallback.headline.replace(/(\d)/g,'<em>$1</em>');
+    document.getElementById('sf-results-sub').textContent=fallback.subtitle;
+    renderCards(fallback.matches);
+  }
+  btn.disabled=false;
+  btntxt.textContent='Find Properties';
+}
+
+// Open / close
+const panel=document.getElementById('sf-panel');
+const overlay=document.getElementById('sf-overlay');
+const trigger=document.getElementById('sf-trigger');
+const closeBtn=document.getElementById('sf-close');
+
+function openPanel(){
+  panel.classList.add('open');
+  overlay.classList.add('open');
+  setTimeout(()=>document.getElementById('sf-input').focus(),350);
+}
+function closePanel(){
+  panel.classList.remove('open');
+  overlay.classList.remove('open');
+}
+trigger.addEventListener('click',openPanel);
+closeBtn.addEventListener('click',closePanel);
+overlay.addEventListener('click',closePanel);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});
+
+// Search events
+document.getElementById('sf-search-btn').addEventListener('click',()=>doSearch(document.getElementById('sf-input').value));
+document.getElementById('sf-input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doSearch(e.target.value);}});
+document.querySelectorAll('.sf-quick-btn').forEach(b=>b.addEventListener('click',()=>{
+  document.getElementById('sf-input').value=b.dataset.q;
+  doSearch(b.dataset.q);
+}));
+
+// Auto-open after 1.5s for demo purposes
+setTimeout(openPanel, 1500);
+</script>
+</body>
+</html>
